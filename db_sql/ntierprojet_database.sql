@@ -207,6 +207,19 @@ CREATE TABLE `notifications` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+CREATE TABLE `messages` (
+    `id` int(11),
+    `expediteur_id` int(11) NOT NULL,
+    `destinataire_id` int(11) NOT NULL,
+    `contenu` TEXT NOT NULL,
+    `date_envoi` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `etat` int(3) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`),
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Index pour les tables déchargées
 --
@@ -305,6 +318,14 @@ ALTER TABLE `notifications`
   ADD CONSTRAINT `notifications_ibfk1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `notifications_ibfk2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`);
 
+
+--
+-- Contraintes pour la table messages
+--
+
+ALTER TABLE `messages`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`expediteur_id`) REFERENCES `users`(`id`),
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`destinataire_id`) REFERENCES `users`(`id`);
 --
 -- Contraintes pour la table `nutritionist_client`
 --
