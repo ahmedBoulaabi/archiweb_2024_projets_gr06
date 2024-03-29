@@ -138,6 +138,11 @@ function performAjaxRequest(
             userDiv.removeClass('temp-bg-color');
           }, 2000);
           break;
+
+        case 'sendMessage':
+          console.log(response.data);
+          break;
+
         case "countNotification":
           const element = document.createElement("div");
           element.innerHTML = response.data;
@@ -215,18 +220,18 @@ function performAjaxRequest(
           $("#edit_name").val(response.data.name);
           $("#edit_calories").val(response.data.calories);
           $("#edit_type").val(response.data.type);
-    
+
           // Gérer l'image de la recette
           if (response.data.image_url) {
             $("#edit_imageUpload").next(".custom-file-label").html(response.data.image_url.split('/').pop());
           } else {
             $("#edit_imageUpload").next(".custom-file-label").html("Choose file...");
           }
-    
+
           // Afficher le modal d'édition de la recette
           $("#editRecipeModal").modal("show");
           break;
-          
+
         case 'insertPlan':
           console.log(response.message);
           handleAjaxResponse(action, response, "Plan Added successfully", "", false);
@@ -235,10 +240,9 @@ function performAjaxRequest(
           console.log(response.message);
           if (response.message === 'PlanExist') {
             localStorage.setItem('recipes', JSON.stringify(response.data));
-            lienActuel=window.location.href;
-            if(lienActuel=="https://localhost/archiweb_2024_projets_gr06/planning")
-            {
-               window.location.href = "https://localhost/archiweb_2024_projets_gr06/planning?period=" + response.planInfo["period"]+ "&duration=" + response.planInfo["total_length"];
+            lienActuel = window.location.href;
+            if (lienActuel == "https://localhost/archiweb_2024_projets_gr06/planning") {
+              window.location.href = "https://localhost/archiweb_2024_projets_gr06/planning?period=" + response.planInfo["period"] + "&duration=" + response.planInfo["total_length"];
             }
             $('#userHavePlan').show();
             $('#userNotHavePlan').hide();
