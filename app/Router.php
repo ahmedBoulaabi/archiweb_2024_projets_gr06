@@ -2,11 +2,13 @@
 
 namespace Manger;
 
-use Manger\Controller\RecipesController;
-use Manger\Controller\UserController;
-use Manger\Controller\AdminController;
-use Manger\Controller\NutritionistController;
-use Manger\Controller\ResetPasswords;
+use Manger\Controller\{
+    CommunicationController,
+    UserController,
+    AdminController,
+    NutritionistController,
+    ResetPasswords
+};
 
 
 /**
@@ -21,11 +23,13 @@ class Router
     private $adminController;
     private $resetPasswordController;
     private $nutriController;
+    private $commController;
 
     public function __construct()
     {
         $this->userController = new UserController();
         $this->adminController = new AdminController();
+        $this->commController = new CommunicationController();
 
         $this->resetPasswordController = new ResetPasswords();
         $this->nutriController = new NutritionistController();
@@ -144,6 +148,10 @@ class Router
 
                 case 'deleteRecipe':
                     $this->adminController->deleteRecipe();
+                    break;
+                case 'sendMessage':
+                    $this->commController->sendMessage();
+                    break;
 
                 default:
                     include __DIR__ . '/Views/templates/user/login.php';
