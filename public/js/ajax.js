@@ -257,19 +257,54 @@ function performAjaxRequest(
           break;
 
         case "getDiscussion":
-          console.log(response.data);
-          console.log(typeof response.data); // "object" signifie que c'est déjà un objet JS, "string" nécessite un parse
+          var data = response.data
+          var ownID = response.ownID
+          console.log(data);
+          console.log(typeof data); // "object" si c'est déjà un objet JS, "string" nécessite un parse
           //let jsonObj = JSON.parse(response.data);
 
-          // Vérifier si la clé "success" est true
           if (response.success) {
-            // Utiliser Array.from pour extraire le contenu de chaque message
-            let contenus = Array.from(response.data, message => message.contenu);
+            var discussions = {};
 
-            // Afficher le contenu de chaque message
-            console.log(contenus);
+            // Parcourir les messages
+            data.forEach(function (message) {
+              var interlocutorID;
+
+              // Déterminer l'identifiant de l'interlocuteur
+              if (message.expediteur_id == ownID) {
+                interlocutorID = message.destinataire_id;
+              } else {
+                interlocutorID = message.expediteur_id;
+              }
+
+              // Vérifier si la discussion existe déjà dans l'objet
+              if (!discussions[interlocutorID]) {
+                discussions[interlocutorID] = {
+                  messages: [],
+                  lastMessage: null
+                };
+              }
+
+              // Ajouter le message à la discussion correspondante
+              discussions[interlocutorID].messages.push(message);
+
+              // Mettre à jour le dernier message de la discussion si nécessaire
+              if (!discussions[interlocutorID].lastMessage || message.date_envoi > discussions[interlocutorID].lastMessage.date_envoi) {
+                discussions[interlocutorID].lastMessage = message;
+              }
+            });
+
+            // Trier les messages de chaque discussion par date_envoi
+            Object.values(discussions).forEach(function (discussion) {
+              discussion.messages.sort(function (a, b) {
+                return new Date(a.date_envoi) - new Date(b.date_envoi);
+              });
+            });
+
+            // Afficher les discussions triées avec les messages triés par date_envoi
+            console.log(discussions);
           } else {
-            console.log("La requête n'a pas réussi.");
+            console.log("La requête n'a pas réussie.");
           }
 
           break;

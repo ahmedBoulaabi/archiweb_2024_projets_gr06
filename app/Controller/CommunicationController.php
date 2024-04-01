@@ -60,15 +60,15 @@ class CommunicationController
             $arrayMessage = $this->commModel->getDiscussion($ownID, $nutriID, $role);
         } else if ($role == "Nutritionist") {
             $nutritionistIds = array_map(function ($object) {
-                return $object->nutritionist_id;
+                return $object['nutritionist_id'];
             }, $targetID);
             $arrayMessage = $this->commModel->getDiscussion($ownID, $nutritionistIds, $role);
         }
 
-        if (!empty($arrayMessage)) {
-            echo json_encode(['success' => true, 'data' => $arrayMessage]);
+        if (empty($arrayMessage) || isset($arrayMessage['error'])) {
+            echo json_encode(['success' => false, 'ownID' => $ownID, 'data' => $arrayMessage['error']]);
         } else {
-            echo json_encode(['success' => false, 'data' => "Couldn't get conversation"]);
+            echo json_encode(['success' => true, 'data' => $arrayMessage]);
         }
     }
 }

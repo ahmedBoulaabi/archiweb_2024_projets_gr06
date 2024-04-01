@@ -80,8 +80,10 @@ class Database
                 case is_null($value):
                     $type = \PDO::PARAM_NULL;
                     break;
+
                 default:
                     $type = \PDO::PARAM_STR;
+                    break;
             }
         }
         $this->stmt->bindValue($param, $value, $type);
@@ -108,7 +110,12 @@ class Database
      */
     public function execute()
     {
-        return $this->stmt->execute();
+        try {
+            return $this->stmt->execute();
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
 
     /**
@@ -116,10 +123,23 @@ class Database
      *
      * @return array The result set.
      */
-    public function resultSet()
+    public function resultSet($fetchDiscussion = false)
     {
         $this->execute();
-        return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
+        $results = $this->stmt->fetchAll(\PDO::FETCH_OBJ);
+
+        if ($fetchDiscussion == false) {
+            return $results;
+        }
+        $data = [];
+        foreach ($results as $result) {
+            $data[] = (array) $result;
+        }
+        if (count($data) < 1) {
+            return ['error' => 'No results found in the database'];
+        }
+
+        return $data;
     }
 
     /**
