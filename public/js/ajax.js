@@ -1,3 +1,80 @@
+function getMessageBoxHtml(conversation) {
+  return `
+    <div class="message-box" data-id=${conversation.interlocutorID} style="cursor:pointer;">
+      <img src=${conversation.img} alt="profile image">
+      <div class="message-content">
+        <div class="message-header">
+          <div class="name">${conversation.fullname}</div>
+
+        </div>
+        <p class="message-line">
+          ${conversation.lastMessage.contenu}
+        </p>
+        <p class="message-line time">
+        ${conversation.lastMessage.date_envoi}
+        </p>
+      </div>
+    </div>
+  `;
+}
+
+function displayConversations(response) {
+  var data = response.data;
+  var ownID = response.ownID
+  var role = response.role
+  var discussions = {};
+  var interlocutorFullname;
+
+  data.forEach(function (message) {
+    var interlocutorID;
+
+    // Déterminer l'identifiant de l'interlocuteur
+    if (message.expediteur_id == ownID) {
+      interlocutorID = message.destinataire_id;
+    } else {
+      interlocutorID = message.expediteur_id;
+    }
+    interlocutorFullname = message.interlocutor_fullname;
+    profilePicture = message.interlocutor_img;
+
+
+    // Vérifier si la discussion existe déjà dans l'objet
+    if (!discussions[interlocutorID]) {
+      discussions[interlocutorID] = {
+        messages: [],
+        lastMessage: null,
+        fullname: interlocutorFullname,
+        img: profilePicture,
+        interlocutorID: interlocutorID,
+      };
+    }
+
+    discussions[interlocutorID].messages.push(message);
+
+    // indique quel est le dernir message (il sera affiché)
+    if (!discussions[interlocutorID].lastMessage || message.date_envoi > discussions[interlocutorID].lastMessage.date_envoi) {
+      discussions[interlocutorID].lastMessage = message;
+    }
+  });
+
+  // tri pour que les messages apparaissent bien
+  Object.values(discussions).forEach(function (discussion) {
+    discussion.messages.sort(function (a, b) {
+      return new Date(a.date_envoi) - new Date(b.date_envoi);
+    });
+  });
+
+  console.log(discussions);
+  var listeConvHTML = "";
+
+  Object.values(discussions).forEach(discussion => {
+    listeConvHTML += getMessageBoxHtml(discussion)
+  });
+  $(".messages").html(listeConvHTML)
+  $("#discussion-class").html(listeConvHTML)
+}
+
+
 function handleAjaxError(jqXHR, textStatus, errorThrown) {
   console.error("AJAX Error:", textStatus, errorThrown, jqXHR.responseText);
   Swal.fire({
@@ -87,7 +164,6 @@ function performAjaxRequest(
     data: $("#form-data").serialize() + "&action=" + action + additionalData,
     dataType: "json",
     success: function (response) {
-      console.log("action:  " + action);
 
       switch (action) {
         case "showAllRecipes":
@@ -257,56 +333,16 @@ function performAjaxRequest(
           break;
 
         case "getDiscussion":
-          var data = response.data
-          var ownID = response.ownID
-          console.log(data);
-          console.log(typeof data); // "object" si c'est déjà un objet JS, "string" nécessite un parse
-          //let jsonObj = JSON.parse(response.data);
-
+          console.log(response.role)
           if (response.success) {
-            var discussions = {};
-
-            // Parcourir les messages
-            data.forEach(function (message) {
-              var interlocutorID;
-
-              // Déterminer l'identifiant de l'interlocuteur
-              if (message.expediteur_id == ownID) {
-                interlocutorID = message.destinataire_id;
-              } else {
-                interlocutorID = message.expediteur_id;
-              }
-
-              // Vérifier si la discussion existe déjà dans l'objet
-              if (!discussions[interlocutorID]) {
-                discussions[interlocutorID] = {
-                  messages: [],
-                  lastMessage: null
-                };
-              }
-
-              // Ajouter le message à la discussion correspondante
-              discussions[interlocutorID].messages.push(message);
-
-              // Mettre à jour le dernier message de la discussion si nécessaire
-              if (!discussions[interlocutorID].lastMessage || message.date_envoi > discussions[interlocutorID].lastMessage.date_envoi) {
-                discussions[interlocutorID].lastMessage = message;
-              }
-            });
-
-            // Trier les messages de chaque discussion par date_envoi
-            Object.values(discussions).forEach(function (discussion) {
-              discussion.messages.sort(function (a, b) {
-                return new Date(a.date_envoi) - new Date(b.date_envoi);
-              });
-            });
-
-            // Afficher les discussions triées avec les messages triés par date_envoi
-            console.log(discussions);
+            if (response.role == "Nutritionist") {
+              displayConversations(response)
+            } else if (response.role == "Regular") {
+              displayConversations(response)
+            }
           } else {
             console.log("La requête n'a pas réussie.");
           }
-
           break;
 
         default:

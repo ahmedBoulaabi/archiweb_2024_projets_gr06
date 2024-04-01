@@ -17,7 +17,6 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
 
   echo "<a href='$url' class='$activeClass'>";
   echo $svgContent; // This is your SVG icon
-  // You may want to show a label next to the icon
   echo "</a>";
 }
 

@@ -84,18 +84,28 @@ class CommunicationModel
 
         if ($role == "Regular") {
 
-            $sql = "SELECT * FROM messages WHERE (expediteur_id=:own_id AND destinataire_id=:target_id) 
-            OR (expediteur_id=:target_id AND destinataire_id=:own_id) ORDER BY date_envoi;";
+            $sql = "SELECT m.*, u.img AS interlocutor_img, u.fullname AS interlocutor_fullname
+            FROM messages m
+            JOIN users u ON (
+                (m.expediteur_id = :own_id AND m.destinataire_id = :target_id AND u.id = :target_id)
+                OR (m.expediteur_id = :target_id AND m.destinataire_id = :own_id AND u.id = :target_id)
+            )
+            WHERE (m.expediteur_id = :own_id AND m.destinataire_id = :target_id)
+                OR (m.expediteur_id = :target_id AND m.destinataire_id = :own_id)
+            ORDER BY m.date_envoi;";
             $this->db->query($sql);
             $this->db->bind(':own_id', $ownID);
             $this->db->bind(':target_id', $targetID);
             $result = $this->db->resultSet();
         } else if ($role == "Nutritionist") {
 
-
-            $sql = "SELECT * FROM messages WHERE expediteur_id IN (:own_ids) OR destinataire_id IN (:own_ids) ORDER BY date_envoi;";
+            $sql = "SELECT m.*, u.fullname AS interlocutor_fullname, u.img AS interlocutor_img
+        FROM messages m
+        JOIN users u ON (m.expediteur_id = u.id OR m.destinataire_id = u.id) AND u.id != :own_id
+        WHERE m.expediteur_id = :own_id OR m.destinataire_id = :own_id
+        ORDER BY m.date_envoi;";
             $this->db->query($sql);
-            $this->db->bind(':own_ids', $ownID);
+            $this->db->bind(':own_id', $ownID);
             $result = $this->db->resultSet(true);
 
             foreach ($result as $row) {

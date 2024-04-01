@@ -32,9 +32,10 @@ if ($_SESSION['role'] == "Regular") {
   <title>Dashboard</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/colors.css" />
+  <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/globals.css" />
+  <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/dashboard.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/globals.css" />
 </head>
 
 <body>
@@ -105,13 +106,37 @@ if ($_SESSION['role'] == "Regular") {
             </div>
           </div>
           <?php if ($_SESSION['role'] == "Regular") : ?>
-            <div class="col-lg-6" style="max-width: 500px;">
-              <h5 class="fw-bold">Discussion</h5>
-              <div class="container bg-main rounded-3" style="height: 300px;">
+            <div class="col-lg-6 messages-section" style="max-width: 500px;">
+              <h5 class="fw-bold ">Discussion</h5>
+              <div href="#" class="container bg-main rounded-3 messages" id="discussion-class" style="height: 300px;">
 
               </div>
             </div>
           <?php endif; ?>
+
+
+          <!-- form pour message -->
+          <div id="open-modal-message" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Send a message</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="height: 50vh;">
+                  <!-- Message form -->
+                  <form id="message-form" style="display: flex; align-items: center; justify-content: flex-end; gap: 12px;">
+                    <input type="text" class="form-control" name="message" id="message" placeholder="Enter your message">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                  </form>
+                  <!-- message précédents apparaitront ici -->
+                </div>
+              </div>
+            </div>
+          </div>
+
 
           <!-- HERE WE PUT THE DAILY MEALS -->
           <div class="col-12" style="">
@@ -136,9 +161,10 @@ if ($_SESSION['role'] == "Regular") {
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
   <script src="<?= BASE_APP_DIR ?>/public/js/notification.js"></script>
+
 </body>
 
 </html>

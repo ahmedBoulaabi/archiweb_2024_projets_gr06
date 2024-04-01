@@ -66,9 +66,9 @@ class CommunicationController
         }
 
         if (empty($arrayMessage) || isset($arrayMessage['error'])) {
-            echo json_encode(['success' => false, 'ownID' => $ownID, 'data' => $arrayMessage['error']]);
+            echo json_encode(['success' => false, 'ownID' => $ownID, 'role' => $role, 'data' => $arrayMessage['error']]);
         } else {
-            echo json_encode(['success' => true, 'data' => $arrayMessage]);
+            echo json_encode(['success' => true, 'ownID' => $ownID, 'role' => $role,  'data' => $arrayMessage]);
         }
     }
 }
