@@ -104,6 +104,14 @@ if ($_SESSION['role'] == "Regular") {
 
             </div>
           </div>
+          <?php if ($_SESSION['role'] == "Regular") : ?>
+            <div class="col-lg-6" style="max-width: 500px;">
+              <h5 class="fw-bold">Discussion</h5>
+              <div class="container bg-main rounded-3" style="height: 300px;">
+
+              </div>
+            </div>
+          <?php endif; ?>
 
           <!-- HERE WE PUT THE DAILY MEALS -->
           <div class="col-12" style="">

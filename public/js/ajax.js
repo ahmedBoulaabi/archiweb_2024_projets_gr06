@@ -255,6 +255,25 @@ function performAjaxRequest(
 
           }
           break;
+
+        case "getDiscussion":
+          console.log(response.data);
+          console.log(typeof response.data); // "object" signifie que c'est déjà un objet JS, "string" nécessite un parse
+          //let jsonObj = JSON.parse(response.data);
+
+          // Vérifier si la clé "success" est true
+          if (response.success) {
+            // Utiliser Array.from pour extraire le contenu de chaque message
+            let contenus = Array.from(response.data, message => message.contenu);
+
+            // Afficher le contenu de chaque message
+            console.log(contenus);
+          } else {
+            console.log("La requête n'a pas réussi.");
+          }
+
+          break;
+
         default:
           console.log("Unhandled action: " + action);
           handleAjaxResponse(action, response, successTitle, successMessage);

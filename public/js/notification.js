@@ -13,6 +13,16 @@ $(document).ready(function () {
         );
     });
 
+    function getDiscussion() {
+        performAjaxRequest(
+            "GET",
+            "getDiscussion",
+            "",
+            "",
+            ""
+        );
+    }
+
 
     // pour récupérer le nombre de notif, et les mettre en session
     function getNotif() {
@@ -38,6 +48,7 @@ $(document).ready(function () {
 
     getNotif();
     getUserFromNotif();
+    getDiscussion();
 
     // pour effectuer une recherche
     function performSearch() {
