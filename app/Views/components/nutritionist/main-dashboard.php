@@ -9,22 +9,22 @@
     </style>
 <div class="projects-section" >
         <div class="projects-section-header">
-          <p>Projects</p>
-          <p class="time">December, 12</p>
+          <p>Statistics</p>
+          <p id="datePlaceholder" class="time"></p>
         </div>
         <div class="projects-section-line">
           <div class="projects-status">
             <div class="item-status">
-              <span class="status-number">45</span>
-              <span class="status-type">In Progress</span>
+              <span class="status-number" id="nutriCurrentClients">45</span>
+              <span class="status-type">Current Clients</span>
             </div>
             <div class="item-status">
-              <span class="status-number">24</span>
-              <span class="status-type">Upcoming</span>
+              <span class="status-number" id="nutriRecipesCount">24</span>
+              <span class="status-type">Recipes</span>
             </div>
             <div class="item-status">
-              <span class="status-number">62</span>
-              <span class="status-type">Total Projects</span>
+              <span class="status-number"><?php echo $_SESSION['total_clients'] ?></span>
+              <span class="status-type">Total Clients</span>
             </div>
           </div>
           
@@ -374,3 +374,40 @@
   </div>
   </div>
  
+  <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
+<script type="text/javascript">
+var dateElement = document.getElementById("datePlaceholder");
+var currentDate = new Date();
+var day = currentDate.getDate();
+var month = currentDate.getMonth();
+month += 1;
+var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var dateText = monthNames[month - 1] + ", " + day;
+dateElement.textContent = dateText;
+
+$(document).ready(function() {
+
+  console.log("Making AJAX call");
+    var sessionId = '<?php echo $_SESSION['id'] ?>';
+    var additionalData = "&nutri_id=" + sessionId;
+    console.log("Nutri ID :  " + sessionId);
+
+    performAjaxRequest(
+      "GET",
+      "nutriCurrentClients",
+      additionalData,
+      "",
+      ""
+    );
+
+    performAjaxRequest(
+      "GET",
+      "nutriRecipesCount",
+      additionalData,
+      "",
+      ""
+    );
+
+});
+
+  </script>
