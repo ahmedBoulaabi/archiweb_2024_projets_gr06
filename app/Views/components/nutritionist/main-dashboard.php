@@ -20,15 +20,15 @@
   <div class="projects-section-line">
     <div class="projects-status">
       <div class="item-status">
-        <span class="status-number" id="in-progress">45</span>
+        <span class="status-number" id="in-progress">0</span>
         <span class="status-type">In Progress</span>
       </div>
       <div class="item-status">
-        <span class="status-number" id="plans-finished">24</span>
+        <span class="status-number" id="plans-finished">0</span>
         <span class="status-type">Plans Finished</span>
       </div>
       <div class="item-status">
-        <span class="status-number" id="total-clients">62</span>
+        <span class="status-number" id="total-clients">0</span>
         <span class="status-type">Total Clients</span>
       </div>
     </div>
@@ -39,41 +39,7 @@
 
   </div>
   <div class="project-boxes jsGridView" id="project-boxes">
-    <div class="project-box-wrapper">
-      <div class="project-box" style="background-color: #fee4cb;">
-        <div class="project-box-header">
-          <span>
-            <?= date('F d, Y') ?>
-          </span>
-          <div class="more-wrapper">
-            <button class="project-btn-more">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="feather feather-more-vertical">
-                <circle cx="12" cy="12" r="1" />
-                <circle cx="12" cy="5" r="1" />
-                <circle cx="12" cy="19" r="1" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div class="project-box-content-header">
-          <img
-            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
-            alt="profile image" class="img">
 
-          <p class="box-content-header">Client 1</p>
-          <p class="box-content-subheader">Lose Weight</p>
-        </div>
-        <div class="box-progress-wrapper">
-          <p class="box-progress-header">Progress</p>
-          <div class="box-progress-bar">
-            <span class="box-progress" style="width: 60%; background-color: #ff942e"></span>
-          </div>
-          <p class="box-progress-percentage">60%</p>
-        </div>
-      </div>
-    </div>
 
   </div>
 </div>
