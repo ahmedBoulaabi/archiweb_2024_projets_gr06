@@ -4,7 +4,7 @@ $(document).ready(function () {
     // on doit attacher l'évènement au parent, car les enfants ne sont pas encore créés
     $('#client-list-results').on('click', '.client-user', function () {
         const userId = $(this).data('user-id');
-        console.log(userId);
+        console.log(userId + " clicked");
         performAjaxRequest(
             "POST",
             "sendNotification",
@@ -17,7 +17,23 @@ $(document).ready(function () {
     $('.messages').on('click', '.message-box', function (event) {
         const conversationId = $(this).data('id');
         id_clicked = conversationId
-        console.log(conversationId);
+        console.log(conversationId + " clicked");
+        console.log("dans modal ouverture");
+        var modal = document.querySelector('#open-modal-message');
+        if (modal) {
+            console.log("modal existe")
+            $(modal).modal('show');
+
+            performAjaxRequest(
+                "GET",
+                "getMessagesFromAConvo",
+                "&receiverId=" + conversationId,
+                "",
+                ""
+            );
+        } else {
+            console.error("Le modal n'a pas été trouvé.");
+        }
     });
 
     $("#message-form").on("submit", function (event) {
@@ -28,18 +44,22 @@ $(document).ready(function () {
         performAjaxRequest("POST", "sendMessage", additionalData, "", "");
     });
 
-
-    $('#discussion-class').click(function (e) {
-        e.preventDefault();
-        console.log("dans modal ouverture");
-        var modal = document.querySelector('#open-modal-message');
-        if (modal) {
-            console.log("modal existe")
-            $(modal).modal('show');
-        } else {
-            console.error("Le modal n'a pas été trouvé.");
-        }
-    });
+    /*
+        $('#discussion-class').click(function (e) {
+            e.preventDefault();
+            const conversationId = $(this).data('id');
+            id_clicked = conversationId
+            console.log(conversationId + " clicked");
+            console.log("dans modal ouverture");
+            var modal = document.querySelector('#open-modal-message');
+            if (modal) {
+                console.log("modal existe")
+                $(modal).modal('show');
+            } else {
+                console.error("Le modal n'a pas été trouvé.");
+            }
+        });
+        */
 
     function getDiscussion() {
         performAjaxRequest(

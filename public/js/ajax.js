@@ -18,6 +18,20 @@ function getMessageBoxHtml(conversation) {
   `;
 }
 
+function formatMessage(message, ownID) {
+  console.log(ownID != message.expediteur_id);
+  var ownMsg = ownID == message.expediteur_id
+  //if (ownMsg)
+  return `
+  <div class="d-flex justify-content-${ownMsg ? 'end' : 'start'}  mb-4">
+    <div class="msg_cotainer" ${ownMsg ? 'style="background-color:#4287f5;"' : ''}>
+      ${message.contenu}
+      <span class="msg_time${ownMsg ? '_send' : ''}">
+        ${message.date_envoi}
+      </span>
+    </div >
+  </div > `;
+}
 function displayConversations(response) {
   var data = response.data;
   var ownID = response.ownID
@@ -213,6 +227,12 @@ function performAjaxRequest(
           setTimeout(function () {
             userDiv.removeClass('temp-bg-color');
           }, 2000);
+
+          Swal.fire({
+            title: "Notification sent!",
+            text: response.message,
+            icon: "success",
+          });
           break;
 
         case 'sendMessage':
@@ -249,26 +269,31 @@ function performAjaxRequest(
             '<p style="width: 20%; margin: 15px 0" id="status-request-<?php echo $row->id ?>">' + statusText + '</p>'
           );
           $("#notif-user-" + sender.id).css("background-color", bgColor);
+          Swal.fire({
+            title: "Notification " + statusText,
+            text: response.message,
+            icon: "success",
+          });
           break;
 
         case "getUserDetails":
           Swal.fire({
-            title: `<strong>User Info: ID(${response.data.id})</strong>`,
+            title: `< strong > User Info: ID(${response.data.id})</strong > `,
             icon: 'info',
             html: `
-              <div style="text-align: left;">
-                <b>Full Name:</b> ${response.data.fullname}<br>
-                <b>Email:</b> ${response.data.email}<br>
-                <b>Gender:</b> ${response.data.gender}<br>
-                <b>Creation Date:</b> ${response.data.creation_date}<br>
-                <b>Goal:</b> ${response.data.goal}<br>
-                <b>Age:</b> ${response.data.age}<br>
+  < div style = "text-align: left;" >
+    <b>Full Name:</b> ${response.data.fullname} <br>
+      <b>Email:</b> ${response.data.email}<br>
+        <b>Gender:</b> ${response.data.gender}<br>
+          <b>Creation Date:</b> ${response.data.creation_date}<br>
+            <b>Goal:</b> ${response.data.goal}<br>
+              <b>Age:</b> ${response.data.age}<br>
                 <b>Role:</b> ${response.data.role}<br>
-                <b>Height:</b> ${response.data.height} cm<br>
-                <b>Weight:</b> ${response.data.weight} kg<br>
-                <b>Daily Calorie Goal:</b> ${response.data.daily_caloriegoal} calories
-              </div>
-            `,
+                  <b>Height:</b> ${response.data.height} cm<br>
+                    <b>Weight:</b> ${response.data.weight} kg<br>
+                      <b>Daily Calorie Goal:</b> ${response.data.daily_caloriegoal} calories
+                    </div>
+                    `,
             showCancelButton: true,
           });
           break;
@@ -277,16 +302,16 @@ function performAjaxRequest(
             title: `<strong>Recipe Details: ID(${response.data.id})</strong>`,
             icon: 'info',
             html: `
-                <div style="text-align: left;">
-                  <b>Name:</b> ${response.data.name}<br>
-                  <b>Calories:</b> ${response.data.calories}<br>
-                  <b>Type:</b> ${response.data.type}<br>
-                  <b>Visibility:</b> ${response.data.visibility == 1 ? 'Visible' : 'Not Visible'}<br>
-                  <b>Creation Date:</b> ${response.data.creation_date}<br>
-                  <b>Creator:</b> ${response.data.creator}<br>
-                  <img src="${response.data.image_url}" alt="Recipe Image" style="max-width: 100%; margin-top: 10px;">
-                </div>
-              `,
+                    <div style="text-align: left;">
+                      <b>Name:</b> ${response.data.name}<br>
+                        <b>Calories:</b> ${response.data.calories}<br>
+                          <b>Type:</b> ${response.data.type}<br>
+                            <b>Visibility:</b> ${response.data.visibility == 1 ? 'Visible' : 'Not Visible'}<br>
+                              <b>Creation Date:</b> ${response.data.creation_date}<br>
+                                <b>Creator:</b> ${response.data.creator}<br>
+                                  <img src="${response.data.image_url}" alt="Recipe Image" style="max-width: 100%; margin-top: 10px;">
+                                  </div>
+                                  `,
             showCancelButton: true,
           });
           break;
@@ -336,13 +361,23 @@ function performAjaxRequest(
           console.log(response.role)
           if (response.success) {
             if (response.role == "Nutritionist") {
-              displayConversations(response)
+              displayConversations(response) // affiche les derniers messages
             } else if (response.role == "Regular") {
               displayConversations(response)
             }
           } else {
             console.log("La requête n'a pas réussie.");
           }
+          break;
+
+        case "getMessagesFromAConvo":
+          wholeDiscussion = ""
+          for (numMessage in response.data) {
+            wholeDiscussion = formatMessage(response.data[numMessage], response.ownID) + wholeDiscussion
+          }
+          $('#conversationMessages').html(wholeDiscussion)
+          console.log(response.data[0].contenu);
+          console.log(typeof response.data)
           break;
 
         default:

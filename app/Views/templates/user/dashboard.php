@@ -131,7 +131,11 @@ if ($_SESSION['role'] == "Regular") {
                     <input type="text" class="form-control" name="message" id="message" placeholder="Enter your message">
                     <button type="submit" class="btn btn-primary">Send</button>
                   </form>
-                  <!-- message précédents apparaitront ici -->
+                  <div id="conversationMessages" class="card-body msg_card_body">
+                    <!-- messages apparaitront ici -->
+
+                  </div>
+
                 </div>
               </div>
             </div>

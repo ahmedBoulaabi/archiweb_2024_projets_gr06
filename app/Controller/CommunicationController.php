@@ -71,4 +71,13 @@ class CommunicationController
             echo json_encode(['success' => true, 'ownID' => $ownID, 'role' => $role,  'data' => $arrayMessage]);
         }
     }
+
+    public function getMessagesFromAConvo()
+    {
+        if ($_SESSION['role'] == "Regular") {
+            $this->getDiscussion();
+        } else {
+            $clientID = $_GET['receiverId'];
+        }
+    }
 }

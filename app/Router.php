@@ -212,6 +212,10 @@ class Router
                     case "getDiscussion":
                         $this->commController->getDiscussion();
                         break;
+                    case 'getMessagesFromAConvo':
+                        $this->commController->getMessagesFromAConvo();
+                        break;
+
 
                     default:
                         // If no specific action, fallback to generic page handling
