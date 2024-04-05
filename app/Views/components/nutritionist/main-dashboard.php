@@ -29,8 +29,9 @@
           </div>
           
         </div>
-        <div class="project-boxes jsGridView">
-          <div class="project-box-wrapper">
+        <div class="project-boxes jsGridView" id="showClientsByProgress">
+          
+          <!-- <div class="project-box-wrapper">
             <div class="project-box" style="background-color: #fee4cb;">
               <div class="project-box-header">
                 <span>December 10, 2020</span>
@@ -71,8 +72,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="project-box-wrapper">
+      </div> -->
+      <!-- <div class="project-box-wrapper">
         <div class="project-box" style="background-color: #e9e7fd;">
           <div class="project-box-header">
             <span>December 10, 2020</span>
@@ -191,8 +192,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="project-box-wrapper">
+      </div> -->
+      <!-- <div class="project-box-wrapper">
         <div class="project-box" style="background-color: #c8f7dc;">
           <div class="project-box-header">
             <span>December 10, 2020</span>
@@ -231,8 +232,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="project-box-wrapper">
+      </div> -->
+      <!-- <div class="project-box-wrapper">
         <div class="project-box" style="background-color: #d5deff;">
           <div class="project-box-header">
             <span>December 10, 2020</span>
@@ -271,9 +272,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
+  
 
   <div class="messages-section" >
     <button class="messages-close">
@@ -374,40 +376,4 @@
   </div>
   </div>
  
-  <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
-<script type="text/javascript">
-var dateElement = document.getElementById("datePlaceholder");
-var currentDate = new Date();
-var day = currentDate.getDate();
-var month = currentDate.getMonth();
-month += 1;
-var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-var dateText = monthNames[month - 1] + ", " + day;
-dateElement.textContent = dateText;
-
-$(document).ready(function() {
-
-  console.log("Making AJAX call");
-    var sessionId = '<?php echo $_SESSION['id'] ?>';
-    var additionalData = "&nutri_id=" + sessionId;
-    console.log("Nutri ID :  " + sessionId);
-
-    performAjaxRequest(
-      "GET",
-      "nutriCurrentClients",
-      additionalData,
-      "",
-      ""
-    );
-
-    performAjaxRequest(
-      "GET",
-      "nutriRecipesCount",
-      additionalData,
-      "",
-      ""
-    );
-
-});
-
-  </script>
+  

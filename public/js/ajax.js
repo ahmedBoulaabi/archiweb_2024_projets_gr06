@@ -110,8 +110,11 @@ function performAjaxRequest(
           $("#nutritionistNumber").html(response.count);
           break;
         case "nutriCurrentClients":
-          console.log("in case ");
           $("#nutriCurrentClients").html(response.count);
+          break;
+        case "getNutriClientsByProgress":
+          console.log("in case progress main");
+         $("#showClientsByProgress").html(response.message);
           break;
         case "countRecipes":
           $("#countRecipes").html(response.count);

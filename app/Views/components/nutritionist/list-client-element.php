@@ -41,14 +41,18 @@ foreach ($data as $row) :
           </button>
         </div>
       </div>
-      <div class="project-box-content-header">
+      <div class="project-box-content-header" style="display: flex; align-items: center;">
+    <img src="<?= BASE_APP_DIR ?><?= htmlspecialchars($row->img) ?>" alt="profile image" class="img" style="max-width: 50px; height: auto; margin-right: 10px;">
+    <div>
         <p class="box-content-header"><?= htmlspecialchars($row->fullname) ?> </p>
         <p class="box-content-subheader"><?= htmlspecialchars($row->goal) ?> </p>
-      </div>
-      <div class="box-progress-wrapper">
+    </div>
+</div>
+
+      <div class="box-progress-wrapper" style="margin-left: auto; max-width: 1150px;">
         <p class="box-progress-header">Progress</p>
         <div class="box-progress-bar">
-          <span class="box-progress" style="width: 60%; background-color: <?= $spanColor ?>"></span>
+          <span class="box-progress" style="width: 60%; background-color: <?= $spanColor ?>;"></span>
         </div>
         <p class="box-progress-percentage">60%</p>
       </div>
