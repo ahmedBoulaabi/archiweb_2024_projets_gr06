@@ -1,7 +1,9 @@
 <div class="projects-section">
   <div class="projects-section-header">
     <p>Client List</p>
-    <p class="time" id="currentDate">December, 12</p>
+    <p class="time" id="currentDate">
+      <?= date('F d, Y') ?>
+    </p>
   </div>
   <div class="projects-section-line">
 
@@ -237,7 +239,7 @@
 
 <script type="text/javascript">
   console.log("Document ready");
-  $(document).ready(function() {
+  $(document).ready(function () {
     console.log("Making AJAX call");
     var sessionId = '<?php echo $_SESSION['id'] ?>';
     var additionalData = "&nutri_id=" + sessionId;
