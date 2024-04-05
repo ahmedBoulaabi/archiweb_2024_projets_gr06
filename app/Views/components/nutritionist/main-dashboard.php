@@ -12,7 +12,7 @@
 </style>
 <div class="projects-section">
   <div class="projects-section-header">
-    <p>Clients</p>
+    <p>Clients to manage</p>
     <p class="time">
       <?= date('F d, Y') ?>
     </p>

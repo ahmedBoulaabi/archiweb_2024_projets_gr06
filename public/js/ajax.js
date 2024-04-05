@@ -56,6 +56,7 @@ function handleAjaxResponse(
         redirectHref != "update" &&
         redirectHref != "recipes-list" &&
         action != "deleteUser" &&
+        action != "deleteClient" &&
         action != "insertPlan" &&
         action != "addNewRecipe" &&
         action != "updateRecipe"
@@ -68,7 +69,7 @@ function handleAjaxResponse(
         window.location.reload(true);
       }
     });
-    if (!logout && action != "deleteUser") {
+    if (!logout && action != "deleteUser" && action != "deleteClient") {
       $("#form-data")[0].reset();
     }
   } else {
@@ -103,6 +104,10 @@ function performAjaxRequest(
         case "getNutriClients":
           $("#showClients").html(response.message);
           break;
+        case "getNutriRequests":
+          $("#showNutriRequests").html(response.message);
+          $("table").DataTable({ order: [0, "desc"] });
+          break;
 
         case "getUserProgress":
           console.log("res "+response.data);
@@ -113,10 +118,35 @@ function performAjaxRequest(
           var baseAppDir = document
             .getElementById("baseAppDir")
             .innerText.trim();
+            const backgroundColors = {
+              'gain-weight-normal': '#c8f7dc',
+              'lose-weight-fast': '#ffd3e2',
+              'lose-weight-normal': '#e9e7fd'
+            };
+            
+            const spanColors = {
+              'gain-weight-normal': '#34c471',
+              'lose-weight-fast': '#df3670',
+              'lose-weight-normal': '#4f3ff0'
+            };
+            response.data.users_progress.sort(function(a, b) {
+              var progressA = parseFloat(a.plan_progress.replace('%', ''));
+              var progressB = parseFloat(b.plan_progress.replace('%', ''));
+              return progressB- progressA;
+          });
+          
           response.data.users_progress.forEach(function (client) {
+            if (client.plan_creation_date === null || client.plan_creation_date === undefined) {
+              return; // Skip this client and move on to the next one
+          }
+
+            const goal = client.goal; // Assuming row.goal contains the goal information
+          const backgroundColor = backgroundColors[goal] || '#ffffff';
+          const spanColor = spanColors[goal] || '#ffffff'; 
+
             var clientHtml = `
               <div class="project-box-wrapper">
-                <div class="project-box" style="background-color: #fee4cb;">
+                <div class="project-box" style="background-color: ${backgroundColor};">
                   <div class="project-box-header">
                     <span>${
                       client.plan_creation_date
@@ -140,7 +170,7 @@ function performAjaxRequest(
                     <div class="box-progress-bar">
                       <span class="box-progress" style="width: ${
                         client.plan_progress
-                      }; background-color: #ff942e"></span>
+                      }; background-color: ${spanColor}"></span>
                     </div>
                     <p class="box-progress-percentage">${
                       client.plan_progress

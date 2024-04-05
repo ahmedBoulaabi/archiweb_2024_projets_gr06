@@ -110,8 +110,6 @@
       var additionalData = "&info_id=" + info_id;
 
       performAjaxRequest("GET", "getUserDetails", additionalData, "", "");
-
-
     })
 
   });

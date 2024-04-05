@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 05 avr. 2024 à 01:04
+-- Généré le : sam. 06 avr. 2024 à 01:46
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -67,7 +67,31 @@ CREATE TABLE `nutritionist_client` (
 --
 
 INSERT INTO `nutritionist_client` (`client_id`, `nutritionist_id`, `modified_date`) VALUES
-(41, 45, '2024-04-04 23:36:07');
+(41, 45, '2024-04-04 23:36:07'),
+(42, 45, '2024-04-04 23:36:07'),
+(43, 45, '2024-04-04 17:07:23'),
+(47, 45, '2024-04-09 17:29:39');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nutri_requests`
+--
+
+CREATE TABLE `nutri_requests` (
+  `id` int(8) NOT NULL,
+  `nutri_id` int(8) NOT NULL,
+  `etat` varchar(250) NOT NULL DEFAULT 'pending',
+  `proof` varchar(250) NOT NULL,
+  `created_date` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `nutri_requests`
+--
+
+INSERT INTO `nutri_requests` (`id`, `nutri_id`, `etat`, `proof`, `created_date`) VALUES
+(5, 41, 'pending', 'test', '2024-04-06');
 
 -- --------------------------------------------------------
 
@@ -84,6 +108,14 @@ CREATE TABLE `plans` (
   `creator` int(11) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `plans`
+--
+
+INSERT INTO `plans` (`id`, `name`, `period`, `total_length`, `median_caloric_value`, `creator`, `type`) VALUES
+(1, 'test1', 7, 28, NULL, 41, NULL),
+(2, 'Test', 14, 30, 2200, 42, NULL);
 
 -- --------------------------------------------------------
 
@@ -199,7 +231,9 @@ INSERT INTO `users` (`id`, `fullname`, `password`, `email`, `active`, `creation_
 (41, 'Ahmed Boulaabi', '$2y$10$7jAEIB7zXKP5M0uhP4ntuuVth5kOHFkjredT.Kfaq67a7AY6HvosO', 'ahmed@gmail.com', 1, '2024-01-27 00:00:00', 23, 'Regular', 178, 73, 227449, 'male', 'lose-weight-normal', '/public/images/default-user.png', 0),
 (42, 'Admin', '$2y$10$Q5cdRJXVEp05oKUfefW6ZOh.meRN.UYM6/QR62NUw0Q0VoZRmQ1wa', 'admin@gmail.com', 1, '2024-01-27 00:00:00', 25, 'Admin', 185, 85, 355815, 'male', 'gain-weight-normal', '/public/images/default-user.png', 0),
 (43, 'Wassim', '$2y$10$Q/DNapgswhvvrlDxFYTEteBbny7PgSIQ7PfQ2AZehY/z3aLqbfm1K', 'wassim.khedir@uha.fr', 1, '2024-03-16 15:02:08', 23, 'Nutritionist', 180, 65, 162324, 'male', 'lose-weight-fast', '/public/images/default-user.png', 0),
-(45, 'nutri', '$2y$10$5pxxKYFxXT0pCVbNenfQUOF8osRtkirL/6bxxuWoUA.PFQmxSjWoe', 'nutri@gmailcom', 1, '2024-04-04 23:01:27', 23, 'Nutritionist', 178, 76, 333679, 'male', 'gain-weight-normal', '/public/images/default-user.png', 5);
+(45, 'nutri', '$2y$10$5pxxKYFxXT0pCVbNenfQUOF8osRtkirL/6bxxuWoUA.PFQmxSjWoe', 'nutri@gmailcom', 1, '2024-04-04 23:01:27', 23, 'Nutritionist', 178, 76, 333679, 'male', 'gain-weight-normal', '/public/images/default-user.png', 5),
+(46, 'elias', '$2y$10$tVzrJ9maPOSD2NDGBAfDEeirVK67yogGhwTeGsdjtpTrUDmRRIG.i', 'elais@gmail.com', 1, '2024-04-05 17:27:58', NULL, 'Regular', NULL, NULL, NULL, NULL, NULL, '/public/images/default-user.png', 0),
+(47, 'mathias', '$2y$10$rTSjrEI/dmAcyuQhhxRJquc/6Mzlj670ZoC7O4T5XR32btW8EiLCS', 'mathias@gmail.com', 1, '2024-04-05 17:28:10', NULL, 'Regular', NULL, NULL, NULL, NULL, NULL, '/public/images/default-user.png', 0);
 
 -- --------------------------------------------------------
 
@@ -215,6 +249,14 @@ CREATE TABLE `user_plan` (
   `modified_date` datetime DEFAULT NULL,
   `managed_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `user_plan`
+--
+
+INSERT INTO `user_plan` (`id`, `user_id`, `plan_id`, `creation_date`, `modified_date`, `managed_by`) VALUES
+(1, 41, 1, '2024-04-01 14:58:30', NULL, 45),
+(2, 42, 2, '2024-04-01 14:58:30', NULL, 41);
 
 --
 -- Index pour les tables déchargées
@@ -239,6 +281,12 @@ ALTER TABLE `notifications`
 --
 ALTER TABLE `nutritionist_client`
   ADD PRIMARY KEY (`client_id`,`nutritionist_id`);
+
+--
+-- Index pour la table `nutri_requests`
+--
+ALTER TABLE `nutri_requests`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `plans`
@@ -302,10 +350,16 @@ ALTER TABLE `notifications`
   MODIFY `notif_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `nutri_requests`
+--
+ALTER TABLE `nutri_requests`
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT pour la table `plans`
 --
 ALTER TABLE `plans`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `plan_recipes`
@@ -329,13 +383,13 @@ ALTER TABLE `recipes`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT pour la table `user_plan`
 --
 ALTER TABLE `user_plan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Contraintes pour les tables déchargées

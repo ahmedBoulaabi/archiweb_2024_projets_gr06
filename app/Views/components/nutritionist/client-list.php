@@ -239,7 +239,9 @@
 
 <script type="text/javascript">
   console.log("Document ready");
+  
   $(document).ready(function () {
+    
     console.log("Making AJAX call");
     var sessionId = '<?php echo $_SESSION['id'] ?>';
     var additionalData = "&nutri_id=" + sessionId;
@@ -247,5 +249,16 @@
 
 
     performAjaxRequest("GET", "getNutriClients", additionalData, "", "");
+    setTimeout(function() {
+  $('.project-btn-more').click(function() {
+    console.log("test")
+    var optionsContainer = $(this).closest('.project-box').find('.options-container');
+    optionsContainer.toggleClass('hidden');
   });
+}, 500);
+
+  });
+
+
+ 
 </script>
