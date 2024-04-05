@@ -112,6 +112,9 @@ class Router
                 case 'deleteUser':
                     $this->adminController->deleteUser();
                     break;
+                case 'deleteClient':
+                    $this->nutriController->deleteClient();
+                    break;
                 case 'sendNotification':
                     $this->nutriController->sendNotification();
                     break;
@@ -196,6 +199,9 @@ class Router
                         break;
                     case "getNutriClients":
                         $this->nutriController->getUsersForNutritionist();
+                        break;
+                    case "getNutriRequests":
+                        $this->adminController->getNutritionistRequests();
                         break;
                     case "nutriRecipesCount":
                         $this->nutriController->countRecipesForCreator();
