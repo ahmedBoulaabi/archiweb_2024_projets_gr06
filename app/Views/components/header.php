@@ -8,7 +8,7 @@
   </div>
 
   <!-- Disconnect / Connect -->
-  <?php if (!isset($_SESSION['id'])) : ?>
+  <?php if (!isset($_SESSION['id'])): ?>
     <div>
       <a class="logo" href="login">
         Login
@@ -20,7 +20,7 @@
       </a>
     </div>
 
-  <?php else : ?>
+  <?php else: ?>
 
     <div>
       <nav class="" style="padding-top: 15%">
@@ -37,11 +37,13 @@
           <li>
             <a href="settings"><img src="<?= BASE_APP_DIR ?>/public/images/icons/user.png" alt="" /></a>
           </li>
+
           <?php if ($_SESSION['role'] === "Admin") : ?>
             <a href="dashboardAdmin"><img src="<?= BASE_APP_DIR ?>/public/images/icons/admin.png" alt="" /></a>
           <?php endif; ?>
           <?php if ($_SESSION['role'] === "Nutritionist") : ?>
             <a class="logo" href="nutritionist-dashboard"><img src="<?= BASE_APP_DIR ?>/public/images/icons/nutritionist.png" alt="Nutritionist" /></a>
+
           <?php endif; ?>
 
         </ul>
@@ -56,7 +58,7 @@
 
 <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
 <script type="text/javascript">
-  $("#logout").click(function(e) {
+  $("#logout").click(function (e) {
     e.preventDefault();
     performAjaxRequest(
       "POST",
