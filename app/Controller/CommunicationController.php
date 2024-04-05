@@ -35,7 +35,7 @@ class CommunicationController
         $contentMessage = htmlspecialchars($contentMessage);
 
         if ($this->commModel->putMessageInDatabase($targetID, $_SESSION['id'], $contentMessage)) {
-            echo json_encode(['success' => true, 'data' => $contentMessage]);
+            echo json_encode(['success' => true, 'ownID' => $_SESSION['id'], 'data' => $contentMessage]);
         } else {
             echo json_encode(['success' => false, 'data' => $contentMessage]);
         }

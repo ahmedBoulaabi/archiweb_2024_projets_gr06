@@ -108,7 +108,7 @@ if ($_SESSION['role'] == "Regular") {
           <?php if ($_SESSION['role'] == "Regular") : ?>
             <div class="col-lg-6 messages-section" style="max-width: 500px;">
               <h5 class="fw-bold ">Discussion</h5>
-              <div href="#" class="container bg-main rounded-3 messages" id="discussion-class" style="height: 300px;">
+              <div href="#" class="container bg-main rounded-3 messages" id="discussion-class" style="height: 200px;">
 
               </div>
             </div>
@@ -121,9 +121,7 @@ if ($_SESSION['role'] == "Regular") {
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title">Send a message</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+
                 </div>
                 <div class="modal-body" style="height: 50vh;">
                   <!-- Message form -->

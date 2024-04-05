@@ -10,27 +10,43 @@ function getMessageBoxHtml(conversation) {
         <p class="message-line">
           ${conversation.lastMessage.contenu}
         </p>
-        <p class="message-line time">
+        <span class="message-line time">
         ${conversation.lastMessage.date_envoi}
-        </p>
+        </span>
       </div>
     </div>
   `;
 }
 
 function formatMessage(message, ownID) {
-  console.log(ownID != message.expediteur_id);
+  console.log(message);
   var ownMsg = ownID == message.expediteur_id
-  //if (ownMsg)
+  console.log(ownMsg)
+  //if (ownMsg)  <div class="d-flex flex-column justify-content-${ownMsg ? 'end' : 'start'}  mb-4">
+  /*
+    return `  <div class="d-flex flex-column ${ownMsg ? 'align-items-end' : 'align-items-start'} pb-2">
+      <div class="msg_cotainer" ${ownMsg ? 'style="display:inline;background-color:#4287f5;"' : ''}>
+        ${message.contenu}
+        <span class="msg_time${ownMsg ? '_send' : ''}">
+          ${message.date_envoi}
+        </span>  
+      </div>
+    </div> `;*/
+
   return `
-  <div class="d-flex justify-content-${ownMsg ? 'end' : 'start'}  mb-4">
-    <div class="msg_cotainer" ${ownMsg ? 'style="background-color:#4287f5;"' : ''}>
-      ${message.contenu}
+  <div class="d-flex flex-column ${ownMsg ? 'align-items-end' : 'align-items-start'} mb-4">
+    <div class="d-flex ${ownMsg ? 'justify-content-end' : 'justify-content-start'}">
+      <div class="msg_cotainer" ${ownMsg ? 'style="display:inline;background-color:#4287f5;"' : ''}>
+        ${message.contenu}
+      </div>
+    </div>
+    <div class="d-flex ${ownMsg ? 'justify-content-end' : 'justify-content-start'}">
       <span class="msg_time${ownMsg ? '_send' : ''}">
         ${message.date_envoi}
       </span>
-    </div >
-  </div > `;
+    </div>
+  </div>
+`;
 }
 function displayConversations(response) {
   var data = response.data;
@@ -235,9 +251,7 @@ function performAjaxRequest(
           });
           break;
 
-        case 'sendMessage':
-          console.log(response.data);
-          break;
+
 
         case "countNotification":
           const element = document.createElement("div");
@@ -372,12 +386,29 @@ function performAjaxRequest(
 
         case "getMessagesFromAConvo":
           wholeDiscussion = ""
-          for (numMessage in response.data) {
+          for (numMessage in response.data) { // ajout des différents messages dans la div de conversation
             wholeDiscussion = formatMessage(response.data[numMessage], response.ownID) + wholeDiscussion
           }
           $('#conversationMessages').html(wholeDiscussion)
-          console.log(response.data[0].contenu);
-          console.log(typeof response.data)
+
+          // mettre le nom de l'interlocuteur pour savoir à qui on parle
+          const modalTitle = document.querySelector('.modal-title');
+          if (modalTitle) {
+            console.log(response.data[0].interlocutor_fullname);
+            modalTitle.innerHTML = "Send a message to " + response.data[0].interlocutor_fullname;
+          }
+          break;
+
+        case 'sendMessage':
+          var ownID = response.ownID
+          var message = {
+            'date_envoi': "Just now",
+            'expediteur_id': ownID,
+            'contenu': response.data
+          }
+          newMessage = formatMessage(message, ownID)
+
+          $('#conversationMessages').prepend(newMessage)
           break;
 
         default:
