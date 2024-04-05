@@ -115,4 +115,48 @@ class NutritionistController
         }
         exit;
     }
+
+    public function getUserProgressForNutritionist()
+    {
+        header('Content-Type: application/json');
+
+        $nutritionistId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
+
+        // Call the model method to get progress data for users of a nutritionist
+        $data = $this->nutriModel->getUserProgressForNutritionist($nutritionistId);
+
+        if ($data) {
+            // Prepare the data for JSON encoding
+            $usersProgress = [];
+            foreach ($data as $row) {
+                $progressPercentage = min(100, max(0, $row->progress * 100));
+                $usersProgress[] = [
+                    'user_id' => $row->id,
+                    'fullname' => $row->fullname,
+                    'email' => $row->email,
+                    'goal' => $row->goal,
+                    'img' => $row->img,
+                    'plan_progress' => number_format($progressPercentage, 2) . '%',
+                    'plan_creation_date' => $row->creation_date,
+                ];
+            }
+
+
+
+            $response = [
+                'total_users' => $data[0]->total_users,
+                'not_completed' => $data[0]->not_completed,
+                'completed' => $data[0]->completed,
+                'users_progress' => $usersProgress,
+            ];
+
+            // var_dump($response);
+
+            echo json_encode(['message' => 'Success', 'data' => $response]);
+        } else {
+            echo json_encode(['message' => 'No progress data found for the specified nutritionist.']);
+        }
+        exit;
+    }
+
 }
