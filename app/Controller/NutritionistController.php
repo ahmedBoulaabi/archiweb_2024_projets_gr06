@@ -162,7 +162,10 @@ public function countNutritionistClients()
         } catch (\PDOException $e) {
             // If an error occurs, send a JSON response with the error message
             echo json_encode(['success' => false, 'message' => 'An error occurred while fetching the recipe count for the creator.']);
-
+       
+        }
+        exit;
+    }
     public function getUserProgressForNutritionist()
     {
         header('Content-Type: application/json');

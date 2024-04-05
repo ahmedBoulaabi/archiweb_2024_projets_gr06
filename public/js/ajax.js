@@ -105,11 +105,11 @@ function performAjaxRequest(
           break;
 
         case "getUserProgress":
+          console.log("res "+response.data);
           $("#total-clients").text(response.data.total_users);
           $("#in-progress").text(response.data.not_completed);
           $("#plans-finished").text(response.data.completed);
           $("#project-boxes").empty();
-          console.log(response.data);
           var baseAppDir = document
             .getElementById("baseAppDir")
             .innerText.trim();

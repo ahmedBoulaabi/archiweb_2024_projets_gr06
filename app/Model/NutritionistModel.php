@@ -196,6 +196,8 @@ public function getClientsCountForNutritionist($nutritionistId)
             return $row->recipeCount;
         } else {
             return 0; // In case of no recipes or an error
+        }
+    }
 
     public function getUserProgressForNutritionist($nutritionistId)
     {
