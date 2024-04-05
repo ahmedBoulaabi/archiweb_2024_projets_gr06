@@ -196,6 +196,33 @@ public function getClientsCountForNutritionist($nutritionistId)
             return $row->recipeCount;
         } else {
             return 0; // In case of no recipes or an error
+
+    public function getUserProgressForNutritionist($nutritionistId)
+    {
+
+        $sql = "SELECT u.*, p.total_length, up.creation_date, 
+               (DATEDIFF(CURDATE(), up.creation_date) / p.total_length) AS progress,
+               COUNT(up.user_id) OVER () AS total_users,
+               SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) < p.total_length THEN 1 ELSE 0 END) OVER () AS not_completed,
+               SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) >= p.total_length THEN 1 ELSE 0 END) OVER () AS completed
+        FROM users u
+        JOIN nutritionist_client nc ON u.id = nc.client_id
+        JOIN user_plan up ON u.id = up.user_id
+        JOIN plans p ON up.plan_id = p.id
+        WHERE nc.nutritionist_id = :nutritionist_id";
+
+        $this->db->query($sql);
+        $this->db->bind(':nutritionist_id', $nutritionistId);
+
+        $rows = $this->db->resultSet();
+
+        // var_dump($rows); 
+
+
+        if ($this->db->rowCount() > 0) {
+            return $rows;
+        } else {
+            return false;
         }
     }
 

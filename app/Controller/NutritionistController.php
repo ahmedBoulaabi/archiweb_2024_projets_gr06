@@ -114,43 +114,10 @@ class NutritionistController
             // Echo the content captured, which now includes $data being used in usersList.php
             echo json_encode(['message' => $output]);
         } else {
-            echo json_encode(['message' => '<h3 class="text-center text-secondary mt-5">:( No clients present for this nutritionist!</h3>']);
+            echo json_encode(['message' => '<h3 class="text-center text-secondary mt-5">No clients present for this nutritionist!</h3>']);
         }
         exit;
     }
-
-    /**
-     * Show All Cients for a Nutritionist
-     *
-     * Retrieves all clients for a given nutritionist from the model and display them through <strong>clients-table.php</strong>.
-     *
-     * @param int $nutritionistId The ID of the nutritionist
-     * @return void
-     */
-    public function getClientsByProgress()
-    {
-        header('APPJSON');
-        $nutritionistId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
-
-        // Call the model method to get users for the nutritionist
-        $data = $this->nutriModel->getUsersForNutritionist($nutritionistId);
-
-        if ($data) {
-            // Output buffering to capture the included file's content
-            ob_start();
-            include VIEWSDIR . DS . 'components' . DS . 'nutritionist' . DS . 'list-client-element-main-dashboard.php';
-            $output = ob_get_clean();
-
-            // Echo the content captured, which now includes $data being used in usersList.php
-            echo json_encode(['message' => $output]);
-        } else {
-            echo json_encode(['message' => '<h3 class="text-center text-secondary mt-5">:( No clients present for you!</h3>']);
-        }
-        exit;
-    }
-
-
-
     /**
  * Count Nutritionist's Clients
  * 
@@ -195,9 +162,49 @@ public function countNutritionistClients()
         } catch (\PDOException $e) {
             // If an error occurs, send a JSON response with the error message
             echo json_encode(['success' => false, 'message' => 'An error occurred while fetching the recipe count for the creator.']);
+
+    public function getUserProgressForNutritionist()
+    {
+        header('Content-Type: application/json');
+
+        $nutritionistId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
+
+        // Call the model method to get progress data for users of a nutritionist
+        $data = $this->nutriModel->getUserProgressForNutritionist($nutritionistId);
+
+        if ($data) {
+            // Prepare the data for JSON encoding
+            $usersProgress = [];
+            foreach ($data as $row) {
+                $progressPercentage = min(100, max(0, $row->progress * 100));
+                $usersProgress[] = [
+                    'user_id' => $row->id,
+                    'fullname' => $row->fullname,
+                    'email' => $row->email,
+                    'goal' => $row->goal,
+                    'img' => $row->img,
+                    'plan_progress' => number_format($progressPercentage, 2) . '%',
+                    'plan_creation_date' => $row->creation_date,
+                ];
+            }
+
+
+
+            $response = [
+                'total_users' => $data[0]->total_users,
+                'not_completed' => $data[0]->not_completed,
+                'completed' => $data[0]->completed,
+                'users_progress' => $usersProgress,
+            ];
+
+            // var_dump($response);
+
+            echo json_encode(['message' => 'Success', 'data' => $response]);
+        } else {
+            echo json_encode(['message' => 'No progress data found for the specified nutritionist.']);
+
         }
         exit;
     }
-
 
 }

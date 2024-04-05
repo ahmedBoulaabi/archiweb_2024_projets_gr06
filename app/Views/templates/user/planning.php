@@ -19,7 +19,7 @@ $durationJson = json_encode($duration);
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Planning</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/colors.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -242,15 +242,23 @@ $durationJson = json_encode($duration);
                     recipes.forEach(recipe => {
                         var dayDiv = document.getElementById(`day-${recipe.date}`);
                         if (dayDiv) {
+
                             // Create a new element to hold the recipe information as a meal card
                             var recipeElement = document.createElement('div');
                             recipeElement.className =
                                 'flex flex-column justify-content-start bg-bg p-4 rounded';
                             recipeElement.style =
                                 'width: fit-content; max-width: 250px; min-width: 250px; align-items:center';
+                            var imgPath;
+                            if (recipe.image_url == null) {
+                                imgPath = "https://www.allrecipes.com/thmb/5SdUVhHTMs-rta5sOblJESXThEE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/11691-tomato-and-garlic-pasta-ddmfs-3x4-1-bf607984a23541f4ad936b33b22c9074.jpg";
+                            } else {
+                                imgPath = "<?= BASE_APP_DIR ?>/public/images/recipesImages/" + recipe.image_url;
+
+                            }
                             recipeElement.innerHTML = `
-                <img style="width: 200px; height: 200px; object-fit: cover; border-radius: 100%;"
-                    src="${recipe.image_url ?? "https://www.allrecipes.com/thmb/5SdUVhHTMs-rta5sOblJESXThEE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/11691-tomato-and-garlic-pasta-ddmfs-3x4-1-bf607984a23541f4ad936b33b22c9074.jpg"}" />
+                    <img style="width: 200px; height: 200px; object-fit: cover; border-radius: 100%;"
+                    src="${imgPath}" />
                 <div class="mt-4">
                     <p style="margin: 0;">
                         ${recipe.calories ?? "400"} Cal
@@ -260,6 +268,7 @@ $durationJson = json_encode($duration);
                     </p>
                 </div>
             `;
+
                             // Append the new element to the day div
                             dayDiv.appendChild(recipeElement);
                         }
