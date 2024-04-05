@@ -3,26 +3,32 @@
 namespace Manger;
 
 use Manger\Controller\RecipesController;
-use Manger\Controller\Users;
+use Manger\Controller\UserController;
 use Manger\Controller\AdminController;
+use Manger\Controller\NutritionistController;
 use Manger\Controller\ResetPasswords;
 
 
+/**
+ * Router
+ * 
+ * The routing part of the project, decide to which controller
+ * go based on the sent request
+ */
 class Router
 {
     private $userController;
     private $adminController;
-
     private $resetPasswordController;
-    private $recipesController;
+    private $nutriController;
 
     public function __construct()
     {
-        $this->userController = new Users();
+        $this->userController = new UserController();
         $this->adminController = new AdminController();
 
         $this->resetPasswordController = new ResetPasswords();
-        $this->recipesController = new RecipesController();
+        $this->nutriController = new NutritionistController();
     }
 
 
@@ -40,20 +46,34 @@ class Router
     public function manageRequest()
     {
 
+        // Parse the path from the URL
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+        // Explode the path into segments
         $uriSegments = explode('/', $path);
 
-        $requested = $uriSegments[2];
-        $controller = "user";
+        // Assuming the action is always after the project base in the URL
+        // and adjusting for unconventional query parameter format
+        $requestedRaw = isset($uriSegments[2]) ? $uriSegments[2] : "";
 
+        // Separate the action from any following query string that starts unusually with '&'
+        list($requested, ) = explode('&', $requestedRaw, 2);
+
+        $controller = "user"; // Default controller
+
+        // Check if the requested segment matches 'admin' or 'nutritionist'
         if ($requested === 'admin' || $requested === 'nutritionist') {
             $controller = $requested;
-            $requested = $uriSegments[3];
+            $requested = isset($uriSegments[3]) ? $uriSegments[3] : "";
+            // Again, separate the actual request from any unconventional query string
+            list($requested, ) = explode('&', $requested, 2);
         }
 
+        // Fallback to "login" if no specific action is requested
         $requested = $requested !== "" ? $requested : "login";
-        $no_redirect_pages = array('login', 'register', 'reset-password');
+
+        // Define pages that do not require redirect
+        $no_redirect_pages = array('login', 'register', 'reset-password', 'create-new-password');
 
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -81,20 +101,52 @@ class Router
                     $this->userController->updateUserFirstLogin();
                     break;
                 case 'showAllRecipes':
-                    $this->recipesController->recipesCont();
+                    $this->userController->recipesList();
                     break;
                 case 'addRecipe':
-                    $this->recipesController->addNewRecipe();
+                    $this->userController->addNewRecipe();
                     break;
-                case 'showAllUsers':
-                    $this->adminController->showAllUsers();
-                    break;
-
                 case 'logout':
                     $this->userController->logout();
                     break;
+                case 'deleteUser':
+                    $this->adminController->deleteUser();
+                    break;
+                case 'sendNotification':
+                    $this->nutriController->sendNotification();
+                    break;
+                case 'updateNotification':
+                    $this->userController->updateNotificationState();
+                    break;
+                case 'addNewUser':
+                    $this->adminController->addNewUser();
+                    break;
+                case 'addNewRecipe':
+                    $this->adminController->addNewRecipe();
+                    break;
+                case 'updateRecipe':
+                    $this->adminController->updateRecipe();
+                    break;
+                case 'insertPlan':
+                    if (isset($_POST['recipesData']) && isset($_POST['period']) && isset($_POST['duration'])) {
+
+                        $recipesData = json_decode($_POST['recipesData'], true);
+                        $period = $_POST['period'];
+                        $duration = $_POST['duration'];
+                        $planName = $_POST['planName'];
+                        $this->userController->addPlan($recipesData, $period, $duration, $planName);
+                    }
+                    break;
+
+                case 'UserHavePlan':
+                    $this->userController->userHavePlan();
+                    break;
+
+                case 'deleteRecipe':
+                    $this->adminController->deleteRecipe();
+
                 default:
-                    include __DIR__ . '/../Views/login.php';
+                    include __DIR__ . '/Views/templates/user/login.php';
                     exit;
             }
         } elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -110,13 +162,54 @@ class Router
             if (isset($_GET['action'])) {
                 switch ($_GET['action']) {
                     case 'countRegularUsers':
-                        // Assuming you have an adminController or similar for handling admin-related actions
                         $this->adminController->countRegularUsers();
                         break;
                     case 'countNutritionistUsers':
                         $this->adminController->countNutritionistUsers();
                         break;
-                        // Add other GET actions here
+                    case 'countRecipes':
+                        $this->adminController->countRecipes();
+                        break;
+                    case 'getAllUsers':
+                        $this->adminController->getAllUsers();
+                        break;
+                    case 'getUserDetails':
+                        $this->adminController->getUserDetails();
+                        break;
+                    case 'getAllRecipes':
+                        $this->adminController->getAllRecipes();
+                        break;
+                    case 'getRecipeDetails':
+                        $this->adminController->getRecipeDetails();
+                        break;
+                    case 'loadRecipeDetails':
+                        $this->adminController->getRecipeDetails();
+                        break;
+                    case 'planSearchForRecipe':
+                        $this->userController->getRecipesByName();
+                        break;
+                    case 'clientSearch':
+                        $this->nutriController->getClientList();
+                        break;
+                    case "countNotification":
+                        $this->userController->countNotification();
+                        break;
+                    case "getNutriClients":
+                        $this->nutriController->getUsersForNutritionist();
+                        break;
+                    case "nutriRecipesCount":
+                        $this->nutriController->countRecipesForCreator();
+                        break;
+                    case "getUserProgress":
+                        $this->nutriController->getUserProgressForNutritionist();
+                        break;
+                    case "getUsersFromNotifications":
+                        $this->userController->getUsersFromNotifications();
+                        break;
+                    case "nutriCurrentClients":
+                        $this->nutriController->countNutritionistClients();
+                        break;
+
                     default:
                         // If no specific action, fallback to generic page handling
                         $this->userController->GETPage($requested);

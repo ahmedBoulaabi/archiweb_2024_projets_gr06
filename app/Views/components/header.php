@@ -1,5 +1,4 @@
-<header class="d-flex flex-column justify-content-between align-items-center bg-main position-fixed left-0 top-0"
-  style="width: 180px; height: 100vh; padding: 80px 0;">
+<header class="d-flex flex-column justify-content-between align-items-center bg-main position-fixed left-0 top-0" style="width: 180px; height: 100vh; padding: 80px 0;">
   <div>
     <!-- Logo -->
     <div class="logo">
@@ -38,11 +37,13 @@
           <li>
             <a href="settings"><img src="<?= BASE_APP_DIR ?>/public/images/icons/user.png" alt="" /></a>
           </li>
-          <?php if ($_SESSION['role'] === "Admin"): ?>
-            <a class="logo" href="dashboardAdmin">
-              Admin
-              <img src="" alt="" />
-            </a>
+
+          <?php if ($_SESSION['role'] === "Admin") : ?>
+            <a href="dashboardAdmin"><img src="<?= BASE_APP_DIR ?>/public/images/icons/admin.png" alt="" /></a>
+          <?php endif; ?>
+          <?php if ($_SESSION['role'] === "Nutritionist") : ?>
+            <a class="logo" href="nutritionist-dashboard"><img src="<?= BASE_APP_DIR ?>/public/images/icons/nutritionist.png" alt="Nutritionist" /></a>
+
           <?php endif; ?>
 
         </ul>

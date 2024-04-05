@@ -4,7 +4,7 @@ namespace Manger\Controller;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Manger\Model\ResetPasswordModel;
-use Manger\Model\User;
+use Manger\Model\UserModel;
 
 /**
  * Controller used to reset password
@@ -19,7 +19,7 @@ class ResetPasswords
     private $resetModel;
 
     /**
-     * @var User $userModel An instance of the User class for accessing user data.
+     * @var UserModel $userModel An instance of the User class for accessing user data.
      */
     private $userModel;
 
@@ -36,16 +36,26 @@ class ResetPasswords
     public function __construct()
     {
         $this->resetModel = new ResetPasswordModel();
-        $this->userModel = new User();
+        $this->userModel = new UserModel();
 
         // Setup PHPMailer
+        // $this->mail = new PHPMailer();
+        // $this->mail->isSMTP();
+        // $this->mail->Host = 'sandbox.smtp.mailtrap.io';
+        // $this->mail->SMTPAuth = true;
+        // $this->mail->Port = 2525;
+        // $this->mail->Username = '2c4e5bb80a4c29';
+        // $this->mail->Password = '8d600ff75fa3af';
+
         $this->mail = new PHPMailer();
         $this->mail->isSMTP();
-        $this->mail->Host = 'sandbox.smtp.mailtrap.io';
+        $this->mail->Host = 'smtp.gmail.com';
         $this->mail->SMTPAuth = true;
-        $this->mail->Port = 2525;
-        $this->mail->Username = '2c4e5bb80a4c29';
-        $this->mail->Password = '8d600ff75fa3af';
+        //    $this->mail->Port = 2525;
+        $this->mail->Username = 'projetmangergr06@gmail.com';
+        $this->mail->Password = ''; // Put the password here 
+        $this->mail->SMTPSecure = 'ssl';
+        $this->mail->Port = 465;
     }
 
     /**
@@ -66,7 +76,7 @@ class ResetPasswords
             // Generate reset link
             $selector = bin2hex(random_bytes(8));
             $token = random_bytes(32);
-            $url = 'http://localhost/calorie-tracker-php/calorie-tracker-php/create-new-password&selector='
+            $url = 'http://localhost/archiweb_2024_projets_gr06/create-new-password?selector='
                 . $selector . '&validator=' . bin2hex($token);
             $expires = date("U") + 1800;
 
@@ -88,7 +98,7 @@ class ResetPasswords
             $message .= "<p>Here is your password reset link:</p>";
             $message .= "<a href='" . $url . "'>" . $url . "</a>";
 
-            $this->mail->setFrom('mr.smoke2015@gmail.com');
+            $this->mail->setFrom('projetmangergr06@gmail.com');
             $this->mail->isHTML(true);
             $this->mail->Subject = $subject;
             $this->mail->Body = $message;

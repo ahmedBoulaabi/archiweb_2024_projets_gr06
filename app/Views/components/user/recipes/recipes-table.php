@@ -1,41 +1,25 @@
 <?php
 // Assuming $recipes is an array containing the items retrieved from the database
-
-// Divide recipes into groups of 5
+// Divide recipes into groups of 4
 $recipeGroups = array_chunk($recipes, 4);
-
-// Open the container div for the list
-echo '<div class="list-container">';
-
-// Loop through each group
-foreach ($recipeGroups as $group) {
-    // Open a row div for each group of items
-    echo '<div class="row">';
-
-    // Loop through each recipe in the group
-    foreach ($group as $recipe) {
-        // Display the recipe item
-        echo '<div class="col-lg-3">'; // Adjust column width as needed
-        echo '<div class="flex flex-column justify-content-start bg-bg p-4 rounded" style="width: fit-content; min-width: 250px">';
-        $imageUrl = 'public/images/recipesImages/' . $recipe->image_url;
-        $defaultImageUrl = 'https://www.allrecipes.com/thmb/5SdUVhHTMs-rta5sOblJESXThEE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/11691-tomato-and-garlic-pasta-ddmfs-3x4-1-bf607984a23541f4ad936b33b22c9074.jpg'; // Spécifiez le chemin de votre image par défaut
-
-        // Vérifie si l'image existe dans le dossier
-        if (file_exists($imageUrl)) {
-            echo '<img style="width: 200px; height: 200px; object-fit: cover; border-radius: 100%;" src="' . $imageUrl . '" />';
-        } else {
-            // Si l'image n'existe pas, affichez l'image par défaut
-            echo '<img style="width: 200px; height: 200px; object-fit: cover; border-radius: 100%;" src="' . $defaultImageUrl . '" />';
-        }
-        echo '<div class="mt-4">';
-        echo '<p style="margin: 0;">' . $recipe->calories . ' Cal</p>';
-        echo '<p class="fw-bold" style="font-size: 20px; padding-top: 0px">' . $recipe->name . '</p>';
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
-    }
-
-    echo '</div>';
-}
-
-echo '</div>';
+?>
+<div class="list-container row row-cols-1 row-cols-md-4 g-4">
+    <?php foreach ($recipeGroups as $groupIndex => $group): ?>
+        <?php foreach ($group as $recipeIndex => $recipe): ?>
+            <?php
+            $imageUrl = 'public/images/recipesImages/' . $recipe->image_url;
+            $defaultImageUrl = 'https://www.allrecipes.com/thmb/5SdUVhHTMs-rta5sOblJESXThEE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/11691-tomato-and-garlic-pasta-ddmfs-3x4-1-bf607984a23541f4ad936b33b22c9074.jpg'; 
+            $imageSrc = file_exists($imageUrl) ? $imageUrl : $defaultImageUrl;
+            ?>
+            <div class="col mb-4">
+            <div class="flex flex-column justify-content-start bg-bg p-4 rounded" style="height:350px;max-height:350px; min-width: 250px;max-width: 250px;">
+                    <img style="width: 200px; height: 200px; object-fit: cover; border-radius: 100%;" src="<?php echo $imageSrc; ?>" />
+                    <div class="mt-4">
+                        <p style="margin: 0;"><?php echo $recipe->calories; ?> Cal</p>
+                        <p class="fw-bold" style="font-size: 20px; padding-top: 0px;"><?php echo $recipe->name; ?></p>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
+</div>

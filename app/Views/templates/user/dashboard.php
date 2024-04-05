@@ -1,10 +1,35 @@
+<?php
+$messageDisplay = '';
+if ($_SESSION['role'] == "Regular") {
+  $messageDisplay = <<<HTML
+  <h1>Nutritionist list</h1>
+  <div>Search any nutritionist.</div>
+
+  HTML;
+
+  $titleNotifIcon = "Search for a nutritionist";
+} else if ($_SESSION['role'] == "Nutritionist") {
+  $messageDisplay = <<<HTML
+  <h1>Client list</h1>
+  <div>Search any client.</div>
+  HTML;
+
+  $titleNotifIcon = "Search for a client";
+} else {
+  $messageDisplay = <<<HTML
+  <h1>Not for admins</h1>
+  <div>Really no point.</div>
+  HTML;
+  $titleNotifIcon = "Search for a nutritionist or a client";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>Dashboard</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/colors.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -21,12 +46,46 @@
   <!-- BODY -->
   <div class="bg-bg" style="min-height: 100vh; padding-left: 180px">
 
+    <div id="open-modal" class="modal-window">
+      <div>
+        <a href="#" title="Close" class="modal-close">Close</a>
+        <?php echo $messageDisplay ?>
+        <br>
+
+
+        <!-- Search bar -->
+        <input type="text" class="form-control" name="client-list-search" id="client-list-search" placeholder="<?php echo $titleNotifIcon ?>">
+
+        <!-- Results -->
+        <div id="client-list-results" class="pt-4" style="max-height:350px; overflow:scroll;">
+
+        </div>
+      </div>
+    </div>
+    <div id="open-modal-notifs" class="modal-window">
+      <div>
+        <a href="#" title="Close" class="modal-close">Close</a>
+        <h1>Notifications</h1>
+        <div>You can accept your requests here.</div>
+        <br>
+
+        <!-- Results -->
+        <div id="sender-notif-list" class="pt-4" style="max-height:350px; overflow:scroll;">
+
+        </div>
+      </div>
+    </div>
+
     <!-- BELL NOTIFICATIONS ICON -->
     <div class="position-absolute" style="right: 20px; top: 20px">
-      <div class="text-bg text-center d-flex align-items-center justify-content-center position-absolute"
-        style="font-size: 16px; height:30px; width:30px; border-radius: 100%; left: -40%; top:40%; z-index:0; background-color: #252624;">
-        0</div>
-      <img src="<?= BASE_APP_DIR ?>/public/images/icons/bell.png" style="z-index:2;" alt="Image of a bell" />
+
+      <a href="#open-modal-notifs" id="click-to-show-notif">
+
+        <div class="text-bg text-center d-flex align-items-center justify-content-center position-absolute" id="notif-displayer" style="font-size: 16px; height:30px; width:30px; border-radius: 100%; left: -40%; top:40%; z-index:0; background-color: #252624;"></div>
+      </a>
+      <a href="#open-modal" title="<?php echo $titleNotifIcon ?>">
+        <img src=" <?= BASE_APP_DIR ?>/public/images/icons/bell.png" style="z-index:2;" alt="<?php echo $titleNotifIcon ?>" />
+      </a>
     </div>
 
     <!-- REST OF THE PAGE CONTENT -->
@@ -81,7 +140,6 @@
             </div>
           </div>
 
-
           <!-- HERE WE PUT THE DAILY MEALS -->
           <div class="col-12" style="">
             <h5 class="fw-bold">Daily Tracking</h5>
@@ -109,6 +167,8 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
+  <script src="<?= BASE_APP_DIR ?>/public/js/notification.js"></script>
 </body>
 
 </html>

@@ -88,6 +88,20 @@ class Database
     }
 
     /**
+     * Bind multiples values to prepared statement using named parameters
+     *
+     * @param array $params The array of names.
+     * @param array $value The array of values to bind.
+     * @param array|null $type The array containing the data type of the parameter.
+     */
+    public function bindMultipleParams($params, $values, $types = null)
+    {
+        array_map(function ($param, $value) {
+            $this->bind($param, $value);
+        }, $params, $values);
+    }
+
+    /**
      * Execute the prepared statement
      *
      * @return bool True if the execution is successful, false otherwise.
@@ -109,6 +123,16 @@ class Database
     }
 
     /**
+     * Get the result of COUNT(*) as an integer
+     *
+     * @return int The count result.
+     */
+    public function fetchCount()
+    {
+        return (int) $this->stmt->fetchColumn();
+    }
+
+    /**
      * Get a single record as an object
      *
      * @return object The single record.
@@ -127,5 +151,20 @@ class Database
     public function rowCount()
     {
         return $this->stmt->rowCount();
+    }
+
+    /**
+     * Get the ID of the last inserted record in a database table
+     * 
+     * This function retrieves the ID of the last inserted record in the database
+     * using the lastInsertId method provided by the PDO database connection,
+     * which is a predefined method in PHP.
+     * 
+     * @return int The ID of the last inserted record
+     */
+    public function lastInsertId()
+    {
+        // retun the last inserted ID
+        return $this->dbh->lastInsertId();
     }
 }
