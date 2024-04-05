@@ -152,7 +152,6 @@ function performAjaxRequest(
           });
 
           break;
-
         case "getAllUsers":
           $("#showUser").html(response.message);
           $("table").DataTable({ order: [0, "desc"] });
@@ -163,11 +162,15 @@ function performAjaxRequest(
         case "countRegularUsers":
           $("#usersNumber").html(response.count);
           break;
-
+        case "nutriRecipesCount":
+          $("#nutriRecipesCount").html(response.count);
+          break;
         case "countNutritionistUsers":
           $("#nutritionistNumber").html(response.count);
           break;
-
+        case "nutriCurrentClients":
+          $("#nutriCurrentClients").html(response.count);
+          break;
         case "countRecipes":
           $("#countRecipes").html(response.count);
           break;

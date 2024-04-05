@@ -59,6 +59,9 @@ class NutritionistController
         exit;
     }
 
+    
+
+
     /**
      * sendNotification
      * 
@@ -115,6 +118,50 @@ class NutritionistController
         }
         exit;
     }
+    /**
+ * Count Nutritionist's Clients
+ * 
+ * Retrieves and returns the count of clients for a given nutritionist.
+ *
+ * @param int $nutritionistId The ID of the nutritionist.
+ * @return void
+ */
+public function countNutritionistClients()
+{
+    $nutritionistId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
+
+    try {
+        $clientsCount = $this->nutriModel->getClientsCountForNutritionist($nutritionistId);
+
+        // Assuming the count is successfully retrieved, send a JSON response
+        echo json_encode(['success' => true, 'count' => $clientsCount]);
+    } catch (\PDOException $e) {
+        // If an error occurs, send a JSON response with the error message
+        echo json_encode(['success' => false, 'message' => 'An error occurred while fetching the client count for the nutritionist.']);
+    }
+    exit; 
+}
+
+/**
+     * Count Recipes for a Creator
+     * 
+     * Retrieves and returns the count of recipes for a given creator.
+     *
+     * @param int $creatorId The ID of the creator.
+     * @return void
+     */
+    public function countRecipesForCreator() {
+
+        $creatorId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
+
+        try {
+            $recipesCount = $this->nutriModel->getRecipesCountForCreator($creatorId);
+
+            // Assuming the count is successfully retrieved, send a JSON response
+            echo json_encode(['success' => true, 'count' => $recipesCount]);
+        } catch (\PDOException $e) {
+            // If an error occurs, send a JSON response with the error message
+            echo json_encode(['success' => false, 'message' => 'An error occurred while fetching the recipe count for the creator.']);
 
     public function getUserProgressForNutritionist()
     {
@@ -155,6 +202,7 @@ class NutritionistController
             echo json_encode(['message' => 'Success', 'data' => $response]);
         } else {
             echo json_encode(['message' => 'No progress data found for the specified nutritionist.']);
+
         }
         exit;
     }

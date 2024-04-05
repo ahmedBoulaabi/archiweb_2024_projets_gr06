@@ -197,11 +197,17 @@ class Router
                     case "getNutriClients":
                         $this->nutriController->getUsersForNutritionist();
                         break;
+                    case "nutriRecipesCount":
+                        $this->nutriController->countRecipesForCreator();
+                        break;
                     case "getUserProgress":
                         $this->nutriController->getUserProgressForNutritionist();
                         break;
                     case "getUsersFromNotifications":
                         $this->userController->getUsersFromNotifications();
+                        break;
+                    case "nutriCurrentClients":
+                        $this->nutriController->countNutritionistClients();
                         break;
 
                     default:

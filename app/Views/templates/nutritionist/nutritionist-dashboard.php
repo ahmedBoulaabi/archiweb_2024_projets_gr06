@@ -81,9 +81,11 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
     <div class="app-header">
       <div class="app-header-left">
         <div class="logo">
+          <a href="dashboard">
           <img src="<?= BASE_APP_DIR ?>/public/images/logo.png" alt="" />
+          </a>
         </div>
-        <p class="app-name">Dashboard</p>
+        <p class="app-name" >Dashboard</p>
         <div class="search-wrapper">
           <input class="search-input" type="text" placeholder="Search">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-search" viewBox="0 0 24 24">
@@ -102,7 +104,7 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
         </button>
 
         <button class="add-btn" title="Add New Client">
-          <a href="#open-modal" style="text-decoration: none;">
+          <a href="#open-modal" style="text-decoration: none; color: white;"> 
             <svg class=" btn-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
@@ -111,7 +113,7 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
         </button>
 
         <button class="notification-btn" alt="Notifications" title="Check notifications">
-          <a href="#open-modal-notifs" id="click-to-show-notif" style="text-decoration: none;">
+          <a href="#open-modal-notifs" id="click-to-show-notif"  style="text-decoration: none; color: white;">
             <svg xmlns=" http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="notif-displayer" class="feather feather-bell">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
@@ -120,7 +122,7 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
         </button>
 
         <button class="profile-btn">
-          <img src="https://assets.codepen.io/3306515/IMG_2025.jpg" />
+          <img src="<?= BASE_APP_DIR ?><?php echo $_SESSION['img'] ?>" />
           <span><?php echo $_SESSION['fullname'] ?></span>
         </button>
       </div>
