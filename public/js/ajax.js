@@ -170,6 +170,9 @@ function handleAjaxResponse(
       redirectHref = "dashboardAdmin?tab=usersList";
       $("#form-data")[0].reset();
       break;
+    case "updateUser":
+      redirectHref = "dashboardAdmin?tab=usersList";
+      break;
     case "addNewRecipe":
       redirectHref = "dashboardAdmin?tab=recipesList";
       $("#recipe-form-data")[0].reset();
@@ -197,7 +200,7 @@ function handleAjaxResponse(
         action != "deleteClient" &&
         action != "insertPlan" &&
         action != "addNewRecipe" &&
-        action != "updateRecipe"
+        action != "updateRecipe" 
       ) {
         window.location.href = redirectHref;
       } else if (redirectHref == "recipes-list") {
@@ -415,7 +418,7 @@ function performAjaxRequest(
             title: `<strong>User Info: ID(${response.data.id})</strong>`,
             icon: "info",
             html: `
-  < div style = "text-align: left;" >
+  <div style ="text-align: left;">
     <b>Full Name:</b> ${response.data.fullname} <br>
       <b>Email:</b> ${response.data.email}<br>
         <b>Gender:</b> ${response.data.gender}<br>
@@ -473,7 +476,34 @@ function performAjaxRequest(
           // Afficher le modal d'édition de la recette
           $("#editRecipeModal").modal("show");
           break;
+        case "loadUserDetails":
+          // Remplir les champs du modal avec les données reçues
+          $("#edit_user_id").val(response.data.id);
+          $("#edit_fname").val(response.data.fullname);
+          $("#edit_email").val(response.data.email);
+          $("#edit_gender").val(response.data.gender);
+          $("#edit_goal").val(response.data.goal);
+          $("#edit_age").val(response.data.age);
+          $("#edit_role").val(response.data.role);
+          $("#edit_height").val(response.data.height);
+          $("#edit_weight").val(response.data.weight);
+          $("#edit_caloriesgoal").val(response.data.daily_caloriegoal);
 
+          
+          // Gérer l'image de la recette
+          if (response.data.image_url) {
+            $("#edit_imageUpload")
+              .next(".custom-file-label")
+              .html(response.data.image_url.split("/").pop());
+          } else {
+            $("#edit_imageUpload")
+              .next(".custom-file-label")
+              .html("Choose file...");
+          }
+
+          // Afficher le modal d'édition de la recette
+          $("#editRecipeModal").modal("show");
+          break;
         case "insertPlan":
           console.log(response.message);
           handleAjaxResponse(

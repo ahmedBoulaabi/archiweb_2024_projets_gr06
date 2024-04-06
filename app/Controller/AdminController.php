@@ -351,6 +351,80 @@ class AdminController
             echo json_encode(['success' => false, 'message' => 'Something went wrong']);
         }
     }
+    /**
+     * Update a user's profile information.
+     *
+     * Processes the form submission, sanitizes input, handles profile image upload (if provided),
+     * and updates the user's information in the database. It checks for existing user data, sanitizes
+     * input fields, and includes optional profile image file upload handling. Responds with JSON
+     * indicating success or failure of the update operation.
+     *
+     * @return void Outputs JSON response.
+     */
+    public function updateUser(){
+         // Check if a new file was uploaded and handle the file upload first
+        $newImageUploadPath = ''; // Default value if no new file is uploaded
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["edit_imageUpload"])) {
+            $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/archiweb_2024_projets_gr06/public/images/profile-images/';
+            $fileName = basename($_FILES["edit_imageUpload"]["name"]);
+            $targetFilePath = $targetDir . $fileName;
+
+            // Optional: Validate file size and type here before proceeding with the upload
+
+            // Create the target directory if it doesn't exist
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            // Attempt to move the uploaded file to the target directory
+            if (move_uploaded_file($_FILES["edit_imageUpload"]["tmp_name"], $targetFilePath)) {
+                $newImageUploadPath = '/public/images/profile-images/' . $fileName;
+            } else {
+                // Handle file upload failure
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'File upload failed']);
+                exit; // Stop execution if file upload fails
+            }
+        }
+
+        // Sanitize input data for user update
+        $id = trim($_POST['edit_user_id'] ?? '');
+        $firstname = trim($_POST['edit_fname'] ?? '');
+        $email = trim($_POST['edit_email'] ?? '');
+        $gender = trim($_POST['edit_gender'] ?? '');
+        $goal = trim($_POST['edit_goal'] ?? '');
+        $age = trim($_POST['edit_age'] ?? '');
+        $role = trim($_POST['edit_role'] ?? '');
+        $height = trim($_POST['edit_height'] ?? '');
+        $weight = trim($_POST['edit_weight'] ?? '');
+        $caloriesgoal = trim($_POST['edit_caloriesgoal'] ?? '');
+
+        // Assumption: $newImageUploadPath is set elsewhere in your script, after processing any uploaded file
+        // For example, after checking and moving the uploaded file to a permanent location
+
+        $data = [
+            'id' => $id,
+            'firstname' => $firstname,
+            'email' => $email,
+            'gender' => $gender,
+            'goal' => $goal,
+            'age' => (int) $age, // Casting to int for safety
+            'role' => $role,
+            'height' => (int) $height, // Casting to int for safety
+            'weight' => (int) $weight, // Casting to int for safety
+            'caloriesgoal' => (int) $caloriesgoal, // Casting to int for safety
+            'image' => $newImageUploadPath ?? ''
+        ];
+
+        // Attempt to update the recipe
+        if ($this->adminModel->updateUser($data)) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'message' => 'User updated successfully']);
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Something went wrong']);
+        }
+    }
 
     /**
      * Add a new Recipe with image.

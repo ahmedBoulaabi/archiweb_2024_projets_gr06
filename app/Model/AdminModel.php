@@ -315,6 +315,45 @@ class AdminModel
         }
     }
 
+
+    /**
+     * Update User Data in Database
+     *
+     * Prepares the SQL query to update user data in the database. Binds the input data to the query parameters
+     * and executes the query. If successful, returns true; otherwise, catches and handles any database exceptions,
+     * returning false.
+     *
+     * @param array $data An associative array containing the updated user data. Expected keys are 'id', 'firstname',
+     *                    'email', 'gender', 'goal', 'age', 'role', 'height', 'weight', and 'caloriesgoal'.
+     * @return bool Returns true if the user data was successfully updated in the database, false otherwise.
+     */
+    public function updateUser($data)
+    {
+        // Prépare la requête SQL pour mettre à jour les données de l'utilisateur dans la base de données.
+        $this->db->query('UPDATE users SET fullname = :fullname, email = :email, gender = :gender, goal = :goal, age = :age, role = :role, height = :height, weight = :weight, daily_caloriegoal = :daily_caloriegoal WHERE id = :id');
+
+        // Lie les paramètres à la requête.
+        $this->db->bind(':id', $data['id']);
+        $this->db->bind(':fullname', $data['firstname']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':gender', $data['gender']);
+        $this->db->bind(':goal', $data['goal']);
+        $this->db->bind(':age', $data['age']);
+        $this->db->bind(':role', $data['role']);
+        $this->db->bind(':height', $data['height']);
+        $this->db->bind(':weight', $data['weight']);
+        $this->db->bind(':daily_caloriegoal', $data['caloriesgoal']);
+
+        // Exécute la requête et gère les exceptions.
+        try {
+            return $this->db->execute();
+        } catch (\PDOException $e) {
+            // Log ou gère l'erreur de base de données en conséquence.
+            echo "Database error: " . $e->getMessage();
+            return false;
+        }
+    }
+
     /**
      * Add New Recipe
      * 
