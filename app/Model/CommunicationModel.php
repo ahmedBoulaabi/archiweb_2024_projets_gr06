@@ -4,6 +4,11 @@ namespace Manger\Model;
 
 use Config\Database;
 
+/**
+ * CommunicationModel
+ * 
+ * Handles communication between a nutritionist and their client
+ */
 class CommunicationModel
 {
 
