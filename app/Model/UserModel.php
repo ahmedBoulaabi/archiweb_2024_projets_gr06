@@ -564,7 +564,7 @@ class UserModel
     {
         $userId = $_SESSION['id']; //  user ID from the session
         // Insert into the `plans` table
-        $planName = $plan_name ??  "Default Plan for User " . $userId;
+        $planName = $plan_name ?? "Default Plan for User " . $userId;
         $creatorId = $_SESSION['id']; //  user ID from the session
         $type = "Your Plan Type"; // You can define a type for the plan
         $sql = "INSERT INTO plans (name, period, total_length, creator, type) VALUES (:name, :period, :total_length, :creator, :type)";
@@ -679,7 +679,7 @@ class UserModel
      */
     function getRecipesAndDay($planId)
     {
-        $sql = "SELECT r.*, pr.date FROM recipes r JOIN plan_recipes pr ON r.id = pr.recipe_id WHERE pr.plan_id = :planId";
+        $sql = "SELECT r.*, pr.* FROM recipes r JOIN plan_recipes pr ON r.id = pr.recipe_id WHERE pr.plan_id = :planId";
         $this->db->query($sql);
         $this->db->bind(':planId', $planId);
         $recipes = $this->db->resultSet();
@@ -703,6 +703,7 @@ class UserModel
         $plan = $this->getUserPlan($userId);
         $planId = $plan->id;
         $planInfo = $this->getPlanInfo($planId);
+        $planInfo->creation_date = $plan->creation_date;
         $planRecipesDetails = $this->getRecipesAndDay($planId);
         $result = array(
             'planData' => $planInfo,
@@ -710,4 +711,57 @@ class UserModel
         );
         return $result;
     }
+
+    /**
+     * toggleRecipeConsumed
+     * 
+     * Toggles the consumed status of a specific recipe in a user's plan. It first retrieves the current 
+     * consumed status for the specified recipe_id from the plan_recipe table. Then, it inverts the status
+     * (if it was 0, it sets it to 1 and vice versa). This functionality allows tracking whether a recipe
+     * planned for a specific day has been consumed by the user.
+     * 
+     * This method assumes that each recipe_id is unique within the plan_recipe table and that
+     * the consumed column is a tinyint(1) where 0 represents not consumed and 1 represents consumed.
+     * 
+     * @param int $recipeId The unique identifier for the recipe whose consumed status is to be toggled.
+     * 
+     * @return bool Returns true if the consumed status is successfully toggled. If the recipe is not found,
+     *              or if the database operation fails, it returns false. In case of a database error, an
+     *              error message is displayed.
+     */
+
+    function toggleRecipeConsumed($recipeId)
+    {
+        $sql = "SELECT consumed FROM plan_recipes WHERE id = :recipe_id";
+        $this->db->query($sql);
+        $this->db->bind(':recipe_id', $recipeId);
+
+        try {
+            $currentConsumedState = $this->db->single();
+
+            if ($currentConsumedState === false) {
+                echo "Recipe not found.";
+                return false;
+            }
+
+            $newConsumedState = $currentConsumedState->consumed == 1 ? 0 : 1;
+
+            $updateSql = "UPDATE plan_recipes SET consumed = :new_consumed WHERE id = :recipe_id";
+            $this->db->query($updateSql);
+            $this->db->bind(':new_consumed', $newConsumedState);
+            $this->db->bind(':recipe_id', $recipeId);
+
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (\PDOException $e) {
+            // Handle exception
+            echo "Database error: " . $e->getMessage();
+            return false;
+        }
+    }
+
 }
