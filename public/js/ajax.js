@@ -488,6 +488,8 @@ function performAjaxRequest(
 
           if (response.message === "PlanExist") {
             localStorage.setItem("recipes", JSON.stringify(response.data));
+            localStorage.setItem("planInfo", JSON.stringify(response.planInfo));
+            // console.log(response.data);
             lienActuel = window.location.href;
             if (
               lienActuel ==
@@ -499,17 +501,49 @@ function performAjaxRequest(
                 "&duration=" +
                 response.planInfo["total_length"];
             }
+
+            let creationDate = new Date(response.planInfo["creation_date"]);
+            let currentDate = new Date();
+            let differenceInTime =
+              currentDate.getTime() - creationDate.getTime();
+            let differenceInDays = differenceInTime / (1000 * 3600 * 24);
+            let totalLength = parseInt(response.planInfo["total_length"], 10);
+            let daysLeft = Math.ceil(totalLength - differenceInDays);
+            let progressPercentage = (differenceInDays / totalLength) * 100;
+            progressPercentage = Math.min(100, Math.max(0, progressPercentage));
+
             $("#userHavePlan").show();
             $("#userNotHavePlan").hide();
             $("#planNameId").html(response.planInfo["name"]);
             $("#periodValue").html(response.planInfo["period"]);
             $("#durationValue").html(response.planInfo["total_length"]);
+            $("#days-left").html(daysLeft + " Days Left");
+            $("#progress-val").html(progressPercentage.toFixed(2) + "%");
+            $(".box-progress").css(
+              "width",
+              progressPercentage.toFixed(2) + "%"
+            );
+            console.log(response.planInfo);
           } else if (response.message === "noPlanExist") {
             $("#userHavePlan").hide();
             $("#userNotHavePlan").show();
           }
           break;
-
+        case "toggleRecipeConsumed":
+          var success = response.success;
+          if (success) {
+            Swal.fire({
+              title: "Toggle Consume",
+              text: "You have toggled consume on this recipe!",
+              icon: "success",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // window.location.reload(true);
+                performAjaxRequest("POST", "UserHavePlan", "", "", "");
+              }
+            });
+          }
+          break;
         case "getDiscussion":
           console.log(response)
           if (response.success) {
