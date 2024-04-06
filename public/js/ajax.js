@@ -415,7 +415,7 @@ function performAjaxRequest(
             title: `<strong>User Info: ID(${response.data.id})</strong>`,
             icon: "info",
             html: `
-  < div style = "text-align: left;" >
+  <div style ="text-align: left;">
     <b>Full Name:</b> ${response.data.fullname} <br>
       <b>Email:</b> ${response.data.email}<br>
         <b>Gender:</b> ${response.data.gender}<br>
