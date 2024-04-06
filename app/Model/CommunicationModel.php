@@ -4,6 +4,11 @@ namespace Manger\Model;
 
 use Config\Database;
 
+/**
+ * CommunicationModel
+ * 
+ * Handles communication between a nutritionist and their client
+ */
 class CommunicationModel
 {
 
@@ -69,6 +74,8 @@ class CommunicationModel
                 $this->db->query($sql);
                 $this->db->bind(':nutri_id', $ownID);
                 $result = $this->db->resultArray(true);
+            } else { // cas admin
+                return ['error' => "empty"];
             }
 
             return $result;
@@ -168,8 +175,8 @@ class CommunicationModel
                     return ['error' => $e->getMessage()];
                 }
             }
+        } else { // cas pour l'admin
+            return ['error' => "empty"];
         }
-
-        //return $result ?? false;
     }
 }

@@ -51,7 +51,6 @@ class CommunicationController
      */
     public function getDiscussion($clientID = null)
     {
-        //header('Content-Type: application/json');
         $ownID = $_SESSION['id'];
         $role = $_SESSION['role'];
 
@@ -66,13 +65,14 @@ class CommunicationController
                 $arrayMessage = $this->commModel->getDiscussion($ownID, $nutriID, $role);
             }
         } else if ($role == "Nutritionist") {
-
             $arrayMessage = $this->commModel->getDiscussion($ownID, $clientID, $role);
+        } else { // cas admin
+            $arrayMessage['error'] = "empty";
         }
 
         //var_dump($arrayMessage);
-        if (isset($arrayMessage['error'])) {
-            echo json_encode(['success' => false, 'ownID' => $ownID, 'role' => $role, 'data' => $arrayMessage['error'], 'clientID' => $clientID ?? "", 'nutriID' => $nutriID ?? ""]);
+        if (isset($arrayMessage['error'])) { // si juste empty, success sera true, si erreur success sera faux
+            echo json_encode(['success' => $arrayMessage['error'] == "empty", 'ownID' => $ownID, 'role' => $role, 'data' => $arrayMessage['error'], 'clientID' => $clientID ?? "", 'nutriID' => $nutriID ?? ""]);
         } else if (isset($arrayMessage)) {
             // Gérer la réponse réussie
             echo json_encode(['success' => true, 'ownID' => $ownID, 'role' => $role,  'data' => $arrayMessage]);
@@ -89,11 +89,14 @@ class CommunicationController
      */
     public function getMessagesFromAConvo()
     {
-        if ($_SESSION['role'] == "Regular") {
+        $role = $_SESSION['role'];
+        if ($role == "Regular") {
             $this->getDiscussion();
-        } else {
+        } else if ($role == "Nutritionist") {
             $clientID = $_GET['receiverId'];
             $this->getDiscussion($clientID);
+        } else { // cas admin
+            echo json_encode(['success' => true, 'role' => $role,  'data' => "Not concerned"]);
         }
     }
 }

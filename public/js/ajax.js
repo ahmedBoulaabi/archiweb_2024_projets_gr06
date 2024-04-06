@@ -576,21 +576,26 @@ function performAjaxRequest(
           break;
         case "getDiscussion":
           console.log(response)
+          var role = response.role
+          if (role == "Admin") {
+            displayNoNutritionist(0) // cas où il n'y a pas encore de message 
+          }
           if (response.success) {
-            if (response.role == "NoNutritionist") {
-              displayNoNutritionist(null) // cas où il n'y a pas de nutritioniste
-            } else {
-              displayConversations(response)
-            }
-          } else {
-            if (response.data == "empty") {
-              if (response.role == "Regular") {
+
+            if (response.data == "empty") { // requete fonctionne, mais pas de message à afficher
+              if (role == "Regular") {
                 displayNoNutritionist(response.nutriID) // cas où il n'y a pas encore de message 
               } else {
                 displayNoNutritionist(response.clientID) // cas où il n'y a pas encore de message 
-
+              }
+            } else { // requete fonctionne, messages à afficher
+              if (role == "NoNutritionist") {
+                displayNoNutritionist(null) // cas où il n'y a pas de nutritioniste
+              } else {
+                displayConversations(response)
               }
             }
+          } else {
             console.log("La requête n'a pas réussie.");
             console.log(response.data)
           }
@@ -598,9 +603,8 @@ function performAjaxRequest(
 
         case "getMessagesFromAConvo":
           wholeDiscussion = ""
-          console.log(response.success)
-          console.log("voilà la data " + response.data)
-          if (response.success) {
+
+          if (response.success && response.data != "empty") {
             for (numMessage in response.data) { // ajout des différents messages dans la div de conversation
               if (response.data[numMessage].etat != 1) { // ignore le message par défaut
                 wholeDiscussion = formatMessage(response.data[numMessage], response.ownID) + wholeDiscussion
@@ -609,8 +613,6 @@ function performAjaxRequest(
             $('#conversationMessages').html(wholeDiscussion)
           }
 
-
-          console.log(response)
           // mettre le nom de l'interlocuteur pour savoir à qui on parle
           const modalTitle = document.querySelector('.modal-title');
           if (modalTitle && response.data[0].interlocutor_fullname) {
