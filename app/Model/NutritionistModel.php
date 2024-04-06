@@ -151,31 +151,31 @@ class NutritionistModel
     }
 
     /**
- * Get Count of Clients for a Nutritionist
- *
- * Returns the number of clients for a given nutritionist ID.
- *
- * @param int $nutritionistId The ID of the nutritionist.
- * @return int The count of clients for the given nutritionist.
- */
-public function getClientsCountForNutritionist($nutritionistId)
-{
-    $sql = "SELECT COUNT(*) AS clientCount FROM nutritionist_client WHERE nutritionist_id = :nutritionistId";
+     * Get Count of Clients for a Nutritionist
+     *
+     * Returns the number of clients for a given nutritionist ID.
+     *
+     * @param int $nutritionistId The ID of the nutritionist.
+     * @return int The count of clients for the given nutritionist.
+     */
+    public function getClientsCountForNutritionist($nutritionistId)
+    {
+        $sql = "SELECT COUNT(*) AS clientCount FROM nutritionist_client WHERE nutritionist_id = :nutritionistId";
 
-    $this->db->query($sql);
-    $this->db->bind(':nutritionistId', $nutritionistId);
-    $this->db->execute();
+        $this->db->query($sql);
+        $this->db->bind(':nutritionistId', $nutritionistId);
+        $this->db->execute();
 
-    $row = $this->db->single();
+        $row = $this->db->single();
 
-    if ($row) {
-        return $row->clientCount;
-    } else {
-        return 0;
+        if ($row) {
+            return $row->clientCount;
+        } else {
+            return 0;
+        }
     }
-}
 
- /**
+    /**
      * Get Count of Recipes for a Creator
      *
      * Returns the number of recipes created by a given creator ID.
@@ -183,7 +183,8 @@ public function getClientsCountForNutritionist($nutritionistId)
      * @param int $creatorId The ID of the creator.
      * @return int The count of recipes for the given creator.
      */
-    public function getRecipesCountForCreator($creatorId) {
+    public function getRecipesCountForCreator($creatorId)
+    {
         $sql = "SELECT COUNT(*) AS recipeCount FROM recipes WHERE creator = :creatorId";
 
         $this->db->query($sql);
@@ -198,6 +199,59 @@ public function getClientsCountForNutritionist($nutritionistId)
             return 0; // In case of no recipes or an error
         }
     }
+
+    /**
+     * getUserProgressForNutritionist
+     * 
+     * Retrieves progress information for all clients managed by a specific nutritionist. This includes details
+     * about each user's progress with their dietary plan, the total length of their plan, and the creation date
+     * of their plan. Additionally, it calculates the overall progress percentage based on the current date 
+     * relative to the plan's start and total length. The function also aggregates the total number of users, 
+     * the number of users who have not completed their plan, and the number of users who have completed their plan.
+     * 
+     * The method joins several tables: users, nutritionist_client, user_plan, and plans, to gather the required
+     * information. It filters records based on the provided nutritionist ID, ensuring that only clients associated 
+     * with the specified nutritionist are considered.
+     * 
+     * @param int $nutritionistId The unique identifier for the nutritionist whose clients' progress is being queried.
+     * 
+     * @return array|false Returns an array of objects where each object contains the user details along with their
+     *                     plan progress, total users under the nutritionist, the count of users not completed, and
+     *                     the count of users completed. If no records are found, or in the case of a query failure,
+     *                     returns false.
+     * 
+     * The progress calculation is dynamic and reflects the user's progression through their plan as of the current date.
+     * This function is particularly useful for nutritionists looking to monitor the status and progress of their clients'
+     * dietary plans.
+     */
+
+
+    /**
+     * getUserProgressForNutritionist
+     * 
+     * Retrieves the progress data for all clients associated with a specific nutritionist.
+     *
+     * This method fetches detailed progress information for each client managed by a specified nutritionist.
+     * It includes each client's ID, full name, email, dietary goal, profile image, progress on their dietary plan
+     * (as a percentage), and the creation date of their plan. Additionally, it calculates overall statistics such
+     * as the total number of users managed by the nutritionist, the number of users who have not completed their
+     * plan, and the number of users who have completed their plan.
+     *
+     * The progress percentage is calculated based on the current date relative to the plan's start date and total
+     * length, ensuring that the progress reflects real-time information. This method is particularly useful for
+     * nutritionists looking to monitor the status and progress of their clients' dietary plans.
+     *
+     * @return void Outputs a JSON-encoded array containing a success message and the data array if progress data
+     *         is found for the specified nutritionist. The data array includes keys for 'total_users', 'not_completed',
+     *         'completed', and 'users_progress'. The 'users_progress' key contains an array of user progress information,
+     *         each including 'user_id', 'fullname', 'email', 'goal', 'img', 'plan_progress', and 'plan_creation_date'.
+     *         If no progress data is found or if the nutritionist ID is not provided, outputs a JSON-encoded array
+     *         containing an error message.
+     *
+     * The method assumes the presence of a 'nutri_id' parameter in the request, identifying the nutritionist whose
+     * client progress data is to be retrieved. It relies on the nutriModel's `getUserProgressForNutritionist` method
+     * to fetch the necessary data from the database.
+     */
 
     public function getUserProgressForNutritionist($nutritionistId)
     {
