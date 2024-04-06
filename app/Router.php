@@ -61,7 +61,7 @@ class Router
         $requestedRaw = isset($uriSegments[2]) ? $uriSegments[2] : "";
 
         // Separate the action from any following query string that starts unusually with '&'
-        list($requested, ) = explode('&', $requestedRaw, 2);
+        list($requested,) = explode('&', $requestedRaw, 2);
 
         $controller = "user"; // Default controller
 
@@ -70,7 +70,7 @@ class Router
             $controller = $requested;
             $requested = isset($uriSegments[3]) ? $uriSegments[3] : "";
             // Again, separate the actual request from any unconventional query string
-            list($requested, ) = explode('&', $requested, 2);
+            list($requested,) = explode('&', $requested, 2);
         }
 
         // Fallback to "login" if no specific action is requested

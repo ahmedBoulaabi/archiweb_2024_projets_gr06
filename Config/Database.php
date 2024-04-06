@@ -130,6 +130,13 @@ class Database
         return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
+    /**
+     * Get result set as an array. Si fetchDiscussion est set,
+     * on organise le tout dans un tableau précis
+     *
+     * @param  mixed $fetchDiscussion
+     * @return array
+     */
     public function resultArray($fetchDiscussion = false)
     {
         $this->execute();
@@ -144,7 +151,7 @@ class Database
             $data[] = (array) $result;
         }
 
-        // Utilisez un tableau cohérent pour indiquer qu'il n'y a pas de résultats
+        // tableau cohérent pour indiquer qu'il n'y a pas de résultats
         if (empty($data)) {
             return ['error' => 'empty'];
         }

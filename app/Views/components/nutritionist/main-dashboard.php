@@ -12,7 +12,6 @@
 </style>
 <div class="projects-section">
   <div class="projects-section-header">
-
     <p>Clients to manage</p>
     <p class="time">
       <?= date('F d, Y') ?>
@@ -21,7 +20,6 @@
   <div class="projects-section-line">
     <div class="projects-status">
       <div class="item-status">
-
         <span class="status-number" id="in-progress">0</span>
         <span class="status-type">In Progress</span>
       </div>
@@ -40,8 +38,11 @@
     </p>
 
   </div>
-</div>
+  <div class="project-boxes jsGridView" id="project-boxes">
 
+
+  </div>
+</div>
 <div class="messages-section">
   <button class="messages-close">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle">
@@ -85,6 +86,11 @@
 
 <script>
   $(document).ready(function() {
+    var sessionId = '<?php echo $_SESSION['id'] ?>';
+    var additionalData = "&nutri_id=" + sessionId;
+    console.log(additionalData)
+    performAjaxRequest("GET", "getUserProgress", additionalData, "", "");
+
     function getDiscussion() {
       performAjaxRequest(
         "GET",
@@ -94,12 +100,7 @@
         ""
       );
     }
-    var sessionId = '<?php echo $_SESSION['id'] ?>';
-    var additionalData = "&nutri_id=" + sessionId;
-    console.log("data " + sessionId);
-    performAjaxRequest("GET", "getUserProgress", additionalData, "", "");
 
     getDiscussion()
   });
-
 </script>

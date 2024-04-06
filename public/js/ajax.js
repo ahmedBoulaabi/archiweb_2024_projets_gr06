@@ -277,6 +277,7 @@ function performAjaxRequest(
               return; // Skip this client and move on to the next one
             }
 
+
             const goal = client.goal; // Assuming row.goal contains the goal information
             const backgroundColor = backgroundColors[goal] || '#ffffff';
             const spanColor = spanColors[goal] || '#ffffff';
