@@ -32,10 +32,10 @@ if ($_SESSION['role'] == "Regular") {
   <title>Dashboard</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/colors.css" />
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/globals.css" />
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
 <body>
@@ -101,9 +101,7 @@ if ($_SESSION['role'] == "Regular") {
                     <span>February 17, 2024</span>
                     <div class="more-wrapper">
                       <a href="<?= BASE_APP_DIR ?>/planning" class="project-btn-more">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                          stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          class="feather feather-more-vertical">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
                           <circle cx="12" cy="12" r="1" />
                           <circle cx="12" cy="5" r="1" />
                           <circle cx="12" cy="19" r="1" />
@@ -139,6 +137,40 @@ if ($_SESSION['role'] == "Regular") {
 
             </div>
           </div>
+          <?php if ($_SESSION['role'] == "Regular") : ?>
+            <div class="col-lg-6 messages-section" style="max-width: 500px;">
+              <h5 class="fw-bold ">Discussion</h5>
+              <div href="#" class="container bg-main rounded-3 messages" id="discussion-class" style="height: 120px;">
+
+              </div>
+            </div>
+          <?php endif; ?>
+
+
+          <!-- form pour message -->
+          <div id="open-modal-message" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Send a message</h5>
+
+                </div>
+                <div class="modal-body" style="height: 50vh;">
+                  <!-- Message form -->
+                  <form id="message-form" style="display: flex; align-items: center; justify-content: flex-end; gap: 12px;">
+                    <input type="text" class="form-control" name="message" id="message" placeholder="Enter your message">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                  </form>
+                  <div id="conversationMessages" class="card-body msg_card_body">
+                    <!-- messages apparaitront ici -->
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
 
           <!-- HERE WE PUT THE DAILY MEALS -->
           <div class="col-12" style="">
@@ -150,11 +182,8 @@ if ($_SESSION['role'] == "Regular") {
                 include VIEWSDIR . DS . 'components' . DS . 'user' . DS . 'dashboard' . DS . 'meal.php';
                 ?>
 
-                <div class="d-flex flex-column justify-content-center bg-bg p-4 rounded"
-                  style="width: fit-content; width: 250px">
-                  <img
-                    style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);"
-                    src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
+                <div class="d-flex flex-column justify-content-center bg-bg p-4 rounded" style="width: fit-content; width: 250px">
+                  <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);" src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
                   <p class="fw-bold text-main text-center" style="font-size: 20px; padding-top: 0px;">Add new Item</p>
                 </div>
               </div>
@@ -166,9 +195,25 @@ if ($_SESSION['role'] == "Regular") {
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
   <script src="<?= BASE_APP_DIR ?>/public/js/notification.js"></script>
+
 </body>
 
 </html>
+<script>
+  $(document).ready(function() {
+    function getDiscussion() {
+      performAjaxRequest(
+        "GET",
+        "getDiscussion",
+        "",
+        "",
+        ""
+      );
+    }
+
+    getDiscussion()
+  });
+</script>

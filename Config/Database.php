@@ -80,8 +80,10 @@ class Database
                 case is_null($value):
                     $type = \PDO::PARAM_NULL;
                     break;
+
                 default:
                     $type = \PDO::PARAM_STR;
+                    break;
             }
         }
         $this->stmt->bindValue($param, $value, $type);
@@ -108,8 +110,14 @@ class Database
      */
     public function execute()
     {
-        return $this->stmt->execute();
+        try {
+            return $this->stmt->execute();
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
+
 
     /**
      * Get result set as an array of associative arrays
@@ -120,6 +128,35 @@ class Database
     {
         $this->execute();
         return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
+
+    /**
+     * Get result set as an array. Si fetchDiscussion est set,
+     * on organise le tout dans un tableau précis
+     *
+     * @param  mixed $fetchDiscussion
+     * @return array
+     */
+    public function resultArray($fetchDiscussion = false)
+    {
+        $this->execute();
+        $results = $this->stmt->fetchAll(\PDO::FETCH_OBJ);
+
+        if ($fetchDiscussion == false) {
+            return $results;
+        }
+
+        $data = [];
+        foreach ($results as $result) {
+            $data[] = (array) $result;
+        }
+
+        // tableau cohérent pour indiquer qu'il n'y a pas de résultats
+        if (empty($data)) {
+            return ['error' => 'empty'];
+        }
+
+        return $data;
     }
 
     /**

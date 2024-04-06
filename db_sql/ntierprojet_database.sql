@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3308
--- Généré le : sam. 27 jan. 2024 à 15:17
--- Version du serveur : 10.4.22-MariaDB
--- Version de PHP : 8.1.2
+-- Hôte : 127.0.0.1
+-- Généré le : sam. 06 avr. 2024 à 01:46
+-- Version du serveur : 10.4.32-MariaDB
+-- Version de PHP : 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `bd_nitru`
+-- Base de données : `nitru`
 --
 
 -- --------------------------------------------------------
@@ -34,7 +34,21 @@ CREATE TABLE `ingredients` (
   `serving_size` float DEFAULT NULL,
   `unity_of_measure` varchar(255) DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `notif_id` int(11) NOT NULL,
+  `sender_id` int(11) DEFAULT NULL,
+  `receiver_id` int(11) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -46,7 +60,38 @@ CREATE TABLE `nutritionist_client` (
   `client_id` int(11) NOT NULL,
   `nutritionist_id` int(11) NOT NULL,
   `modified_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `nutritionist_client`
+--
+
+INSERT INTO `nutritionist_client` (`client_id`, `nutritionist_id`, `modified_date`) VALUES
+(41, 45, '2024-04-04 23:36:07'),
+(42, 45, '2024-04-04 23:36:07'),
+(43, 45, '2024-04-04 17:07:23'),
+(47, 45, '2024-04-09 17:29:39');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nutri_requests`
+--
+
+CREATE TABLE `nutri_requests` (
+  `id` int(8) NOT NULL,
+  `nutri_id` int(8) NOT NULL,
+  `etat` varchar(250) NOT NULL DEFAULT 'pending',
+  `proof` varchar(250) NOT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `nutri_requests`
+--
+
+INSERT INTO `nutri_requests` (`id`, `nutri_id`, `etat`, `proof`, `created_date`) VALUES
+(5, 41, 'pending', 'test', '2024-04-06');
 
 -- --------------------------------------------------------
 
@@ -62,7 +107,15 @@ CREATE TABLE `plans` (
   `median_caloric_value` float DEFAULT NULL,
   `creator` int(11) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `plans`
+--
+
+INSERT INTO `plans` (`id`, `name`, `period`, `total_length`, `median_caloric_value`, `creator`, `type`) VALUES
+(1, 'test1', 7, 28, NULL, 41, NULL),
+(2, 'Test', 14, 30, 2200, 42, NULL);
 
 -- --------------------------------------------------------
 
@@ -74,8 +127,8 @@ CREATE TABLE `plan_recipes` (
   `id` int(11) NOT NULL,
   `plan_id` int(11) DEFAULT NULL,
   `recipe_id` int(11) DEFAULT NULL,
-  `date` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -89,7 +142,7 @@ CREATE TABLE `pwdreset` (
   `pwdResetSelector` text NOT NULL,
   `pwdResetToken` longtext NOT NULL,
   `pwdResetExpires` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `pwdreset`
@@ -105,32 +158,35 @@ INSERT INTO `pwdreset` (`pwdResetId`, `pwdResetEmail`, `pwdResetSelector`, `pwdR
 --
 
 CREATE TABLE `recipes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `calories` float DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
   `visibility` tinyint(1) DEFAULT NULL,
   `creation_date` datetime DEFAULT NULL,
-  `creator` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)  -- Define `id` as the primary key
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `creator` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `recipes`
 --
 
 INSERT INTO `recipes` (`id`, `name`, `calories`, `type`, `image_url`, `visibility`, `creation_date`, `creator`) VALUES
-(1, 'Green Smoothie Bowl', 350, 'breakfast', 'https://hungryhealthyhappy.com/wp-content/uploads/2014/08/Smoothie-Bowl-1.jpg', 1, '2024-01-27 00:00:00', 41),
-(2, 'Quinoa Salad', 450, 'lunch', 'https://cdn.loveandlemons.com/wp-content/uploads/2020/08/quinoa-salad-recipes-580x763.jpg', 1, '2024-01-27 00:00:00', 41),
-(3, 'Grilled Salmon with Asparagus', 500, 'dinner', 'https://www.eatwell101.com/wp-content/uploads/2019/03/baked-salmon-in-foil-recipe.jpg', 1, '2024-01-27 00:00:00', 41),
-(4, 'Avocado Toast', 250, 'breakfast', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.eatingwell.com%2Frecipe%2F8029771%2Favocado-toast-recipe%2F&psig=AOvVaw0QeKNNnShWZCMOkr1p3k7g&ust=1710691468004000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCODK-buU-YQDFQAAAAAdAAAAABAE', 1, '2024-01-27 00:00:00', 41),
-(5, 'Tomato Basil Soup', 175, 'lunch', 'https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_1:1/k%2FPhoto%2FRecipes%2F2019-08-Recipe-Best-Tomato-Basil-Soup%2FTomato_Basil_Soup_067', 1, '2024-01-27 00:00:00', 41),
-(6, 'Chicken Caesar Salad', 400, 'lunch', 'https://s23209.pcdn.co/wp-content/uploads/2023/01/220905_DD_Chx-Caesar-Salad_051.jpg', 1, '2024-01-27 00:00:00', 41),
-(7, 'Beef Stir Fry', 550, 'dinner', 'https://khinskitchen.com/wp-content/uploads/2023/03/beef-stir-fry-01.jpg', 1, '2024-01-27 00:00:00', 41),
-(8, 'Vegetable Curry', 300, 'dinner', 'https://images.immediate.co.uk/production/volatile/sites/30/2022/06/Courgette-curry-c295fa0.jpg?resize=768,574', 1, '2024-01-27 00:00:00', 41),
-(9, 'Berry Yogurt Parfait', 220, 'snack', 'https://foolproofliving.com/wp-content/uploads/2017/12/Greek-Yogurt-Parfait-Recipe.jpg', 1, '2024-01-27 00:00:00', 41),
-(10, 'Peanut Butter Banana Smoothie', 350, 'snack', 'https://www.delscookingtwist.com/wp-content/uploads/2023/09/Peanut-Butter-Banana-Smoothie_1-730x1095.jpg', 1, '2024-01-27 00:00:00', 41);
+(1, 'Green Smoothie Bowl', 350, 'breakfast', 'http://example.com/images/green_smoothie_bowl.jpg', 1, '2024-01-27 00:00:00', 41),
+(2, 'Quinoa Salad', 450, 'lunch', 'http://example.com/images/quinoa_salad.jpg', 1, '2024-01-27 00:00:00', 41),
+(3, 'Grilled Salmon with Asparagus', 500, 'dinner', 'http://example.com/images/grilled_salmon_asparagus.jpg', 1, '2024-01-27 00:00:00', 41),
+(4, 'Avocado Toast', 250, 'breakfast', 'http://example.com/images/avocado_toast.jpg', 1, '2024-01-27 00:00:00', 41),
+(5, 'Tomato Basil Soup', 175, 'lunch', 'http://example.com/images/tomato_basil_soup.jpg', 1, '2024-01-27 00:00:00', 41),
+(6, 'Chicken Caesar Salad', 400, 'lunch', 'http://example.com/images/chicken_caesar_salad.jpg', 1, '2024-01-27 00:00:00', 41),
+(7, 'Beef Stir Fry', 550, 'dinner', 'http://example.com/images/beef_stir_fry.jpg', 1, '2024-01-27 00:00:00', 41),
+(9, 'Berry Yogurt Parfait', 220, 'snack', 'http://example.com/images/berry_yogurt_parfait.jpg', 1, '2024-01-27 00:00:00', 41),
+(10, 'Peanut Butter Banana Smoothie', 350, 'snack', 'http://example.com/images/peanut_butter_banana_smoothie.jpg', 1, '2024-01-27 00:00:00', 41),
+(12, 'jhzd', 77, 'breakfast', '/public/images/recipesImages/Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 45),
+(14, 'jj', 7897, 'breakfast', '/public/images/recipesImages/Annotation 2023-11-10 011721.png', 0, '2024-03-29 00:00:00', 45),
+(15, '79879', 7987, 'breakfast', '/public/images/recipesImages/Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 43),
+(16, '98789', 98798, 'breakfast', '/public/images/recipesImages/Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 43);
+
 -- --------------------------------------------------------
 
 --
@@ -141,7 +197,7 @@ CREATE TABLE `recipe_ingredient` (
   `id` int(11) NOT NULL,
   `recipe_id` int(11) DEFAULT NULL,
   `ingredient_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -155,7 +211,7 @@ CREATE TABLE `users` (
   `password` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `active` int(11) NOT NULL,
-  `creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creation_date` datetime NOT NULL DEFAULT current_timestamp(),
   `age` int(11) DEFAULT NULL,
   `role` varchar(250) NOT NULL DEFAULT 'Regular',
   `height` int(11) DEFAULT NULL,
@@ -163,25 +219,22 @@ CREATE TABLE `users` (
   `daily_caloriegoal` int(11) DEFAULT NULL,
   `gender` varchar(250) DEFAULT NULL,
   `goal` varchar(250) DEFAULT NULL,
-  `img` varchar(250) DEFAULT '/public/images/default-user.png'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `img` varchar(250) DEFAULT '/public/images/default-user.png',
+  `total_clients` int(8) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Index pour la table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `password`, `email`, `active`, `creation_date`, `age`, `role`, `height`, `weight`, `daily_caloriegoal`, `gender`, `goal`, `img`) VALUES
-(41, 'Ahmed Boulaabi', '$2y$10$7jAEIB7zXKP5M0uhP4ntuuVth5kOHFkjredT.Kfaq67a7AY6HvosO', 'ahmed@gmail.com', 1, '2024-01-27 00:00:00', 23, 'Regular', 178, 73, 227449, 'male', 'lose-weight-normal', '/public/images/default-user.png'),
-(42, 'Admin', '$2y$10$Q5cdRJXVEp05oKUfefW6ZOh.meRN.UYM6/QR62NUw0Q0VoZRmQ1wa', 'admin@gmail.com', 1, '2024-01-27 00:00:00', 25, 'Admin', 185, 85, 355815, 'male', 'gain-weight-normal', '/public/images/default-user.png'),
-(43, 'l', '$2y$10$EzcOr/J1puxzNQMwnNxbGe0Lhvz9NiGBbvnzZfEhGCFK0IrZOMqK.', 'l@gmail.com', 1, '2024-03-07 10:52:18', 45, 'Regular', 123, 34, 86194, 'male', 'lose-weight-normal', '/public/images/default-user.png'),
-(44, 'nutri', '$2y$10$a8BLHeRtDwQuy48A.05dEe5iQPe/QpNxPrtxV3gDFBc16y3gmUp1W', 'nutri@gmail.com', 1, '2024-03-07 10:53:07', 34, 'Nutritionist', 34, 34, 29671, 'male', 'lose-weight-normal', '/public/images/default-user.png'),
-(45, 'm', '$2y$10$JHFyqb7kyXUXL.Cwc4Lp8ODzyNrH9IdEHmrnj6VcQE1TxKiFdiZ9K', 'm@gmail.com', 1, '2024-03-15 20:36:21', 1, 'Regular', 0, 0, -31146, 'female', 'lose-weight-fast', '/public/images/default-user.png'),
-(46, 'changed', '$2y$10$N6L9VyRICso.k4aKm6Eyt..6f7mA/NflUPwRf0AqKuaMQxdaq4VLC', 'v@gmail.com', 1, '2024-03-16 13:15:27', 33, 'Regular', 33, 33, 195873, 'male', 'gain-weight-normal', '');
+INSERT INTO `users` (`id`, `fullname`, `password`, `email`, `active`, `creation_date`, `age`, `role`, `height`, `weight`, `daily_caloriegoal`, `gender`, `goal`, `img`, `total_clients`) VALUES
+(41, 'Ahmed Boulaabi', '$2y$10$7jAEIB7zXKP5M0uhP4ntuuVth5kOHFkjredT.Kfaq67a7AY6HvosO', 'ahmed@gmail.com', 1, '2024-01-27 00:00:00', 23, 'Regular', 178, 73, 227449, 'male', 'lose-weight-normal', '/public/images/default-user.png', 0),
+(42, 'Admin', '$2y$10$Q5cdRJXVEp05oKUfefW6ZOh.meRN.UYM6/QR62NUw0Q0VoZRmQ1wa', 'admin@gmail.com', 1, '2024-01-27 00:00:00', 25, 'Admin', 185, 85, 355815, 'male', 'gain-weight-normal', '/public/images/default-user.png', 0),
+(43, 'Wassim', '$2y$10$Q/DNapgswhvvrlDxFYTEteBbny7PgSIQ7PfQ2AZehY/z3aLqbfm1K', 'wassim.khedir@uha.fr', 1, '2024-03-16 15:02:08', 23, 'Nutritionist', 180, 65, 162324, 'male', 'lose-weight-fast', '/public/images/default-user.png', 0),
+(45, 'nutri', '$2y$10$5pxxKYFxXT0pCVbNenfQUOF8osRtkirL/6bxxuWoUA.PFQmxSjWoe', 'nutri@gmailcom', 1, '2024-04-04 23:01:27', 23, 'Nutritionist', 178, 76, 333679, 'male', 'gain-weight-normal', '/public/images/default-user.png', 5),
+(46, 'elias', '$2y$10$tVzrJ9maPOSD2NDGBAfDEeirVK67yogGhwTeGsdjtpTrUDmRRIG.i', 'elias@gmail.com', 1, '2024-04-05 17:27:58', NULL, 'Regular', NULL, NULL, NULL, NULL, NULL, '/public/images/default-user.png', 0),
+(47, 'mathias', '$2y$10$rTSjrEI/dmAcyuQhhxRJquc/6Mzlj670ZoC7O4T5XR32btW8EiLCS', 'mathias@gmail.com', 1, '2024-04-05 17:28:10', NULL, 'Regular', NULL, NULL, NULL, NULL, NULL, '/public/images/default-user.png', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -195,24 +248,36 @@ CREATE TABLE `user_plan` (
   `creation_date` datetime DEFAULT NULL,
   `modified_date` datetime DEFAULT NULL,
   `managed_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `user_plan`
+--
+
+INSERT INTO `user_plan` (`id`, `user_id`, `plan_id`, `creation_date`, `modified_date`, `managed_by`) VALUES
+(1, 41, 1, '2024-04-01 14:58:30', NULL, 45),
+(2, 42, 2, '2024-04-01 14:58:30', NULL, 41);
+
+
+
+CREATE TABLE `messages` (
+    `id` int(11),
+    `expediteur_id` int(11) NOT NULL,
+    `destinataire_id` int(11) NOT NULL,
+    `contenu` TEXT NOT NULL,
+    `date_envoi` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `etat` int(3) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-CREATE TABLE `notifications` (
-    `notif_id` int(11),
-    `sender_id` int(11),
-    `receiver_id` int(11),
-    `type` int(11),
-    `creation_date` DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`),
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 
 --
 -- Index pour les tables déchargées
 --
-
-ALTER TABLE `notifications` 
-  ADD PRIMARY KEY (`notif_id`);
 
 --
 -- Index pour la table `ingredients`
@@ -221,10 +286,24 @@ ALTER TABLE `ingredients`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`notif_id`),
+  ADD KEY `notifications_ibfk1` (`sender_id`),
+  ADD KEY `notifications_ibfk2` (`receiver_id`);
+
+--
 -- Index pour la table `nutritionist_client`
 --
 ALTER TABLE `nutritionist_client`
   ADD PRIMARY KEY (`client_id`,`nutritionist_id`);
+
+--
+-- Index pour la table `nutri_requests`
+--
+ALTER TABLE `nutri_requests`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `plans`
@@ -239,9 +318,7 @@ ALTER TABLE `plans`
 ALTER TABLE `plan_recipes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `plan_id` (`plan_id`),
-  ADD KEY `recipe_id` (`recipe_id`),
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  ADD KEY `recipe_id` (`recipe_id`);
 
 --
 -- Index pour la table `pwdreset`
@@ -253,6 +330,7 @@ ALTER TABLE `pwdreset`
 -- Index pour la table `recipes`
 --
 ALTER TABLE `recipes`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `creator` (`creator`);
 
 --
@@ -263,7 +341,11 @@ ALTER TABLE `recipe_ingredient`
   ADD KEY `recipe_id` (`recipe_id`),
   ADD KEY `ingredient_id` (`ingredient_id`);
 
-
+--
+-- Index pour la table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `user_plan`
@@ -272,15 +354,36 @@ ALTER TABLE `user_plan`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `plan_id` (`plan_id`),
-  ADD KEY `managed_by` (`managed_by`),
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  ADD KEY `managed_by` (`managed_by`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `notifications`
+--
 ALTER TABLE `notifications`
   MODIFY `notif_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `nutri_requests`
+--
+ALTER TABLE `nutri_requests`
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT pour la table `plans`
+--
+ALTER TABLE `plans`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `plan_recipes`
+--
+ALTER TABLE `plan_recipes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT pour la table `pwdreset`
 --
@@ -288,19 +391,30 @@ ALTER TABLE `pwdreset`
   MODIFY `pwdResetId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT pour la table `recipes`
+--
+ALTER TABLE `recipes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+
+--
+-- AUTO_INCREMENT pour la table `user_plan`
+--
+ALTER TABLE `user_plan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Contraintes pour les tables déchargées
 --
 
 --
--- Contraintes pour la table notifications
+-- Contraintes pour la table `notifications`
 --
-
 ALTER TABLE `notifications`
   ADD CONSTRAINT `notifications_ibfk1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `notifications_ibfk2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`);
@@ -311,12 +425,20 @@ ALTER TABLE `notifications`
 ALTER TABLE `nutritionist_client`
   ADD CONSTRAINT `nutritionist_client_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `users` (`id`);
 
+
+--
+-- Contraintes pour la table messages
+--
+
+ALTER TABLE `messages`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`expediteur_id`) REFERENCES `users`(`id`),
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`destinataire_id`) REFERENCES `users`(`id`);
+
 --
 -- Contraintes pour la table `plans`
 --
 ALTER TABLE `plans`
-  ADD CONSTRAINT `plans_ibfk_1` FOREIGN KEY (`creator`) REFERENCES `users` (`id`),
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  ADD CONSTRAINT `plans_ibfk_1` FOREIGN KEY (`creator`) REFERENCES `users` (`id`);
 
 --
 -- Contraintes pour la table `plan_recipes`

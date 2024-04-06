@@ -2,11 +2,13 @@
 
 namespace Manger;
 
-use Manger\Controller\RecipesController;
-use Manger\Controller\UserController;
-use Manger\Controller\AdminController;
-use Manger\Controller\NutritionistController;
-use Manger\Controller\ResetPasswords;
+use Manger\Controller\{
+    CommunicationController,
+    UserController,
+    AdminController,
+    NutritionistController,
+    ResetPasswords
+};
 
 
 /**
@@ -21,11 +23,13 @@ class Router
     private $adminController;
     private $resetPasswordController;
     private $nutriController;
+    private $commController;
 
     public function __construct()
     {
         $this->userController = new UserController();
         $this->adminController = new AdminController();
+        $this->commController = new CommunicationController();
 
         $this->resetPasswordController = new ResetPasswords();
         $this->nutriController = new NutritionistController();
@@ -57,7 +61,7 @@ class Router
         $requestedRaw = isset($uriSegments[2]) ? $uriSegments[2] : "";
 
         // Separate the action from any following query string that starts unusually with '&'
-        list($requested, ) = explode('&', $requestedRaw, 2);
+        list($requested,) = explode('&', $requestedRaw, 2);
 
         $controller = "user"; // Default controller
 
@@ -66,7 +70,7 @@ class Router
             $controller = $requested;
             $requested = isset($uriSegments[3]) ? $uriSegments[3] : "";
             // Again, separate the actual request from any unconventional query string
-            list($requested, ) = explode('&', $requested, 2);
+            list($requested,) = explode('&', $requested, 2);
         }
 
         // Fallback to "login" if no specific action is requested
@@ -147,6 +151,10 @@ class Router
 
                 case 'deleteRecipe':
                     $this->adminController->deleteRecipe();
+                    break;
+                case 'sendMessage':
+                    $this->commController->sendMessage();
+                    break;
 
                 default:
                     include __DIR__ . '/Views/templates/user/login.php';
@@ -215,6 +223,14 @@ class Router
                     case "nutriCurrentClients":
                         $this->nutriController->countNutritionistClients();
                         break;
+
+                    case "getDiscussion":
+                        $this->commController->getDiscussion();
+                        break;
+                    case 'getMessagesFromAConvo':
+                        $this->commController->getMessagesFromAConvo();
+                        break;
+
 
                     default:
                         // If no specific action, fallback to generic page handling
