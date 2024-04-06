@@ -127,7 +127,8 @@ CREATE TABLE `plan_recipes` (
   `id` int(11) NOT NULL,
   `plan_id` int(11) DEFAULT NULL,
   `recipe_id` int(11) DEFAULT NULL,
-  `date` date DEFAULT NULL
+  `date` date DEFAULT NULL,
+  `consume` boolean NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -232,8 +233,8 @@ INSERT INTO `users` (`id`, `fullname`, `password`, `email`, `active`, `creation_
 (42, 'Admin', '$2y$10$Q5cdRJXVEp05oKUfefW6ZOh.meRN.UYM6/QR62NUw0Q0VoZRmQ1wa', 'admin@gmail.com', 1, '2024-01-27 00:00:00', 25, 'Admin', 185, 85, 355815, 'male', 'gain-weight-normal', '/public/images/default-user.png', 0),
 (43, 'Wassim', '$2y$10$Q/DNapgswhvvrlDxFYTEteBbny7PgSIQ7PfQ2AZehY/z3aLqbfm1K', 'wassim.khedir@uha.fr', 1, '2024-03-16 15:02:08', 23, 'Nutritionist', 180, 65, 162324, 'male', 'lose-weight-fast', '/public/images/default-user.png', 0),
 (45, 'nutri', '$2y$10$5pxxKYFxXT0pCVbNenfQUOF8osRtkirL/6bxxuWoUA.PFQmxSjWoe', 'nutri@gmailcom', 1, '2024-04-04 23:01:27', 23, 'Nutritionist', 178, 76, 333679, 'male', 'gain-weight-normal', '/public/images/default-user.png', 5),
-(46, 'elias', '$2y$10$tVzrJ9maPOSD2NDGBAfDEeirVK67yogGhwTeGsdjtpTrUDmRRIG.i', 'elias@gmail.com', 1, '2024-04-05 17:27:58', NULL, 'Regular', NULL, NULL, NULL, NULL, NULL, '/public/images/default-user.png', 0),
-(47, 'mathias', '$2y$10$rTSjrEI/dmAcyuQhhxRJquc/6Mzlj670ZoC7O4T5XR32btW8EiLCS', 'mathias@gmail.com', 1, '2024-04-05 17:28:10', NULL, 'Regular', NULL, NULL, NULL, NULL, NULL, '/public/images/default-user.png', 0);
+(46, 'elias', '$2y$10$tVzrJ9maPOSD2NDGBAfDEeirVK67yogGhwTeGsdjtpTrUDmRRIG.i', 'elias@gmail.com', 1, '2024-04-05 17:27:58', 24, 'Regular', NULL, NULL, NULL, NULL, NULL, '/public/images/default-user.png', 0),
+(47, 'mathias', '$2y$10$rTSjrEI/dmAcyuQhhxRJquc/6Mzlj670ZoC7O4T5XR32btW8EiLCS', 'mathias@gmail.com', 1, '2024-04-05 17:28:10', 22, 'Regular', NULL, NULL, NULL, NULL, NULL, '/public/images/default-user.png', 0);
 
 -- --------------------------------------------------------
 

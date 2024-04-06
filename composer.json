@@ -1,5 +1,5 @@
 {
-    "name": "elias/arch-ntiers",
+    "name": "groupe06/arch-ntiers",
     "description": "Application permettant un suivi des repas",
     "type": "project",
     "require": {

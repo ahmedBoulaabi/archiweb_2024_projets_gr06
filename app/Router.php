@@ -231,7 +231,6 @@ class Router
                     case "nutriCurrentClients":
                         $this->nutriController->countNutritionistClients();
                         break;
-
                     case "getDiscussion":
                         $this->commController->getDiscussion();
                         break;
