@@ -444,6 +444,15 @@ class UserModel
             return array(false, $returnMessage);
         }
 
+        $query = "INSERT INTO `messages` (`id`, `expediteur_id`, `destinataire_id`, `contenu`, `date_envoi`, `etat`) VALUES (NULL, :userId, :senderId, 'Be the first to start a conversation', CURRENT_TIMESTAMP, '1')";
+        $db->query($query);
+        $db->bind(':senderId', $senderId);
+        $db->bind(':userId', $userId);
+        if (!$db->execute()) {
+            $returnMessage = "Couldn't " . $requestType . " nutritionist_client table";
+            return array(false, $returnMessage);
+        }
+
 
         return array(true, $this->getSingleUserById($senderId), $requestType);
     }

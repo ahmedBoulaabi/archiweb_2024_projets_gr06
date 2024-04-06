@@ -121,28 +121,21 @@ class NutritionistModel
     public function getUsersForNutritionist($nutritionistId)
     {
         $data = array();
-        // Construct the SQL query with a join operation
         $sql = "SELECT u.* 
                     FROM users u
                     JOIN nutritionist_client nc ON u.id = nc.client_id
                     WHERE nc.nutritionist_id = :nutritionist_id";
 
 
-        // Prepare the query
         $this->db->query($sql);
-        // Bind the nutritionist ID parameter
         $this->db->bind(':nutritionist_id', $nutritionistId);
-        // Execute the query
         $rows = $this->db->resultSet();
 
-        // Check if any rows were returned
         if ($this->db->rowCount() > 0) {
             // If rows are found, iterate through them and add to the data array
             foreach ($rows as $row) {
                 $data[] = $row;
             }
-            // Return the data array
-
             return $data;
         } else {
             // If no rows are found, return false
@@ -257,22 +250,25 @@ class NutritionistModel
     {
 
         $sql = "SELECT u.*, p.total_length, up.creation_date, 
-               (DATEDIFF(CURDATE(), up.creation_date) / p.total_length) AS progress,
-               COUNT(up.user_id) OVER () AS total_users,
-               SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) < p.total_length THEN 1 ELSE 0 END) OVER () AS not_completed,
-               SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) >= p.total_length THEN 1 ELSE 0 END) OVER () AS completed
-        FROM users u
-        JOIN nutritionist_client nc ON u.id = nc.client_id
-        JOIN user_plan up ON u.id = up.user_id
-        JOIN plans p ON up.plan_id = p.id
-        WHERE nc.nutritionist_id = :nutritionist_id";
+        (DATEDIFF(CURDATE(), up.creation_date) / p.total_length) AS progress,
+        COUNT(up.user_id) OVER () AS total_users,
+        SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) < p.total_length THEN 1 ELSE 0 END) OVER () AS not_completed,
+        SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) >= p.total_length THEN 1 ELSE 0 END) OVER () AS completed
+ FROM users u
+ JOIN nutritionist_client nc ON u.id = nc.client_id
+ LEFT JOIN user_plan up ON u.id = up.user_id
+ LEFT JOIN plans p ON up.plan_id = p.id
+ WHERE nc.nutritionist_id = :nutritionist_id";
+
+
+
 
         $this->db->query($sql);
         $this->db->bind(':nutritionist_id', $nutritionistId);
 
         $rows = $this->db->resultSet();
 
-        // var_dump($rows); 
+        //  var_dump($rows); 
 
 
         if ($this->db->rowCount() > 0) {
@@ -282,5 +278,24 @@ class NutritionistModel
         }
     }
 
-
+    /**
+     * Deletes a user by their ID.
+     *
+     * This method executes a DELETE SQL statement to remove a user from the database.
+     * It uses prepared statements to prevent SQL injection attacks.
+     *
+     * @param int $id The unique identifier of the user to be deleted.
+     * @return bool Returns true if the operation was successful, false otherwise.
+     */
+    public function deleteClientById($id)
+    {
+        $sql = "DELETE FROM nutritionist_client WHERE 	client_id = :id";
+        $this->db->query($sql);
+        $this->db->bind(':id', $id);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

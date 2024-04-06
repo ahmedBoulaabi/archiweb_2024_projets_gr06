@@ -59,7 +59,7 @@ class NutritionistController
         exit;
     }
 
-    
+
 
 
     /**
@@ -103,9 +103,30 @@ class NutritionistController
         $nutritionistId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
 
         // Call the model method to get users for the nutritionist
-        $data = $this->nutriModel->getUsersForNutritionist($nutritionistId);
+        $data = $this->nutriModel->getUserProgressForNutritionist($nutritionistId);
 
         if ($data) {
+            $usersProgress = [];
+            foreach ($data as $row) {
+                $progressPercentage = min(100, max(0, $row->progress * 100));
+                $usersProgress[] = [
+                    'user_id' => $row->id,
+                    'fullname' => $row->fullname,
+                    'email' => $row->email,
+                    'goal' => $row->goal,
+                    'img' => $row->img,
+                    'plan_progress' => number_format($progressPercentage, 2) . '%',
+                    'plan_creation_date' => $row->creation_date,
+                ];
+            }
+
+            $response = [
+                'total_users' => $data[0]->total_users,
+                'not_completed' => $data[0]->not_completed,
+                'completed' => $data[0]->completed,
+                'users_progress' => $usersProgress,
+            ];
+
             // Output buffering to capture the included file's content
             ob_start();
             include VIEWSDIR . DS . 'components' . DS . 'nutritionist' . DS . 'list-client-element.php';
@@ -119,30 +140,31 @@ class NutritionistController
         exit;
     }
     /**
- * Count Nutritionist's Clients
- * 
- * Retrieves and returns the count of clients for a given nutritionist.
- *
- * @param int $nutritionistId The ID of the nutritionist.
- * @return void
- */
-public function countNutritionistClients()
-{
-    $nutritionistId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
+     * Count Nutritionist's Clients
+     * 
+     * Retrieves and returns the count of clients for a given nutritionist.
+     *
+     * @param int $nutritionistId The ID of the nutritionist.
+     * @return void
+     */
+    public function countNutritionistClients()
+    {
 
-    try {
-        $clientsCount = $this->nutriModel->getClientsCountForNutritionist($nutritionistId);
+        $nutritionistId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
 
-        // Assuming the count is successfully retrieved, send a JSON response
-        echo json_encode(['success' => true, 'count' => $clientsCount]);
-    } catch (\PDOException $e) {
-        // If an error occurs, send a JSON response with the error message
-        echo json_encode(['success' => false, 'message' => 'An error occurred while fetching the client count for the nutritionist.']);
+        try {
+            $clientsCount = $this->nutriModel->getClientsCountForNutritionist($nutritionistId);
+
+            // Assuming the count is successfully retrieved, send a JSON response
+            echo json_encode(['success' => true, 'count' => $clientsCount]);
+        } catch (\PDOException $e) {
+            // If an error occurs, send a JSON response with the error message
+            echo json_encode(['success' => false, 'message' => 'An error occurred while fetching the client count for the nutritionist.']);
+        }
+        exit;
     }
-    exit; 
-}
 
-/**
+    /**
      * Count Recipes for a Creator
      * 
      * Retrieves and returns the count of recipes for a given creator.
@@ -150,7 +172,8 @@ public function countNutritionistClients()
      * @param int $creatorId The ID of the creator.
      * @return void
      */
-    public function countRecipesForCreator() {
+    public function countRecipesForCreator()
+    {
 
         $creatorId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
 
@@ -162,7 +185,6 @@ public function countNutritionistClients()
         } catch (\PDOException $e) {
             // If an error occurs, send a JSON response with the error message
             echo json_encode(['success' => false, 'message' => 'An error occurred while fetching the recipe count for the creator.']);
-       
         }
         exit;
     }
@@ -192,22 +214,51 @@ public function countNutritionistClients()
             }
 
 
+            // Trie le tableau des utilisateurs en fonction du pourcentage de progression
+            usort($usersProgress, function ($a, $b) {
+                return (float) $b['plan_progress'] - (float) $a['plan_progress'];
+            });
+
+
+            // Limite le tableau à 6 éléments
+            $limitedUsersProgress = array_slice($usersProgress, 0, 6);
 
             $response = [
                 'total_users' => $data[0]->total_users,
                 'not_completed' => $data[0]->not_completed,
                 'completed' => $data[0]->completed,
-                'users_progress' => $usersProgress,
+                'users_progress' => $limitedUsersProgress,
             ];
 
-            // var_dump($response);
 
             echo json_encode(['message' => 'Success', 'data' => $response]);
         } else {
             echo json_encode(['message' => 'No progress data found for the specified nutritionist.']);
-
         }
         exit;
     }
 
+    /**
+     * Handles the deletion of a client.
+     *
+     * This method is called when a request to delete a client is received.
+     * It retrieves the client ID from the POST data, calls the model to delete the client,
+     * and then returns a JSON response indicating the success or failure of the operation.
+     *
+     * @return void Outputs a JSON response with the operation result.
+     */
+    public function deleteClient()
+    {
+        if (isset($_POST['del_id'])) {
+            $del_id = $_POST['del_id'];
+            $result = $this->nutriModel->deleteClientById($del_id);
+
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => 'User deleted successfully!']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to delete user.']);
+            }
+            exit;
+        }
+    }
 }
