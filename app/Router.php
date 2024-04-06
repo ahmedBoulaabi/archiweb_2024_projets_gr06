@@ -145,6 +145,7 @@ class Router
                     }
                     break;
 
+
                 case 'UserHavePlan':
                     $this->userController->userHavePlan();
                     break;
@@ -154,6 +155,13 @@ class Router
                     break;
                 case 'sendMessage':
                     $this->commController->sendMessage();
+                    break;
+
+                case 'toggleRecipeConsumed':
+                    if (isset($_POST['recipe_id'])) {
+                        $recipe_id = json_decode($_POST['recipe_id'], true);
+                        $this->userController->toggleRecipeConsumed($recipe_id);
+                    }
                     break;
 
                 default:

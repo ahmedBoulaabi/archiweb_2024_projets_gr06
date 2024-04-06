@@ -428,7 +428,8 @@ class UserController
             } else {
                 echo json_encode(['success' => false, 'message' => "there is a probleme to add"]);
                 exit;
-            };
+            }
+            ;
         }
     }
 
@@ -518,6 +519,42 @@ class UserController
             echo json_encode(['success' => true, 'message' => 'PlanExist', 'data' => $data, 'planInfo' => $planInfo]);
         } else {
             echo json_encode(['success' => true, 'message' => 'noPlanExist']);
+        }
+    }
+
+    /**
+     * toggleRecipeConsumed
+     * 
+     * Toggles the consumed status of a specified recipe for a user.
+     *
+     * This method updates the status of a recipe to indicate whether it has been consumed or not by toggling
+     * its current state in the database. It relies on a corresponding method in the userModel to perform the
+     * actual database operation. The consumed status is a binary representation where '0' signifies that the
+     * recipe has not been consumed, and '1' signifies that it has been consumed.
+     *
+     * Upon successfully toggling the consumed status, this method returns a JSON response indicating success
+     * and a message stating that the recipe consumed status has been updated. If the operation fails, either
+     * due to an error with the database update or because the specified recipe_id does not exist, it returns
+     * a JSON response indicating failure along with an appropriate message.
+     *
+     * @param int $recipe_id The unique identifier of the recipe whose consumed status is to be toggled.
+     *
+     * @return void Outputs a JSON-encoded response indicating the success or failure of the operation along
+     *         with a descriptive message. The response format is:
+     *         - On success: {'success': true, 'message': "Recipe consumed status updated!"}
+     *         - On failure: {'success': false, 'message': 'Failed to toggle consumed'}
+     *
+     * Note: This method expects that the $recipe_id provided is valid and exists within the database. It also
+     * assumes that the userModel has a method `toggleRecipeConsumed` capable of executing the toggle operation
+     * on the database level.
+     */
+
+    public function toggleRecipeConsumed($recipe_id)
+    {
+        if ($this->userModel->toggleRecipeConsumed($recipe_id)) {
+            echo json_encode(['success' => true, 'message' => "Recipe consumed status updated!"]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to toggle consumed']);
         }
     }
 }
