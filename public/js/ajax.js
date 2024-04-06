@@ -18,20 +18,33 @@ function getMessageBoxHtml(conversation) {
   `;
 }
 
-function formatMessage(message, ownID) {
-  console.log(message);
-  var ownMsg = ownID == message.expediteur_id
-  console.log(ownMsg)
-  //if (ownMsg)  <div class="d-flex flex-column justify-content-${ownMsg ? 'end' : 'start'}  mb-4">
-  /*
-    return `  <div class="d-flex flex-column ${ownMsg ? 'align-items-end' : 'align-items-start'} pb-2">
-      <div class="msg_cotainer" ${ownMsg ? 'style="display:inline;background-color:#4287f5;"' : ''}>
-        ${message.contenu}
-        <span class="msg_time${ownMsg ? '_send' : ''}">
-          ${message.date_envoi}
-        </span>  
+function displayNoNutritionist() {
+  $("#discussion-class").html(`
+    <div class="no-nutritionist-wrapper" style="cursor:pointer;">
+      <div class="no-nutritionist-content">
+        <div class="no-nutritionist-header">
+          <h3 class="no-nutritionist-title">No Nutritionist</h3>
+        </div>
       </div>
-    </div> `;*/
+    </div>
+  `);
+
+  // Ajouter les styles CSS pour centrer le message
+  $(".no-nutritionist-wrapper").css({
+    "display": "flex",
+    "justify-content": "center",
+    "align-items": "center",
+    "height": "100%"
+  });
+
+  $(".no-nutritionist-content").css({
+    "text-align": "center"
+  });
+}
+
+function formatMessage(message, ownID) {
+  //console.log(message);
+  var ownMsg = ownID == message.expediteur_id
 
   return `
   <div class="d-flex flex-column ${ownMsg ? 'align-items-end' : 'align-items-start'} mb-4">
@@ -66,6 +79,7 @@ function displayConversations(response) {
     }
     interlocutorFullname = message.interlocutor_fullname;
     profilePicture = message.interlocutor_img;
+    goal = message.interlocutor_goal;
 
 
     // Vérifier si la discussion existe déjà dans l'objet
@@ -76,12 +90,13 @@ function displayConversations(response) {
         fullname: interlocutorFullname,
         img: profilePicture,
         interlocutorID: interlocutorID,
+        goal: goal
       };
     }
 
     discussions[interlocutorID].messages.push(message);
 
-    // indique quel est le dernir message (il sera affiché)
+    // indique quel est le dernier message (il sera affiché)
     if (!discussions[interlocutorID].lastMessage || message.date_envoi > discussions[interlocutorID].lastMessage.date_envoi) {
       discussions[interlocutorID].lastMessage = message;
     }
@@ -374,9 +389,9 @@ function performAjaxRequest(
         case "getDiscussion":
           console.log(response.role)
           if (response.success) {
-            if (response.role == "Nutritionist") {
-              displayConversations(response) // affiche les derniers messages
-            } else if (response.role == "Regular") {
+            if (response.role == "NoNutritionist") {
+              displayNoNutritionist()
+            } else {
               displayConversations(response)
             }
           } else {
@@ -391,10 +406,11 @@ function performAjaxRequest(
           }
           $('#conversationMessages').html(wholeDiscussion)
 
+          console.log(response)
           // mettre le nom de l'interlocuteur pour savoir à qui on parle
           const modalTitle = document.querySelector('.modal-title');
           if (modalTitle) {
-            console.log(response.data[0].interlocutor_fullname);
+            console.log("nom interlocutor: " + response.data[0].interlocutor_fullname);
             modalTitle.innerHTML = "Send a message to " + response.data[0].interlocutor_fullname;
           }
           break;
@@ -407,7 +423,6 @@ function performAjaxRequest(
             'contenu': response.data
           }
           newMessage = formatMessage(message, ownID)
-
           $('#conversationMessages').prepend(newMessage)
           break;
 

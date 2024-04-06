@@ -54,7 +54,7 @@ foreach ($data as $row) :
         <p class="box-progress-percentage">2 days left</p>
       </div>
       <div class="project-box-footer">
-        <a href="#open-modal-message" class="days-left" id="sendMessage" style="color: <?= $spanColor ?>;">
+        <a href="#open-modal-message" class="days-left message-box" id="sendMessage" data-id="<?= $id ?>" style="color: <?= $spanColor ?>;">
           Envoyer un message
         </a>
       </div>

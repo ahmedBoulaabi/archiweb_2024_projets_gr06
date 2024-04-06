@@ -118,12 +118,24 @@ class Database
         }
     }
 
+
     /**
      * Get result set as an array of associative arrays
      *
      * @return array The result set.
      */
-    public function resultSet($fetchDiscussion = false)
+    public function resultSet()
+    {
+        $this->execute();
+        return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
+
+    /**
+     * Get result set as an array
+     *
+     * @return array|int The result set.
+     */
+    public function resultArray($fetchDiscussion = false)
     {
         $this->execute();
         $results = $this->stmt->fetchAll(\PDO::FETCH_OBJ);
@@ -136,7 +148,7 @@ class Database
             $data[] = (array) $result;
         }
         if (count($data) < 1) {
-            return ['error' => 'No results found in the database'];
+            return -1;
         }
 
         return $data;

@@ -14,6 +14,8 @@ $(document).ready(function () {
         );
     });
 
+    // en cliquant sur Discussion dans le dashboard, ouvre le modal,
+    // et y charge les messages avec le nutritioniste
     $('.messages').on('click', '.message-box', function (event) {
         const conversationId = $(this).data('id');
         id_clicked = conversationId
@@ -21,7 +23,6 @@ $(document).ready(function () {
         console.log("dans modal ouverture");
         var modal = document.querySelector('#open-modal-message');
         if (modal) {
-            console.log("modal existe")
             $(modal).modal('show');
 
             performAjaxRequest(
@@ -36,6 +37,7 @@ $(document).ready(function () {
         }
     });
 
+    // envoit le message depuis le modal, et le met en plus directement dans l'html
     $("#message-form").on("submit", function (event) {
         event.preventDefault();
         var message = $("#message").val();
@@ -44,32 +46,7 @@ $(document).ready(function () {
         performAjaxRequest("POST", "sendMessage", additionalData, "", "");
     });
 
-    /*
-        $('#discussion-class').click(function (e) {
-            e.preventDefault();
-            const conversationId = $(this).data('id');
-            id_clicked = conversationId
-            console.log(conversationId + " clicked");
-            console.log("dans modal ouverture");
-            var modal = document.querySelector('#open-modal-message');
-            if (modal) {
-                console.log("modal existe")
-                $(modal).modal('show');
-            } else {
-                console.error("Le modal n'a pas été trouvé.");
-            }
-        });
-        */
 
-    function getDiscussion() {
-        performAjaxRequest(
-            "GET",
-            "getDiscussion",
-            "",
-            "",
-            ""
-        );
-    }
 
 
     // pour récupérer le nombre de notif, et les mettre en session
@@ -96,7 +73,6 @@ $(document).ready(function () {
 
     getNotif();
     getUserFromNotif();
-    getDiscussion();
 
     // pour effectuer une recherche
     function performSearch() {

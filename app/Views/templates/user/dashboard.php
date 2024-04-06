@@ -170,3 +170,18 @@ if ($_SESSION['role'] == "Regular") {
 </body>
 
 </html>
+<script>
+  $(document).ready(function() {
+    function getDiscussion() {
+      performAjaxRequest(
+        "GET",
+        "getDiscussion",
+        "",
+        "",
+        ""
+      );
+    }
+
+    getDiscussion()
+  });
+</script>

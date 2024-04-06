@@ -37,6 +37,8 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
 
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/globals.css" />
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/nutritionist-dashboard.css">
+  <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/dashboard.css" />
+
 
 
 </head>

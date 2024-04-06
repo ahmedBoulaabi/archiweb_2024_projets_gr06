@@ -20,6 +20,15 @@ class CommunicationModel
         $this->db = new Database();
     }
 
+    /**
+     * Save the message in $textContent in the database, so it can be found when
+     * displaying the conversation
+     *
+     * @param  mixed $targetID
+     * @param  mixed $ownID
+     * @param  mixed $textContent
+     * @return bool
+     */
     public function putMessageInDatabase($targetID, $ownID, $textContent)
     {
         $addQuery = "INSERT INTO messages (`destinataire_id`,`expediteur_id`,`contenu`, `etat`) VALUES (:destinataire_id,:expediteur_id,:texte,0)";
@@ -59,7 +68,7 @@ class CommunicationModel
                 $sql = "SELECT * FROM nutritionist_client WHERE nutritionist_id=:nutri_id;";
                 $this->db->query($sql);
                 $this->db->bind(':nutri_id', $ownID);
-                $result = $this->db->resultSet(true);
+                $result = $this->db->resultArray(true);
             }
 
             return $result;
@@ -96,20 +105,41 @@ class CommunicationModel
             $this->db->query($sql);
             $this->db->bind(':own_id', $ownID);
             $this->db->bind(':target_id', $targetID);
-            $result = $this->db->resultSet();
+            $result = $this->db->resultArray();
         } else if ($role == "Nutritionist") {
+            if ($targetID == null) { // pour récupérer toutes les conversations d'un nutri
 
-            $sql = "SELECT m.*, u.fullname AS interlocutor_fullname, u.img AS interlocutor_img
+                $sql = "SELECT m.*, u.fullname AS interlocutor_fullname, u.img AS interlocutor_img
         FROM messages m
         JOIN users u ON (m.expediteur_id = u.id OR m.destinataire_id = u.id) AND u.id != :own_id
         WHERE m.expediteur_id = :own_id OR m.destinataire_id = :own_id
         ORDER BY m.date_envoi;";
-            $this->db->query($sql);
-            $this->db->bind(':own_id', $ownID);
-            $result = $this->db->resultSet(true);
+                $this->db->query($sql);
+                $this->db->bind(':own_id', $ownID);
+                $result = $this->db->resultArray(true);
+            } else { // pour récupérer une conversation spécifique de nutri à un client
+                $sql = "SELECT m.*, u.fullname AS interlocutor_fullname, u.img AS interlocutor_img, u.goal AS interlocutor_goal
+                FROM messages m
+                JOIN users u ON u.id = :target_id
+                WHERE (m.expediteur_id = :own_id AND m.destinataire_id = :target_id)
+                   OR (m.expediteur_id = :target_id AND m.destinataire_id = :own_id)
+                ORDER BY m.date_envoi;";
+                $this->db->query($sql);
+                $this->db->bind(':own_id', $ownID);
+                $this->db->bind(':target_id', $targetID);
+                try {
+                    $result = $this->db->resultArray(true);
 
-            foreach ($result as $row) {
-                //    echo ("expediteur: " . $row->expediteur_id . "destinataire: " . $row->destinataire_id . "contenu: " . $row->contenu);
+                    if ($result != -1) {
+                        return $result;
+                    } else {
+                        // Aucune ligne correspondante trouvée
+                        return ['status' => 'empty'];
+                    }
+                } catch (\Exception $e) {
+                    //erreur lors de l'exécution de la requête
+                    return ['status' => 'error', 'error' => $e->getMessage()];
+                }
             }
         }
         return $result ?? false;

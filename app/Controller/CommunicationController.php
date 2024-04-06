@@ -46,9 +46,10 @@ class CommunicationController
      * 
      * Fetch the conversation with the nutritionist using the Model
      *
+     * @param string $clientID The id of the client we want our discussion with, if we're nutritionist. Null otherwise.
      * @return void
      */
-    public function getDiscussion()
+    public function getDiscussion($clientID = null)
     {
         $ownID = $_SESSION['id'];
         $role = $_SESSION['role'];
@@ -56,13 +57,19 @@ class CommunicationController
         $targetID = $this->commModel->getDiscussionPartner($ownID, $role);
 
         if ($role == "Regular") {
-            $nutriID = $targetID->nutritionist_id;
-            $arrayMessage = $this->commModel->getDiscussion($ownID, $nutriID, $role);
+            if (!isset($targetID->nutritionist_id)) {
+                echo json_encode(['success' => true, 'ownID' => $ownID, 'role' => "NoNutritionist"]);
+                return;
+            } else {
+                $nutriID = $targetID->nutritionist_id;
+                $arrayMessage = $this->commModel->getDiscussion($ownID, $nutriID, $role);
+            }
         } else if ($role == "Nutritionist") {
-            $nutritionistIds = array_map(function ($object) {
-                return $object['nutritionist_id'];
-            }, $targetID);
-            $arrayMessage = $this->commModel->getDiscussion($ownID, $nutritionistIds, $role);
+
+            /*$nutritionistIds = array_map(function ($object) {
+                return $object['client_id'];
+            }, $targetID);*/
+            $arrayMessage = $this->commModel->getDiscussion($ownID, $clientID, $role);
         }
 
         if (empty($arrayMessage) || isset($arrayMessage['error'])) {
@@ -72,12 +79,21 @@ class CommunicationController
         }
     }
 
+    /**
+     * getMessagesFromAConvo
+     * 
+     * Get the discussion between their nutritionist and the regular client calling the method,
+     * or if a nutritionist did, get their discussion with the client whose ID is in the GET request
+     *
+     * @return void
+     */
     public function getMessagesFromAConvo()
     {
         if ($_SESSION['role'] == "Regular") {
             $this->getDiscussion();
         } else {
             $clientID = $_GET['receiverId'];
+            $this->getDiscussion($clientID);
         }
     }
 }
