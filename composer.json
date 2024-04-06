@@ -4,7 +4,7 @@
     "type": "project",
     "require": {
         "php": ">=7.3.12",
-        "vlucas/phpdotenv": "^5.6"
+        "vlucas/phpdotenv": "*"
     },
     "autoload": {
         "psr-4": {
@@ -21,8 +21,13 @@
         "sort-packages": true
     },
     "scripts": {
-        "phpdoc": "phpDocumentor -d app Config -t doc --ignore app/PHPMailer/",
-        "update_db": "sudo bash ./db_refresh_script.sh"
+        "post-install-cmd": [
+            "php init_database.php"
+        ],
+        "post-update-cmd": [
+            "php init_database.php"
+        ],
+        "phpdoc": "phpDocumentor -d app Config -t doc --ignore app/PHPMailer/"
     },
     "minimum-stability": "stable",
     "prefer-stable": true
