@@ -177,6 +177,8 @@ class UserController
         $_SESSION['weight'] = $user->weight;
         $_SESSION['goal'] = $user->goal;
         $_SESSION['role'] = $user->role;
+        $_SESSION['img'] = $user->img;
+        $_SESSION['total_clients'] = $user->total_clients;
     }
 
     /**

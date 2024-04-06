@@ -61,7 +61,7 @@ class Router
         $requestedRaw = isset($uriSegments[2]) ? $uriSegments[2] : "";
 
         // Separate the action from any following query string that starts unusually with '&'
-        list($requested,) = explode('&', $requestedRaw, 2);
+        list($requested, ) = explode('&', $requestedRaw, 2);
 
         $controller = "user"; // Default controller
 
@@ -70,7 +70,7 @@ class Router
             $controller = $requested;
             $requested = isset($uriSegments[3]) ? $uriSegments[3] : "";
             // Again, separate the actual request from any unconventional query string
-            list($requested,) = explode('&', $requested, 2);
+            list($requested, ) = explode('&', $requested, 2);
         }
 
         // Fallback to "login" if no specific action is requested
@@ -115,6 +115,9 @@ class Router
                     break;
                 case 'deleteUser':
                     $this->adminController->deleteUser();
+                    break;
+                case 'deleteClient':
+                    $this->nutriController->deleteClient();
                     break;
                 case 'sendNotification':
                     $this->nutriController->sendNotification();
@@ -205,8 +208,20 @@ class Router
                     case "getNutriClients":
                         $this->nutriController->getUsersForNutritionist();
                         break;
+                    case "getNutriRequests":
+                        $this->adminController->getNutritionistRequests();
+                        break;
+                    case "nutriRecipesCount":
+                        $this->nutriController->countRecipesForCreator();
+                        break;
+                    case "getUserProgress":
+                        $this->nutriController->getUserProgressForNutritionist();
+                        break;
                     case "getUsersFromNotifications":
                         $this->userController->getUsersFromNotifications();
+                        break;
+                    case "nutriCurrentClients":
+                        $this->nutriController->countNutritionistClients();
                         break;
 
                     case "getDiscussion":

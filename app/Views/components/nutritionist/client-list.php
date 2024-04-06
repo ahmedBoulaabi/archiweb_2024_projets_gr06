@@ -1,7 +1,9 @@
 <div class="projects-section">
   <div class="projects-section-header">
     <p>Client List</p>
-    <p class="time" id="currentDate">December, 12</p>
+    <p class="time" id="currentDate">
+      <?= date('F d, Y') ?>
+    </p>
   </div>
   <div class="projects-section-line">
 
@@ -47,5 +49,16 @@
     var additionalData = "&nutri_id=" + sessionId;
 
     performAjaxRequest("GET", "getNutriClients", additionalData, "", "");
+    setTimeout(function() {
+  $('.project-btn-more').click(function() {
+    console.log("test")
+    var optionsContainer = $(this).closest('.project-box').find('.options-container');
+    optionsContainer.toggleClass('hidden');
   });
+}, 500);
+
+  });
+
+
+ 
 </script>

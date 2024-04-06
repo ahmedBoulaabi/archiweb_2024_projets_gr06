@@ -174,7 +174,15 @@ function handleAjaxResponse(
       text: successMessage,
       icon: "success",
     }).then(function () {
-      if (redirectHref != "update" && redirectHref != "recipes-list" && action != 'deleteUser' && action != 'insertPlan' && action != 'addNewRecipe' && action != 'updateRecipe') {
+      if (
+        redirectHref != "update" &&
+        redirectHref != "recipes-list" &&
+        action != "deleteUser" &&
+        action != "deleteClient" &&
+        action != "insertPlan" &&
+        action != "addNewRecipe" &&
+        action != "updateRecipe"
+      ) {
         window.location.href = redirectHref;
       } else if (redirectHref == "recipes-list") {
         window.parent.rafraichirPage();
@@ -183,7 +191,7 @@ function handleAjaxResponse(
         window.location.reload(true);
       }
     });
-    if (!logout && action != 'deleteUser') {
+    if (!logout && action != "deleteUser" && action != "deleteClient") {
       $("#form-data")[0].reset();
     }
   } else {
@@ -217,7 +225,84 @@ function performAjaxRequest(
         case "getNutriClients":
           $("#showClients").html(response.message);
           break;
+        case "getNutriRequests":
+          $("#showNutriRequests").html(response.message);
+          $("table").DataTable({ order: [0, "desc"] });
+          break;
 
+        case "getUserProgress":
+          console.log("res "+response.data);
+          $("#total-clients").text(response.data.total_users);
+          $("#in-progress").text(response.data.not_completed);
+          $("#plans-finished").text(response.data.completed);
+          $("#project-boxes").empty();
+          var baseAppDir = document
+            .getElementById("baseAppDir")
+            .innerText.trim();
+            const backgroundColors = {
+              'gain-weight-normal': '#c8f7dc',
+              'lose-weight-fast': '#ffd3e2',
+              'lose-weight-normal': '#e9e7fd'
+            };
+            
+            const spanColors = {
+              'gain-weight-normal': '#34c471',
+              'lose-weight-fast': '#df3670',
+              'lose-weight-normal': '#4f3ff0'
+            };
+            response.data.users_progress.sort(function(a, b) {
+              var progressA = parseFloat(a.plan_progress.replace('%', ''));
+              var progressB = parseFloat(b.plan_progress.replace('%', ''));
+              return progressB- progressA;
+          });
+          
+          response.data.users_progress.forEach(function (client) {
+            if (client.plan_creation_date === null || client.plan_creation_date === undefined) {
+              return; // Skip this client and move on to the next one
+          }
+
+            const goal = client.goal; // Assuming row.goal contains the goal information
+          const backgroundColor = backgroundColors[goal] || '#ffffff';
+          const spanColor = spanColors[goal] || '#ffffff'; 
+
+            var clientHtml = `
+              <div class="project-box-wrapper">
+                <div class="project-box" style="background-color: ${backgroundColor};">
+                  <div class="project-box-header">
+                    <span>${
+                      client.plan_creation_date
+                    }</span> <!-- Assuming 'date' is part of your client object -->
+                    <div class="more-wrapper">
+                      <!-- Button and SVG omitted for brevity -->
+                    </div>
+                  </div>
+                  <div class="project-box-content-header">
+                  <img src="${
+                    client.img
+                      ? baseAppDir + client.img
+                      : "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
+                  }" alt="profile image" class="img">
+
+                    <p class="box-content-header">${client.fullname}</p>
+                    <p class="box-content-subheader">${client.goal}</p>
+                  </div>
+                  <div class="box-progress-wrapper">
+                    <p class="box-progress-header">Progress</p>
+                    <div class="box-progress-bar">
+                      <span class="box-progress" style="width: ${
+                        client.plan_progress
+                      }; background-color: ${spanColor}"></span>
+                    </div>
+                    <p class="box-progress-percentage">${
+                      client.plan_progress
+                    }</p>
+                  </div>
+                </div>
+              </div>`;
+            $(".project-boxes").append(clientHtml);
+          });
+
+          break;
         case "getAllUsers":
           $("#showUser").html(response.message);
           $("table").DataTable({ order: [0, "desc"] });
@@ -228,11 +313,15 @@ function performAjaxRequest(
         case "countRegularUsers":
           $("#usersNumber").html(response.count);
           break;
-
+        case "nutriRecipesCount":
+          $("#nutriRecipesCount").html(response.count);
+          break;
         case "countNutritionistUsers":
           $("#nutritionistNumber").html(response.count);
           break;
-
+        case "nutriCurrentClients":
+          $("#nutriCurrentClients").html(response.count);
+          break;
         case "countRecipes":
           $("#countRecipes").html(response.count);
           break;
@@ -248,15 +337,15 @@ function performAjaxRequest(
           console.log(response.data);
           console.log("notification envoyée");
 
-          var divID = additionalData.replace('&searchValue=', '');
-          var divID = additionalData.replace('&receiverId=', '');
+          var divID = additionalData.replace("&searchValue=", "");
+          var divID = additionalData.replace("&receiverId=", "");
 
           console.log(divID);
           var userDiv = $("#user-" + divID);
-          userDiv.addClass('temp-bg-color');
+          userDiv.addClass("temp-bg-color");
 
           setTimeout(function () {
-            userDiv.removeClass('temp-bg-color');
+            userDiv.removeClass("temp-bg-color");
           }, 2000);
 
           Swal.fire({
@@ -286,16 +375,18 @@ function performAjaxRequest(
           if (response.requestType == "insert") {
             var statusText = "Accepted";
             var bgColor = "#75d44c";
-          }
-          else if (response.requestType == "delete") {
+          } else if (response.requestType == "delete") {
             var statusText = "Declined";
             var bgColor = "#F88F99";
           }
 
-
           $("#notif-user-" + sender.id).html(
-            '<p style="width: 20%; margin: 10px 0">' + sender.fullname + '</p>' +
-            '<p style="width: 20%; margin: 15px 0" id="status-request-<?php echo $row->id ?>">' + statusText + '</p>'
+            '<p style="width: 20%; margin: 10px 0">' +
+              sender.fullname +
+              "</p>" +
+              '<p style="width: 20%; margin: 15px 0" id="status-request-<?php echo $row->id ?>">' +
+              statusText +
+              "</p>"
           );
           $("#notif-user-" + sender.id).css("background-color", bgColor);
           Swal.fire({
@@ -307,8 +398,9 @@ function performAjaxRequest(
 
         case "getUserDetails":
           Swal.fire({
-            title: `< strong > User Info: ID(${response.data.id})</strong > `,
-            icon: 'info',
+
+            title: `<strong>User Info: ID(${response.data.id})</strong>`,
+            icon: "info",
             html: `
   < div style = "text-align: left;" >
     <b>Full Name:</b> ${response.data.fullname} <br>
@@ -329,18 +421,23 @@ function performAjaxRequest(
         case "getRecipeDetails":
           Swal.fire({
             title: `<strong>Recipe Details: ID(${response.data.id})</strong>`,
-            icon: 'info',
+            icon: "info",
             html: `
-                    <div style="text-align: left;">
-                      <b>Name:</b> ${response.data.name}<br>
-                        <b>Calories:</b> ${response.data.calories}<br>
-                          <b>Type:</b> ${response.data.type}<br>
-                            <b>Visibility:</b> ${response.data.visibility == 1 ? 'Visible' : 'Not Visible'}<br>
-                              <b>Creation Date:</b> ${response.data.creation_date}<br>
-                                <b>Creator:</b> ${response.data.creator}<br>
-                                  <img src="${response.data.image_url}" alt="Recipe Image" style="max-width: 100%; margin-top: 10px;">
-                                  </div>
-                                  `,
+
+                <div style="text-align: left;">
+                  <b>Name:</b> ${response.data.name}<br>
+                  <b>Calories:</b> ${response.data.calories}<br>
+                  <b>Type:</b> ${response.data.type}<br>
+                  <b>Visibility:</b> ${
+                    response.data.visibility == 1 ? "Visible" : "Not Visible"
+                  }<br>
+                  <b>Creation Date:</b> ${response.data.creation_date}<br>
+                  <b>Creator:</b> ${response.data.creator}<br>
+                  <img src="${
+                    response.data.image_url
+                  }" alt="Recipe Image" style="max-width: 100%; margin-top: 10px;">
+                </div>
+              `,
             showCancelButton: true,
           });
           break;
@@ -353,36 +450,52 @@ function performAjaxRequest(
 
           // Gérer l'image de la recette
           if (response.data.image_url) {
-            $("#edit_imageUpload").next(".custom-file-label").html(response.data.image_url.split('/').pop());
+            $("#edit_imageUpload")
+              .next(".custom-file-label")
+              .html(response.data.image_url.split("/").pop());
           } else {
-            $("#edit_imageUpload").next(".custom-file-label").html("Choose file...");
+            $("#edit_imageUpload")
+              .next(".custom-file-label")
+              .html("Choose file...");
           }
 
           // Afficher le modal d'édition de la recette
           $("#editRecipeModal").modal("show");
           break;
 
-        case 'insertPlan':
+        case "insertPlan":
           console.log(response.message);
-          handleAjaxResponse(action, response, "Plan Added successfully", "", false);
+          handleAjaxResponse(
+            action,
+            response,
+            "Plan Added successfully",
+            "",
+            false
+          );
           break;
         case "UserHavePlan":
-          console.log(response.message);
-          if (response.message === 'PlanExist') {
-            localStorage.setItem('recipes', JSON.stringify(response.data));
+
+          if (response.message === "PlanExist") {
+            localStorage.setItem("recipes", JSON.stringify(response.data));
             lienActuel = window.location.href;
-            if (lienActuel == "https://localhost/archiweb_2024_projets_gr06/planning") {
-              window.location.href = "https://localhost/archiweb_2024_projets_gr06/planning?period=" + response.planInfo["period"] + "&duration=" + response.planInfo["total_length"];
+            if (
+              lienActuel ==
+              "https://localhost/archiweb_2024_projets_gr06/planning"
+            ) {
+              window.location.href =
+                "https://localhost/archiweb_2024_projets_gr06/planning?period=" +
+                response.planInfo["period"] +
+                "&duration=" +
+                response.planInfo["total_length"];
             }
-            $('#userHavePlan').show();
-            $('#userNotHavePlan').hide();
+            $("#userHavePlan").show();
+            $("#userNotHavePlan").hide();
             $("#planNameId").html(response.planInfo["name"]);
             $("#periodValue").html(response.planInfo["period"]);
             $("#durationValue").html(response.planInfo["total_length"]);
-          } else if (response.message === 'noPlanExist') {
-            $('#userHavePlan').hide();
-            $('#userNotHavePlan').show();
-
+          } else if (response.message === "noPlanExist") {
+            $("#userHavePlan").hide();
+            $("#userNotHavePlan").show();
           }
           break;
 
@@ -431,7 +544,6 @@ function performAjaxRequest(
           handleAjaxResponse(action, response, successTitle, successMessage);
           break;
       }
-
     },
     error: function (jqXHR, textStatus, errorThrown) {
       handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -518,4 +630,3 @@ function performAjaxWithImage(formId, action, successTitle, successMessage) {
     },
   });
 }
-

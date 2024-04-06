@@ -74,6 +74,34 @@ class AdminController
         exit;
     }
 
+
+    /**
+     * Show All Requests from nutritionists
+     *
+     * Retrieves all requests from the model and display them through <strong>nutri-requests-table.php</strong>.
+     *
+     * @return void
+     */
+    public function getNutritionistRequests()
+    {
+        header('APPJSON');
+        $data = $this->adminModel->getAllRequests();
+
+        if ($data) {
+            // Output buffering to capture the included file's content
+            ob_start();
+            include VIEWSDIR . DS . 'components' . DS . 'admin' . DS . 'nutri-requests-table.php';
+            $output = ob_get_clean();
+
+            // Echo the content captured, which now includes $data being used in usersList.php
+            echo json_encode(['message' => $output]);
+        } else {
+            echo json_encode(['message' => '<h3 class="text-center text-secondary mt-5">No requests present in the database!</h3>']);
+        }
+        exit;
+    }
+
+
     /**
      * Fetch and display user information by ID.
      *

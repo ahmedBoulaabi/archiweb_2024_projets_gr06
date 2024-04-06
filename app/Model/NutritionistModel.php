@@ -142,4 +142,108 @@ class NutritionistModel
             return false;
         }
     }
+
+    /**
+ * Get Count of Clients for a Nutritionist
+ *
+ * Returns the number of clients for a given nutritionist ID.
+ *
+ * @param int $nutritionistId The ID of the nutritionist.
+ * @return int The count of clients for the given nutritionist.
+ */
+public function getClientsCountForNutritionist($nutritionistId)
+{
+    $sql = "SELECT COUNT(*) AS clientCount FROM nutritionist_client WHERE nutritionist_id = :nutritionistId";
+
+    $this->db->query($sql);
+    $this->db->bind(':nutritionistId', $nutritionistId);
+    $this->db->execute();
+
+    $row = $this->db->single();
+
+    if ($row) {
+        return $row->clientCount;
+    } else {
+        return 0;
+    }
+}
+
+ /**
+     * Get Count of Recipes for a Creator
+     *
+     * Returns the number of recipes created by a given creator ID.
+     *
+     * @param int $creatorId The ID of the creator.
+     * @return int The count of recipes for the given creator.
+     */
+    public function getRecipesCountForCreator($creatorId) {
+        $sql = "SELECT COUNT(*) AS recipeCount FROM recipes WHERE creator = :creatorId";
+
+        $this->db->query($sql);
+        $this->db->bind(':creatorId', $creatorId);
+        $this->db->execute();
+
+        $row = $this->db->single();
+
+        if ($row) {
+            return $row->recipeCount;
+        } else {
+            return 0; // In case of no recipes or an error
+        }
+    }
+
+    public function getUserProgressForNutritionist($nutritionistId)
+    {
+
+        $sql = "SELECT u.*, p.total_length, up.creation_date, 
+        (DATEDIFF(CURDATE(), up.creation_date) / p.total_length) AS progress,
+        COUNT(up.user_id) OVER () AS total_users,
+        SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) < p.total_length THEN 1 ELSE 0 END) OVER () AS not_completed,
+        SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) >= p.total_length THEN 1 ELSE 0 END) OVER () AS completed
+ FROM users u
+ JOIN nutritionist_client nc ON u.id = nc.client_id
+ LEFT JOIN user_plan up ON u.id = up.user_id
+ LEFT JOIN plans p ON up.plan_id = p.id
+ WHERE nc.nutritionist_id = :nutritionist_id";
+
+
+
+        
+        $this->db->query($sql);
+        $this->db->bind(':nutritionist_id', $nutritionistId);
+
+        $rows = $this->db->resultSet();
+
+      //  var_dump($rows); 
+
+
+        if ($this->db->rowCount() > 0) {
+            return $rows;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Deletes a user by their ID.
+     *
+     * This method executes a DELETE SQL statement to remove a user from the database.
+     * It uses prepared statements to prevent SQL injection attacks.
+     *
+     * @param int $id The unique identifier of the user to be deleted.
+     * @return bool Returns true if the operation was successful, false otherwise.
+     */
+    public function deleteClientById($id)
+    {
+        $sql = "DELETE FROM nutritionist_client WHERE 	client_id = :id";
+        $this->db->query($sql);
+        $this->db->bind(':id', $id);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }
