@@ -11,7 +11,7 @@ function getMessageBoxHtml(conversation) {
           ${conversation.lastMessage.contenu}
         </p>
         <span class="message-line time">
-        ${conversation.lastMessage.date_envoi}
+        ${conversation.lastMessage.etat == 0 ? conversation.lastMessage.date_envoi : ""}
         </span>
       </div>
     </div>
@@ -24,7 +24,7 @@ function displayNoNutritionist(idNutri = null) {
     <div class="no-nutritionist-wrapper" style="cursor:pointer;">
       <div class="no-nutritionist-content">
         <div class="no-nutritionist-header">
-          <h3 class="no-nutritionist-title">No Nutritionist</h3>
+          <h3 class="no-nutritionist-title" style="color:white;">No Nutritionist</h3>
         </div>
       </div>
     </div>
@@ -518,11 +518,16 @@ function performAjaxRequest(
               displayConversations(response)
             }
           } else {
-            if (response.data == "empty" && response.role == "Regular") {
-              displayNoNutritionist(response.nutriID) // cas où il n'y a pas encore de message 
+            if (response.data == "empty") {
+              if (response.role == "Regular") {
+                displayNoNutritionist(response.nutriID) // cas où il n'y a pas encore de message 
+              } else {
+                displayNoNutritionist(response.clientID) // cas où il n'y a pas encore de message 
 
+              }
             }
             console.log("La requête n'a pas réussie.");
+            console.log(response.data)
           }
           break;
 
@@ -532,7 +537,9 @@ function performAjaxRequest(
           console.log("voilà la data " + response.data)
           if (response.success) {
             for (numMessage in response.data) { // ajout des différents messages dans la div de conversation
-              wholeDiscussion = formatMessage(response.data[numMessage], response.ownID) + wholeDiscussion
+              if (response.data[numMessage].etat != 1) { // ignore le message par défaut
+                wholeDiscussion = formatMessage(response.data[numMessage], response.ownID) + wholeDiscussion
+              }
             }
             $('#conversationMessages').html(wholeDiscussion)
           }

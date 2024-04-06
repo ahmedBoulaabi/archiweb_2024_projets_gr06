@@ -51,7 +51,7 @@ class CommunicationController
      */
     public function getDiscussion($clientID = null)
     {
-        header('Content-Type: application/json');
+        //header('Content-Type: application/json');
         $ownID = $_SESSION['id'];
         $role = $_SESSION['role'];
 
@@ -72,7 +72,7 @@ class CommunicationController
 
         //var_dump($arrayMessage);
         if (isset($arrayMessage['error'])) {
-            echo json_encode(['success' => false, 'ownID' => $ownID, 'role' => $role, 'data' => $arrayMessage['error'], 'nutriID' => $nutriID ?? ""]);
+            echo json_encode(['success' => false, 'ownID' => $ownID, 'role' => $role, 'data' => $arrayMessage['error'], 'clientID' => $clientID ?? "", 'nutriID' => $nutriID ?? ""]);
         } else if (isset($arrayMessage)) {
             // Gérer la réponse réussie
             echo json_encode(['success' => true, 'ownID' => $ownID, 'role' => $role,  'data' => $arrayMessage]);

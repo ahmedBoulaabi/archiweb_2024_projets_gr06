@@ -144,31 +144,31 @@ class NutritionistModel
     }
 
     /**
- * Get Count of Clients for a Nutritionist
- *
- * Returns the number of clients for a given nutritionist ID.
- *
- * @param int $nutritionistId The ID of the nutritionist.
- * @return int The count of clients for the given nutritionist.
- */
-public function getClientsCountForNutritionist($nutritionistId)
-{
-    $sql = "SELECT COUNT(*) AS clientCount FROM nutritionist_client WHERE nutritionist_id = :nutritionistId";
+     * Get Count of Clients for a Nutritionist
+     *
+     * Returns the number of clients for a given nutritionist ID.
+     *
+     * @param int $nutritionistId The ID of the nutritionist.
+     * @return int The count of clients for the given nutritionist.
+     */
+    public function getClientsCountForNutritionist($nutritionistId)
+    {
+        $sql = "SELECT COUNT(*) AS clientCount FROM nutritionist_client WHERE nutritionist_id = :nutritionistId";
 
-    $this->db->query($sql);
-    $this->db->bind(':nutritionistId', $nutritionistId);
-    $this->db->execute();
+        $this->db->query($sql);
+        $this->db->bind(':nutritionistId', $nutritionistId);
+        $this->db->execute();
 
-    $row = $this->db->single();
+        $row = $this->db->single();
 
-    if ($row) {
-        return $row->clientCount;
-    } else {
-        return 0;
+        if ($row) {
+            return $row->clientCount;
+        } else {
+            return 0;
+        }
     }
-}
 
- /**
+    /**
      * Get Count of Recipes for a Creator
      *
      * Returns the number of recipes created by a given creator ID.
@@ -176,7 +176,8 @@ public function getClientsCountForNutritionist($nutritionistId)
      * @param int $creatorId The ID of the creator.
      * @return int The count of recipes for the given creator.
      */
-    public function getRecipesCountForCreator($creatorId) {
+    public function getRecipesCountForCreator($creatorId)
+    {
         $sql = "SELECT COUNT(*) AS recipeCount FROM recipes WHERE creator = :creatorId";
 
         $this->db->query($sql);
@@ -208,13 +209,13 @@ public function getClientsCountForNutritionist($nutritionistId)
 
 
 
-        
+
         $this->db->query($sql);
         $this->db->bind(':nutritionist_id', $nutritionistId);
 
         $rows = $this->db->resultSet();
 
-      //  var_dump($rows); 
+        //  var_dump($rows); 
 
 
         if ($this->db->rowCount() > 0) {
@@ -244,6 +245,4 @@ public function getClientsCountForNutritionist($nutritionistId)
             return false;
         }
     }
-
-
 }

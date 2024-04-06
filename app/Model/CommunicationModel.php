@@ -102,6 +102,7 @@ class CommunicationModel
             )
             WHERE (m.expediteur_id = :own_id AND m.destinataire_id = :target_id)
                 OR (m.expediteur_id = :target_id AND m.destinataire_id = :own_id)
+                AND m.etat != 1
             ORDER BY m.date_envoi;";
             $this->db->query($sql);
             $this->db->bind(':own_id', $ownID);
@@ -148,6 +149,7 @@ class CommunicationModel
                 JOIN users u ON u.id = :target_id
                 WHERE (m.expediteur_id = :own_id AND m.destinataire_id = :target_id)
                    OR (m.expediteur_id = :target_id AND m.destinataire_id = :own_id)
+                   AND m.etat != 1
                 ORDER BY m.date_envoi;";
                 $this->db->query($sql);
                 $this->db->bind(':own_id', $ownID);
