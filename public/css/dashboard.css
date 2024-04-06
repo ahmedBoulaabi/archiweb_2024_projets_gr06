@@ -202,41 +202,6 @@ html {
     outline: 0px !important;
 }
 
-.attach_btn {
-    border-radius: 15px 0 0 15px !important;
-    background-color: rgba(0, 0, 0, 0.3) !important;
-    border: 0 !important;
-    color: white !important;
-    cursor: pointer;
-}
-
-.send_btn {
-    border-radius: 0 15px 15px 0 !important;
-    background-color: rgba(0, 0, 0, 0.3) !important;
-    border: 0 !important;
-    color: white !important;
-    cursor: pointer;
-}
-
-.search_btn {
-    border-radius: 0 15px 15px 0 !important;
-    background-color: rgba(0, 0, 0, 0.3) !important;
-    border: 0 !important;
-    color: white !important;
-    cursor: pointer;
-}
-
-.contacts {
-    list-style: none;
-    padding: 0;
-}
-
-.contacts li {
-    width: 100% !important;
-    padding: 5px 10px;
-    margin-bottom: 15px !important;
-}
-
 .active {
     background-color: rgba(0, 0, 0, 0.3);
 }
@@ -277,37 +242,7 @@ html {
     border: 1.5px solid white;
 }
 
-.offline {
-    background-color: #c23616 !important;
-}
 
-.user_info {
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: 15px;
-}
-
-.user_info span {
-    font-size: 20px;
-    color: white;
-}
-
-.user_info p {
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.video_cam {
-    margin-left: 50px;
-    margin-top: 5px;
-}
-
-.video_cam span {
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    margin-right: 20px;
-}
 
 .msg_cotainer {
     margin-top: auto;
@@ -408,101 +343,116 @@ html {
 }
 
 .project-box {
-  border-radius: 10px;
-  padding: 16px;
-  width: 100%;
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  color: white;
+    border-radius: 10px;
+    padding: 16px;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: white;
 }
+
 .project-box-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  color: var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    color: var(--main-color);
 }
+
 .project-box-header span {
-  color: #fff;
-  opacity: 0.8;
-  font-size: 14px;
-  line-height: 16px;
+    color: #fff;
+    opacity: 0.8;
+    font-size: 14px;
+    line-height: 16px;
 }
+
 .project-box-content-header {
-  text-align: center;
-  margin-bottom: 16px;
+    text-align: center;
+    margin-bottom: 16px;
 }
+
 .project-box-content-header p {
-  margin: 0;
+    margin: 0;
 }
+
 .project-box-wrapper {
-  padding: 8px;
-  transition: 0.2s;
+    padding: 8px;
+    transition: 0.2s;
 }
+
 .project-btn-more {
-  padding: 0;
-  height: 14px;
-  width: 24px;
-  height: 24px;
-  position: relative;
-  background-color: transparent;
-  border: none;
-  flex-shrink: 0;
+    padding: 0;
+    height: 14px;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    background-color: transparent;
+    border: none;
+    flex-shrink: 0;
 }
+
 .more-wrapper {
-  position: relative;
+    position: relative;
 }
+
 .box-content-header {
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 700;
-  /* opacity: 0.7; */
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    /* opacity: 0.7; */
 }
+
 .box-content-subheader {
-  font-size: 14px;
-  line-height: 24px;
-  opacity: 0.7;
+    font-size: 14px;
+    line-height: 24px;
+    opacity: 0.7;
 }
+
 .box-progress {
-  display: block;
-  height: 4px;
-  border-radius: 6px;
+    display: block;
+    height: 4px;
+    border-radius: 6px;
 }
+
 .box-progress-bar {
-  width: 100%;
-  height: 4px;
-  border-radius: 6px;
-  overflow: hidden;
-  background-color: #fff;
-  margin: 8px 0;
+    width: 100%;
+    height: 4px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #fff;
+    margin: 8px 0;
 }
+
 .box-progress-header {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16px;
-  margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    margin: 0;
 }
+
 .box-progress-percentage {
-  text-align: right;
-  margin: 0;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16px;
+    text-align: right;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
 }
+
 .project-box-footer {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 16px;
-  position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 16px;
+    position: relative;
 }
+
 .project-box-footer:after {
-  content: "";
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.6);
-  width: calc(100% + 32px);
-  top: 0;
-  left: -16px;
-  height: 1px;
+    content: "";
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.6);
+    width: calc(100% + 32px);
+    top: 0;
+    left: -16px;
+    height: 1px;
 }

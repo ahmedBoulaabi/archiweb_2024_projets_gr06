@@ -1,0 +1,84 @@
+.msg_cotainer {
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 25px;
+    background-color: #82ccdd;
+    padding: 10px;
+    /*position: relative;*/
+}
+
+.msg_cotainer_send {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10px;
+    border-radius: 25px;
+    background-color: #78e08f;
+    padding: 10px;
+    position: relative;
+}
+
+.msg_cotainer_receive {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+    border-radius: 25px;
+    background-color: #82ccdd;
+    padding: 10px;
+    position: relative;
+}
+
+.msg_time {
+    position: relative;
+    left: 0;
+    bottom: -0px;
+    color: #82CCDD;
+    font-size: 11px;
+}
+
+.msg_time_send {
+    position: relative;
+    right: 0;
+    bottom: -0px;
+    color: #4287f5;
+    font-size: 11px;
+}
+
+.msg_head {
+    position: relative;
+}
+
+
+@media screen and (max-width: 880px) {
+    .messages-section {
+        transform: translateX(100%);
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        z-index: 2;
+        height: 100%;
+        width: 100%;
+    }
+
+    .messages-section .messages-close {
+        display: block;
+    }
+
+    .messages-btn {
+        display: flex;
+    }
+}
+
+#conversationMessages {
+    padding-top: 3vh;
+
+    max-height: 400px;
+    /* Définissez la hauteur maximale souhaitée */
+    overflow-y: auto;
+    /* Permet le scroll vertical si nécessaire */
+
+
+}
+
+.own_msg {
+    position: right;
+}
