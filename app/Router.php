@@ -138,12 +138,20 @@ class Router
                     }
                     break;
 
+
                 case 'UserHavePlan':
                     $this->userController->userHavePlan();
                     break;
 
                 case 'deleteRecipe':
                     $this->adminController->deleteRecipe();
+
+                case 'toggleRecipeConsumed':
+                    if (isset($_POST['recipe_id'])) {
+                        $recipe_id = json_decode($_POST['recipe_id'], true);
+                        $this->userController->toggleRecipeConsumed($recipe_id);
+                    }
+                    break;
 
                 default:
                     include __DIR__ . '/Views/templates/user/login.php';
