@@ -90,6 +90,7 @@ class CommunicationModel
      */
     public function getDiscussion($ownID, $targetID, $role)
     {
+        header('Content-Type: application/json');
 
         if ($role == "Regular") {
 
@@ -105,7 +106,19 @@ class CommunicationModel
             $this->db->query($sql);
             $this->db->bind(':own_id', $ownID);
             $this->db->bind(':target_id', $targetID);
-            $result = $this->db->resultArray();
+            try {
+                $result = $this->db->resultArray(true);
+
+                // Vérifiez si la réponse contient 'error'
+                if (isset($result['error'])) {
+                    return $result;
+                } else {
+                    return $result;
+                }
+            } catch (\Exception $e) {
+                //erreur lors de l'exécution de la requête
+                return ['error' => $e->getMessage()];
+            }
         } else if ($role == "Nutritionist") {
             if ($targetID == null) { // pour récupérer toutes les conversations d'un nutri
 
@@ -116,7 +129,19 @@ class CommunicationModel
         ORDER BY m.date_envoi;";
                 $this->db->query($sql);
                 $this->db->bind(':own_id', $ownID);
-                $result = $this->db->resultArray(true);
+                try {
+                    $result = $this->db->resultArray(true);
+
+                    // Vérifiez si la réponse contient 'error'
+                    if (isset($result['error'])) {
+                        return $result;
+                    } else {
+                        return $result;
+                    }
+                } catch (\Exception $e) {
+                    //erreur lors de l'exécution de la requête
+                    return ['error' => $e->getMessage()];
+                }
             } else { // pour récupérer une conversation spécifique de nutri à un client
                 $sql = "SELECT m.*, u.fullname AS interlocutor_fullname, u.img AS interlocutor_img, u.goal AS interlocutor_goal
                 FROM messages m
@@ -130,18 +155,19 @@ class CommunicationModel
                 try {
                     $result = $this->db->resultArray(true);
 
-                    if ($result != -1) {
+                    // Vérifiez si la réponse contient 'error'
+                    if (isset($result['error'])) {
                         return $result;
                     } else {
-                        // Aucune ligne correspondante trouvée
-                        return ['status' => 'empty'];
+                        return $result;
                     }
                 } catch (\Exception $e) {
                     //erreur lors de l'exécution de la requête
-                    return ['status' => 'error', 'error' => $e->getMessage()];
+                    return ['error' => $e->getMessage()];
                 }
             }
         }
-        return $result ?? false;
+
+        //return $result ?? false;
     }
 }

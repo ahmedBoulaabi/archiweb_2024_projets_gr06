@@ -18,8 +18,9 @@ function getMessageBoxHtml(conversation) {
   `;
 }
 
-function displayNoNutritionist() {
-  $("#discussion-class").html(`
+function displayNoNutritionist(idNutri = null) {
+  if (idNutri == null) {
+    $("#discussion-class").html(`
     <div class="no-nutritionist-wrapper" style="cursor:pointer;">
       <div class="no-nutritionist-content">
         <div class="no-nutritionist-header">
@@ -28,6 +29,21 @@ function displayNoNutritionist() {
       </div>
     </div>
   `);
+  } else {
+    $("#discussion-class").html(`    <div class="message-box" data-id=${idNutri} style="cursor:pointer;">
+    <div class="message-content">
+      <div class="message-header">
+        <div class="name">No conversation yet</div>
+
+      </div>
+      <p class="message-line">
+        Start a conversation
+      </p>
+    </div>
+  </div>`);
+
+  }
+
 
   // Ajouter les styles CSS pour centrer le message
   $(".no-nutritionist-wrapper").css({
@@ -231,7 +247,7 @@ function performAjaxRequest(
           break;
 
         case "getUserProgress":
-          console.log("res "+response.data);
+          console.log("res " + response.data);
           $("#total-clients").text(response.data.total_users);
           $("#in-progress").text(response.data.not_completed);
           $("#plans-finished").text(response.data.completed);
@@ -239,49 +255,47 @@ function performAjaxRequest(
           var baseAppDir = document
             .getElementById("baseAppDir")
             .innerText.trim();
-            const backgroundColors = {
-              'gain-weight-normal': '#c8f7dc',
-              'lose-weight-fast': '#ffd3e2',
-              'lose-weight-normal': '#e9e7fd'
-            };
-            
-            const spanColors = {
-              'gain-weight-normal': '#34c471',
-              'lose-weight-fast': '#df3670',
-              'lose-weight-normal': '#4f3ff0'
-            };
-            response.data.users_progress.sort(function(a, b) {
-              var progressA = parseFloat(a.plan_progress.replace('%', ''));
-              var progressB = parseFloat(b.plan_progress.replace('%', ''));
-              return progressB- progressA;
+          const backgroundColors = {
+            'gain-weight-normal': '#c8f7dc',
+            'lose-weight-fast': '#ffd3e2',
+            'lose-weight-normal': '#e9e7fd'
+          };
+
+          const spanColors = {
+            'gain-weight-normal': '#34c471',
+            'lose-weight-fast': '#df3670',
+            'lose-weight-normal': '#4f3ff0'
+          };
+          response.data.users_progress.sort(function (a, b) {
+            var progressA = parseFloat(a.plan_progress.replace('%', ''));
+            var progressB = parseFloat(b.plan_progress.replace('%', ''));
+            return progressB - progressA;
           });
-          
+
           response.data.users_progress.forEach(function (client) {
             if (client.plan_creation_date === null || client.plan_creation_date === undefined) {
               return; // Skip this client and move on to the next one
-          }
+            }
 
             const goal = client.goal; // Assuming row.goal contains the goal information
-          const backgroundColor = backgroundColors[goal] || '#ffffff';
-          const spanColor = spanColors[goal] || '#ffffff'; 
+            const backgroundColor = backgroundColors[goal] || '#ffffff';
+            const spanColor = spanColors[goal] || '#ffffff';
 
             var clientHtml = `
               <div class="project-box-wrapper">
                 <div class="project-box" style="background-color: ${backgroundColor};">
                   <div class="project-box-header">
-                    <span>${
-                      client.plan_creation_date
-                    }</span> <!-- Assuming 'date' is part of your client object -->
+                    <span>${client.plan_creation_date
+              }</span> <!-- Assuming 'date' is part of your client object -->
                     <div class="more-wrapper">
                       <!-- Button and SVG omitted for brevity -->
                     </div>
                   </div>
                   <div class="project-box-content-header">
-                  <img src="${
-                    client.img
-                      ? baseAppDir + client.img
-                      : "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
-                  }" alt="profile image" class="img">
+                  <img src="${client.img
+                ? baseAppDir + client.img
+                : "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
+              }" alt="profile image" class="img">
 
                     <p class="box-content-header">${client.fullname}</p>
                     <p class="box-content-subheader">${client.goal}</p>
@@ -289,13 +303,11 @@ function performAjaxRequest(
                   <div class="box-progress-wrapper">
                     <p class="box-progress-header">Progress</p>
                     <div class="box-progress-bar">
-                      <span class="box-progress" style="width: ${
-                        client.plan_progress
-                      }; background-color: ${spanColor}"></span>
+                      <span class="box-progress" style="width: ${client.plan_progress
+              }; background-color: ${spanColor}"></span>
                     </div>
-                    <p class="box-progress-percentage">${
-                      client.plan_progress
-                    }</p>
+                    <p class="box-progress-percentage">${client.plan_progress
+              }</p>
                   </div>
                 </div>
               </div>`;
@@ -382,11 +394,11 @@ function performAjaxRequest(
 
           $("#notif-user-" + sender.id).html(
             '<p style="width: 20%; margin: 10px 0">' +
-              sender.fullname +
-              "</p>" +
-              '<p style="width: 20%; margin: 15px 0" id="status-request-<?php echo $row->id ?>">' +
-              statusText +
-              "</p>"
+            sender.fullname +
+            "</p>" +
+            '<p style="width: 20%; margin: 15px 0" id="status-request-<?php echo $row->id ?>">' +
+            statusText +
+            "</p>"
           );
           $("#notif-user-" + sender.id).css("background-color", bgColor);
           Swal.fire({
@@ -428,14 +440,12 @@ function performAjaxRequest(
                   <b>Name:</b> ${response.data.name}<br>
                   <b>Calories:</b> ${response.data.calories}<br>
                   <b>Type:</b> ${response.data.type}<br>
-                  <b>Visibility:</b> ${
-                    response.data.visibility == 1 ? "Visible" : "Not Visible"
-                  }<br>
+                  <b>Visibility:</b> ${response.data.visibility == 1 ? "Visible" : "Not Visible"
+              }<br>
                   <b>Creation Date:</b> ${response.data.creation_date}<br>
                   <b>Creator:</b> ${response.data.creator}<br>
-                  <img src="${
-                    response.data.image_url
-                  }" alt="Recipe Image" style="max-width: 100%; margin-top: 10px;">
+                  <img src="${response.data.image_url
+              }" alt="Recipe Image" style="max-width: 100%; margin-top: 10px;">
                 </div>
               `,
             showCancelButton: true,
@@ -500,29 +510,38 @@ function performAjaxRequest(
           break;
 
         case "getDiscussion":
-          console.log(response.role)
+          console.log(response)
           if (response.success) {
             if (response.role == "NoNutritionist") {
-              displayNoNutritionist()
+              displayNoNutritionist(null) // cas où il n'y a pas de nutritioniste
             } else {
               displayConversations(response)
             }
           } else {
+            if (response.data == "empty" && response.role == "Regular") {
+              displayNoNutritionist(response.nutriID) // cas où il n'y a pas encore de message 
+
+            }
             console.log("La requête n'a pas réussie.");
           }
           break;
 
         case "getMessagesFromAConvo":
           wholeDiscussion = ""
-          for (numMessage in response.data) { // ajout des différents messages dans la div de conversation
-            wholeDiscussion = formatMessage(response.data[numMessage], response.ownID) + wholeDiscussion
+          console.log(response.success)
+          console.log("voilà la data " + response.data)
+          if (response.success) {
+            for (numMessage in response.data) { // ajout des différents messages dans la div de conversation
+              wholeDiscussion = formatMessage(response.data[numMessage], response.ownID) + wholeDiscussion
+            }
+            $('#conversationMessages').html(wholeDiscussion)
           }
-          $('#conversationMessages').html(wholeDiscussion)
+
 
           console.log(response)
           // mettre le nom de l'interlocuteur pour savoir à qui on parle
           const modalTitle = document.querySelector('.modal-title');
-          if (modalTitle) {
+          if (modalTitle && response.data[0].interlocutor_fullname) {
             console.log("nom interlocutor: " + response.data[0].interlocutor_fullname);
             modalTitle.innerHTML = "Send a message to " + response.data[0].interlocutor_fullname;
           }

@@ -101,9 +101,7 @@ if ($_SESSION['role'] == "Regular") {
                     <span>February 17, 2024</span>
                     <div class="more-wrapper">
                       <a href="<?= BASE_APP_DIR ?>/planning" class="project-btn-more">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                          stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          class="feather feather-more-vertical">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
                           <circle cx="12" cy="12" r="1" />
                           <circle cx="12" cy="5" r="1" />
                           <circle cx="12" cy="19" r="1" />
@@ -142,7 +140,7 @@ if ($_SESSION['role'] == "Regular") {
           <?php if ($_SESSION['role'] == "Regular") : ?>
             <div class="col-lg-6 messages-section" style="max-width: 500px;">
               <h5 class="fw-bold ">Discussion</h5>
-              <div href="#" class="container bg-main rounded-3 messages" id="discussion-class" style="height: 200px;">
+              <div href="#" class="container bg-main rounded-3 messages" id="discussion-class" style="height: 120px;">
 
               </div>
             </div>
@@ -184,11 +182,8 @@ if ($_SESSION['role'] == "Regular") {
                 include VIEWSDIR . DS . 'components' . DS . 'user' . DS . 'dashboard' . DS . 'meal.php';
                 ?>
 
-                <div class="d-flex flex-column justify-content-center bg-bg p-4 rounded"
-                  style="width: fit-content; width: 250px">
-                  <img
-                    style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);"
-                    src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
+                <div class="d-flex flex-column justify-content-center bg-bg p-4 rounded" style="width: fit-content; width: 250px">
+                  <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);" src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
                   <p class="fw-bold text-main text-center" style="font-size: 20px; padding-top: 0px;">Add new Item</p>
                 </div>
               </div>

@@ -130,11 +130,6 @@ class Database
         return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
-    /**
-     * Get result set as an array
-     *
-     * @return array|int The result set.
-     */
     public function resultArray($fetchDiscussion = false)
     {
         $this->execute();
@@ -143,12 +138,15 @@ class Database
         if ($fetchDiscussion == false) {
             return $results;
         }
+
         $data = [];
         foreach ($results as $result) {
             $data[] = (array) $result;
         }
-        if (count($data) < 1) {
-            return -1;
+
+        // Utilisez un tableau cohérent pour indiquer qu'il n'y a pas de résultats
+        if (empty($data)) {
+            return ['error' => 'empty'];
         }
 
         return $data;

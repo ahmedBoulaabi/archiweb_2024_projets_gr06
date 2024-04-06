@@ -51,6 +51,7 @@ class CommunicationController
      */
     public function getDiscussion($clientID = null)
     {
+        header('Content-Type: application/json');
         $ownID = $_SESSION['id'];
         $role = $_SESSION['role'];
 
@@ -66,15 +67,14 @@ class CommunicationController
             }
         } else if ($role == "Nutritionist") {
 
-            /*$nutritionistIds = array_map(function ($object) {
-                return $object['client_id'];
-            }, $targetID);*/
             $arrayMessage = $this->commModel->getDiscussion($ownID, $clientID, $role);
         }
 
-        if (empty($arrayMessage) || isset($arrayMessage['error'])) {
-            echo json_encode(['success' => false, 'ownID' => $ownID, 'role' => $role, 'data' => $arrayMessage['error']]);
-        } else {
+        //var_dump($arrayMessage);
+        if (isset($arrayMessage['error'])) {
+            echo json_encode(['success' => false, 'ownID' => $ownID, 'role' => $role, 'data' => $arrayMessage['error'], 'nutriID' => $nutriID ?? ""]);
+        } else if (isset($arrayMessage)) {
+            // Gérer la réponse réussie
             echo json_encode(['success' => true, 'ownID' => $ownID, 'role' => $role,  'data' => $arrayMessage]);
         }
     }
