@@ -134,6 +134,9 @@ class Router
                 case 'updateRecipe':
                     $this->adminController->updateRecipe();
                     break;
+                case 'updateUser':
+                    $this->adminController->updateUser();
+                    break;
                 case 'insertPlan':
                     if (isset($_POST['recipesData']) && isset($_POST['period']) && isset($_POST['duration'])) {
 
@@ -193,6 +196,9 @@ class Router
                         $this->adminController->getAllUsers();
                         break;
                     case 'getUserDetails':
+                        $this->adminController->getUserDetails();
+                        break;
+                    case 'loadUserDetails':
                         $this->adminController->getUserDetails();
                         break;
                     case 'getAllRecipes':

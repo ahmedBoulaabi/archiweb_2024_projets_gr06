@@ -351,6 +351,71 @@ class AdminController
             echo json_encode(['success' => false, 'message' => 'Something went wrong']);
         }
     }
+    public function updateUser(){
+         // Check if a new file was uploaded and handle the file upload first
+        $newImageUploadPath = ''; // Default value if no new file is uploaded
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["edit_imageUpload"])) {
+            $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/archiweb_2024_projets_gr06/public/images/recipesImages/';
+            $fileName = basename($_FILES["edit_imageUpload"]["name"]);
+            $targetFilePath = $targetDir . $fileName;
+
+            // Optional: Validate file size and type here before proceeding with the upload
+
+            // Create the target directory if it doesn't exist
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            // Attempt to move the uploaded file to the target directory
+            if (move_uploaded_file($_FILES["edit_imageUpload"]["tmp_name"], $targetFilePath)) {
+                $newImageUploadPath = '/public/images/profile-images/' . $fileName;
+            } else {
+                // Handle file upload failure
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'File upload failed']);
+                exit; // Stop execution if file upload fails
+            }
+        }
+
+        // Sanitize input data for user update
+        $id = trim($_POST['edit_user_id'] ?? '');
+        $firstname = trim($_POST['firstname'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $gender = trim($_POST['gender'] ?? '');
+        $goal = trim($_POST['goal'] ?? '');
+        $age = trim($_POST['age'] ?? '');
+        $role = trim($_POST['role'] ?? '');
+        $height = trim($_POST['height'] ?? '');
+        $weight = trim($_POST['weight'] ?? '');
+        $caloriesgoal = trim($_POST['caloriesgoal'] ?? '');
+
+        // Assumption: $newImageUploadPath is set elsewhere in your script, after processing any uploaded file
+        // For example, after checking and moving the uploaded file to a permanent location
+
+        $data = [
+            'id' => $id,
+            'firstname' => $firstname,
+            'email' => $email,
+            'gender' => $gender,
+            'goal' => $goal,
+            'age' => (int) $age, // Casting to int for safety
+            'role' => $role,
+            'height' => (int) $height, // Casting to int for safety
+            'weight' => (int) $weight, // Casting to int for safety
+            'caloriesgoal' => (int) $caloriesgoal, // Casting to int for safety
+            // 'image' key is reserved for the path to the uploaded image file, if any
+            'image' => $newImageUploadPath ?? ''
+        ];
+
+        // Attempt to update the recipe
+        if ($this->adminModel->updateUser($data)) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'message' => 'User updated successfully']);
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Something went wrong']);
+        }
+    }
 
     /**
      * Add a new Recipe with image.
