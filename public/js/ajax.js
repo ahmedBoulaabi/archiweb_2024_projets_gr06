@@ -200,8 +200,7 @@ function handleAjaxResponse(
         action != "deleteClient" &&
         action != "insertPlan" &&
         action != "addNewRecipe" &&
-        action != "updateRecipe" &&
-        action != "updateUser"
+        action != "updateRecipe" 
       ) {
         window.location.href = redirectHref;
       } else if (redirectHref == "recipes-list") {
@@ -479,6 +478,7 @@ function performAjaxRequest(
           break;
         case "loadUserDetails":
           // Remplir les champs du modal avec les données reçues
+          $("#edit_user_id").val(response.data.id);
           $("#edit_fname").val(response.data.fullname);
           $("#edit_email").val(response.data.email);
           $("#edit_gender").val(response.data.gender);

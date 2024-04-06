@@ -315,6 +315,18 @@ class AdminModel
         }
     }
 
+
+    /**
+     * Update User Data in Database
+     *
+     * Prepares the SQL query to update user data in the database. Binds the input data to the query parameters
+     * and executes the query. If successful, returns true; otherwise, catches and handles any database exceptions,
+     * returning false.
+     *
+     * @param array $data An associative array containing the updated user data. Expected keys are 'id', 'firstname',
+     *                    'email', 'gender', 'goal', 'age', 'role', 'height', 'weight', and 'caloriesgoal'.
+     * @return bool Returns true if the user data was successfully updated in the database, false otherwise.
+     */
     public function updateUser($data)
     {
         // Prépare la requête SQL pour mettre à jour les données de l'utilisateur dans la base de données.

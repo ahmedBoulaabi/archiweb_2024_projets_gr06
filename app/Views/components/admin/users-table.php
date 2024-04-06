@@ -49,56 +49,59 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="" method="post" id="edit-user-form" enctype="multipart/form-data">
-          <div class="form-group">
-            <label for="edit_imageUpload">Choose recipe image</label>
-            <input type="file" id="edit_imageUpload" name="edit_imageUpload" accept=".png, .jpg, .jpeg" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="edit_fname">First Name</label>
-            <input type="text" class="form-control" id="edit_fname" name="firstname" required>
-          </div>
-          <div class="form-group">
-            <label for="edit_email">Email</label>
-            <input type="email" class="form-control" id="edit_email" name="email" required>
-          </div>
-          <div class="form-group">
-            <label for="edit_gender">Gender</label>
-            <select class="form-control" id="edit_gender" name="gender" required>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="edit_goal">Goal</label>
-            <select class="form-control" id="edit_goal" name="goal" required>
-              <option value="lose-weight-fast">Lose weight fast</option>
-              <!-- Autres options de goal selon tes besoins -->
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="edit_age">Age</label>
-            <input type="number" class="form-control" id="edit_age" name="age" required>
-          </div>
-          <div class="form-group">
-            <label for="edit_role">Role</label>
-            <input type="text" class="form-control" id="edit_role" name="role" required>
-          </div>
-          <div class="form-group">
-            <label for="edit_height">Height (cm)</label>
-            <input type="number" class="form-control" id="edit_height" name="height" required>
-          </div>
-          <div class="form-group">
-            <label for="edit_weight">Weight (kg)</label>
-            <input type="number" class="form-control" id="edit_weight" name="weight" required>
-          </div>
-          <div class="form-group">
-            <label for="edit_caloriesgoal">Daily Calorie Goal</label>
-            <input type="number" class="form-control" id="edit_caloriesgoal" name="caloriesgoal" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Save Changes</button>
-        </form>
+      <form action="" method="post" id="edit-user-form" enctype="multipart/form-data">
+      <form action="" method="post" id="edit-user-form" enctype="multipart/form-data">
+  <input type="text" id="edit_user_id" name="edit_user_id">
+  <div class="form-group">
+    <label for="edit_fname">First Name</label>
+    <input type="text" class="form-control" id="edit_fname" name="edit_fname" required>
+  </div>
+  <div class="form-group">
+    <label for="edit_email">Email</label>
+    <input type="email" class="form-control" id="edit_email" name="edit_email" required>
+  </div>
+  <div class="form-group">
+    <label for="edit_gender">Gender</label>
+    <select class="form-control" id="edit_gender" name="edit_gender" required>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="edit_goal">Goal</label>
+    <select class="form-control" id="edit_goal" name="edit_goal" required>
+      <option value="lose-weight-fast">Lose weight fast</option>
+      <!-- Ajoute ici d'autres objectifs selon les besoins -->
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="edit_age">Age</label>
+    <input type="number" class="form-control" id="edit_age" name="edit_age" required>
+  </div>
+  <div class="form-group">
+    <label for="edit_role">Role</label>
+    <input type="text" class="form-control" id="edit_role" name="edit_role" required>
+  </div>
+  <div class="form-group">
+    <label for="edit_height">Height (cm)</label>
+    <input type="number" class="form-control" id="edit_height" name="edit_height" required>
+  </div>
+  <div class="form-group">
+    <label for="edit_weight">Weight (kg)</label>
+    <input type="number" class="form-control" id="edit_weight" name="edit_weight" required>
+  </div>
+  <div class="form-group">
+    <label for="edit_caloriesgoal">Daily Calorie Goal</label>
+    <input type="number" class="form-control" id="edit_caloriesgoal" name="edit_caloriesgoal" required>
+  </div>
+  <div class="form-group">
+    <label for="edit_imageUpload">Profile Picture</label>
+    <input type="file" id="edit_imageUpload" name="edit_imageUpload" accept=".png, .jpg, .jpeg" class="form-control">
+  </div>
+  <input type="submit" name="updateUser" id="updateUser" value="Save Changes" class="btn btn-secondary btn-block">
+</form>
+
       </div>
     </div>
   </div>
@@ -144,11 +147,8 @@
     $("#updateUser").click(function(e) {
       e.preventDefault(); // Prévenir la soumission par défaut du formulaire
       if ($("#edit-user-form")[0].checkValidity()) {
-        e.preventDefault();
         var formData = new FormData($("#edit-user-form")[0]); // Créer un objet FormData à partir du formulaire
-        // Supposons que `performAjaxWithImage` est une fonction capable de gérer aussi la mise à jour des utilisateurs
         performAjaxWithImage('edit-user-form', 'updateUser', 'Updated!', 'User updated successfully.');
-        // Assure-toi que 'updateUser' est le bon endpoint pour traiter la mise à jour des utilisateurs
       }
     });
 
