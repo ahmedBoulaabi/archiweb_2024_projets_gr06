@@ -7,7 +7,7 @@
  * It initializes essential settings, autoloads classes, environment variables
  * and handles the incoming HTTP request through the router.
  *
- * @author gr06
+ * @author groupe06
  * @version 1.0
  */
 
