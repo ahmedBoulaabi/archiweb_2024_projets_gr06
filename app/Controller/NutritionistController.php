@@ -259,4 +259,17 @@ class NutritionistController
             exit;
         }
     }
+    public function clientHavePlan($clientId)
+    {
+     
+         if ($this->nutriModel->ifClientHavePlan($clientId)) {
+             $result = $this->nutriModel->getPlanRecipesDetail($clientId);
+             $data = $result['planRecipesDetails'];
+             $planInfo = $result['planData'];
+             echo json_encode(['success' => true, 'message' => 'PlanExist', 'data' => $data, 'planInfo' => $planInfo]);
+         } else {
+             echo json_encode(['success' => true, 'message' => 'noPlanExist']);
+         }
+     
+    }
 }

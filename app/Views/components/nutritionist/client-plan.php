@@ -66,6 +66,7 @@ $ClientIdJson=json_encode($clientId);
                                 Days</a>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <div class="selector-label">
                             <h3 class="text-white">Duration</h3>
@@ -87,6 +88,8 @@ $ClientIdJson=json_encode($clientId);
                             <h3 class="text-white">Name of the Plan</h3>
                             <p>Add a name to your Plan</p>
                         </div>
+
+
                         <div class="selector width-per-item">
                             <form id="form-data" class="selector width-per-item">
                                 <input type="text" name="plan-name" id="plan-name" class="bg-bg rounded p-1 px-2" style="width:300px; border:1px solid #ccc;" placeholder="Plan Name" required title="Please enter a plan name">
@@ -97,6 +100,7 @@ $ClientIdJson=json_encode($clientId);
                     </div>
                 </div>
             </div>
+
             <div id="userHavePlan" class="radio-container" style="background-color: #678e48;;display: none;">
                 <div class="radio-container" style="background-color:#678e48;;">
                     <div class="form-group text-center">
@@ -135,6 +139,8 @@ $ClientIdJson=json_encode($clientId);
             </div>
         </div>
 
+
+
         <h4 class="mt-5 mb-3" style="padding-left: 20px;">Client Dietary Plan:</h4>
         <div class="bg-gray mx-3 rounded" id="dayPlan">
             <?php for ($day = 1; $day <= $period; $day++) : ?>
@@ -154,9 +160,12 @@ $ClientIdJson=json_encode($clientId);
                     </div>
                 </div>
             <?php endfor; ?>
+
         </div>
     </div>
+
     </div>
+
     <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
 
     <script type="text/javascript">
@@ -260,6 +269,7 @@ $ClientIdJson=json_encode($clientId);
 
                     // Add the clicked recipe's data to the recipes array
                     recipes.push(recipeData);
+
                     saveRecipes();
 
                     // After updating recipes array, re-render the recipes

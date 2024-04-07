@@ -290,4 +290,97 @@ class NutritionistModel
             return false;
         }
     }
+            /**
+     * getClienPlan
+     * 
+     * Retrieves the plan associated with the specified user ID from the database.
+     * 
+     * @param int $clientId The ID of the user to retrieve the plan for.
+     * @return mixed Returns the plan details if found, or false if no plan exists for the client.
+     */
+    function getClientPlan($clientId)
+    {
+        $sql = "SELECT * FROM user_plan WHERE user_id = :userId";
+        $this->db->query($sql);
+        $this->db->bind(':userId', $clientId);
+        $plan = $this->db->single();
+        if ($this->db->rowCount() > 0) {
+            return $plan;
+        } else {
+            return false;
+        }
+    }
+        /**
+     * getPlanInfo
+     * 
+     * get all information about user plan from plans table 
+     * 
+     * @param int $planId The ID of the plan to retrieve the plan information.
+     * @return mixed Returns the plan information if found, or false if no plan exist.
+     */
+    function getPlanInfo($planId)
+    {
+        $sql = "SELECT * FROM plans WHERE id = :planId";
+        $this->db->query($sql);
+        $this->db->bind(':planId', $planId);
+        $plan = $this->db->single();
+        if ($this->db->rowCount() > 0) {
+            return $plan;
+        } else {
+            return false;
+        }
+    }
+        /**
+     * getRecipesAndDay
+     *
+     * Retrieves recipes along with their associated day from the database based on the provided plan ID.
+     * @param int $planId The ID of the plan for which recipes are being retrieved.
+     * @return array An array containing recipe information along with their associated day, or an empty array if no recipes are found.
+     */
+    function getRecipesAndDay($planId)
+    {
+        $sql = "SELECT r.*, pr.date FROM recipes r JOIN plan_recipes pr ON r.id = pr.recipe_id WHERE pr.plan_id = :planId";
+        $this->db->query($sql);
+        $this->db->bind(':planId', $planId);
+        $recipes = $this->db->resultSet();
+        return $recipes;
+    }
+        /**
+     * getPlanRecipesDetail
+     * 
+     * Retrieves the details of recipes associated with the user's plan from the database.
+     * This function first retrieves the user's plan using the getUserPlan method,
+     * then fetches the details of recipes associated with the retrieved plan using the getPlanRecipesDetails method.
+     * 
+     * @return array|null Returns an array containing the details of recipes associated with the user's plan.
+     *                   If no plan is found for the user or if no recipes are associated with the plan, returns null.
+     */
+    function getPlanRecipesDetail($clientId)
+    {
+        // Récupération du plan de l'utilisateur
+        $userId = $_SESSION['id'];
+        $plan = $this->getClientPlan($clientId);
+        $planId = $plan->id;
+        $planInfo = $this->getPlanInfo($planId);
+        $planRecipesDetails = $this->getRecipesAndDay($planId);
+        $result = array(
+            'planData' => $planInfo,
+            'planRecipesDetails' => $planRecipesDetails
+        );
+        return $result;
+    }
+
+    function ifClientHavePlan($clientId)
+    {
+        $sql = "SELECT EXISTS (SELECT 1 FROM user_plan WHERE user_id = :userId) AS planExists";
+        $this->db->query($sql);
+        $this->db->bind(':userId', $clientId);
+        $result = $this->db->single(); // Récupère le résultat de la clause EXISTS
+
+        if ($result->planExists == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
