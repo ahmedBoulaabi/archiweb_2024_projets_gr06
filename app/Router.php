@@ -152,6 +152,9 @@ class Router
                 case 'UserHavePlan':
                     $this->userController->userHavePlan();
                     break;
+                case 'ClientHavePlan':
+                    $this->nutriController->clientHavePlan($_POST['additionalData']);
+                    break;
 
                 case 'deleteRecipe':
                     $this->adminController->deleteRecipe();

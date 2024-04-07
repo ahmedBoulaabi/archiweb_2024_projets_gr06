@@ -233,7 +233,7 @@ function performAjaxRequest(
   $.ajax({
     url: "index.php",
     type: requestType,
-    data: $("#form-data").serialize() + "&action=" + action + additionalData,
+    data: $("#form-data").serialize() + "&action=" + action +"&additionalData="+ additionalData,
     dataType: "json",
     success: function (response) {
 
@@ -557,6 +557,29 @@ function performAjaxRequest(
           } else if (response.message === "noPlanExist") {
             $("#userHavePlan").hide();
             $("#userNotHavePlan").show();
+          }
+          break;
+          case "ClientHavePlan":
+          console.log(response.message);
+          if (response.message === 'PlanExist') {
+            localStorage.setItem('recipes', JSON.stringify(response.data));
+            lienActuel=window.location.href;
+            console.log(additionalData);
+            if(lienActuel=="https://localhost/archiweb_2024_projets_gr06/nutritionist-dashboard?tab=clientPlan&clientId="+additionalData)
+            {
+              window.location.href = "nutritionist-dashboard?tab=clientPlan&clientId="+additionalData+"&period="+response.planInfo["period"];
+            }
+            $("#GlobDiv").css("height", "fit-content");
+            $('#userHavePlan').show();
+            $('#userNotHavePlan').hide();
+            $("#planNameId").html(response.planInfo["name"]);
+            $("#periodValue").html(response.planInfo["period"]);
+            $("#durationValue").html(response.planInfo["total_length"]);
+          } else if (response.message === 'noPlanExist') {
+            $("#GlobDiv").css("height", "fit-content");
+            $('#userHavePlan').hide();
+            $('#userNotHavePlan').show();
+
           }
           break;
         case "toggleRecipeConsumed":

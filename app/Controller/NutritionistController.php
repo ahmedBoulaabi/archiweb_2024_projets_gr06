@@ -193,7 +193,7 @@ class NutritionistController
         header('Content-Type: application/json');
 
         $nutritionistId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
-
+        
         // Call the model method to get progress data for users of a nutritionist
         $data = $this->nutriModel->getUserProgressForNutritionist($nutritionistId);
 
@@ -212,8 +212,6 @@ class NutritionistController
                     'plan_creation_date' => $row->creation_date,
                 ];
             }
-
-
             // Trie le tableau des utilisateurs en fonction du pourcentage de progression
             usort($usersProgress, function ($a, $b) {
                 return (float) $b['plan_progress'] - (float) $a['plan_progress'];
@@ -260,5 +258,18 @@ class NutritionistController
             }
             exit;
         }
+    }
+    public function clientHavePlan($clientId)
+    {
+     
+         if ($this->nutriModel->ifClientHavePlan($clientId)) {
+             $result = $this->nutriModel->getPlanRecipesDetail($clientId);
+             $data = $result['planRecipesDetails'];
+             $planInfo = $result['planData'];
+             echo json_encode(['success' => true, 'message' => 'PlanExist', 'data' => $data, 'planInfo' => $planInfo]);
+         } else {
+             echo json_encode(['success' => true, 'message' => 'noPlanExist']);
+         }
+     
     }
 }

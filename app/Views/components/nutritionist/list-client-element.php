@@ -64,10 +64,10 @@ foreach ($usersProgress as $row) :
         <?php if (!is_null($row["plan_creation_date"])) : ?>
           <span><?= htmlspecialchars($row["plan_creation_date"]) ?></span>
         <?php endif; ?>
-        <div class="more-wrapper" style="">
+        <div class="more-wrapper">
           <button class="project-btn-more">
             <div class="position-absolute container hidden options-container" style="width:200px; height: 100px; padding:6px; z-index: 10; background-color:white; top:-15px; left:-200px; border-radius:6px">
-              <p class="popup-btn-edit" id="<?= htmlspecialchars($row["user_id"]) ?>">Edit Plan</p>
+              <p class="popup-btn-edit"> <a class="dropdown-item" href='nutritionist-dashboard?tab=clientPlan&clientId=<?=$row["user_id"] ?>'>See plan</a></p>
               <p class="popup-btn-delete" id="<?= htmlspecialchars($row["user_id"]) ?>">Delete Client</p>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
