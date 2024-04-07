@@ -272,4 +272,13 @@ class NutritionistController
          }
      
     }
+
+    public function addPlan($clientId,$recipesData, $period, $duration, $planName)
+    {
+        if ($this->nutriModel->addClientPlan($clientId,$recipesData, $period, $duration, $planName)) {
+            echo json_encode(['success' => true, 'message' => "plan added"]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'failed to insert plan']);
+        }
+    }
 }

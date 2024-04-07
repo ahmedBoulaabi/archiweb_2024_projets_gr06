@@ -59,10 +59,10 @@ $ClientIdJson=json_encode($clientId);
                             <p>The number of days of the plan (repeats through the duration)</p>
                         </div>
                         <div class="selector width-per-item">
-                            <a href="?tab=clientPlan&period=7&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
-                            <a href="?tab=clientPlan&period=14&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 14 ? 'selected' : '' ?>">14
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=7&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=14&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 14 ? 'selected' : '' ?>">14
                                 Days</a>
-                            <a href="?tab=clientPlan&period=30&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 30 ? 'selected' : '' ?>">30
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=30&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 30 ? 'selected' : '' ?>">30
                                 Days</a>
                         </div>
                     </div>
@@ -73,13 +73,13 @@ $ClientIdJson=json_encode($clientId);
                             <p>The number of total days of the plan</p>
                         </div>
                         <div class="selector width-per-item">
-                            <a href="?tab=clientPlan&period=<?= $period ?>&duration=7" class="text-decoration-none selection <?= $duration == 7 ? 'selected' : '' ?>">7
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=7" class="text-decoration-none selection <?= $duration == 7 ? 'selected' : '' ?>">7
                                 Days</a>
-                            <a href="?tab=clientPlan&period=<?= $period ?>&duration=14" class="text-decoration-none selection <?= $duration == 14 ? 'selected' : '' ?>">14
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=14" class="text-decoration-none selection <?= $duration == 14 ? 'selected' : '' ?>">14
                                 Days</a>
-                            <a href="?tab=clientPlan&period=<?= $period ?>&duration=30" class="text-decoration-none selection <?= $duration == 30 ? 'selected' : '' ?>">30
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=30" class="text-decoration-none selection <?= $duration == 30 ? 'selected' : '' ?>">30
                                 Days</a>
-                            <a href="?tab=clientPlan&period=<?= $period ?>&duration=60" class="text-decoration-none selection <?= $duration == 60 ? 'selected' : '' ?>">60
+                            <a href="?tab=clientPlan&&clientId=<?= $clientId ?>period=<?= $period ?>&duration=60" class="text-decoration-none selection <?= $duration == 60 ? 'selected' : '' ?>">60
                                 Days</a>
                         </div>
                     </div>
@@ -152,7 +152,7 @@ $ClientIdJson=json_encode($clientId);
                         <div class="rounded d-flex flex-wrap flex-row gap-4" style="width: fit-content" id="day-<?php echo $day ?>">
 
                         </div>
-                        <a href="?tab=clientPlan&period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal2" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 300px;width: fit-content; width: 250px">
+                        <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal2" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 300px;width: fit-content; width: 250px">
                             <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);" src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
                             <p class="fw-bold text-main text-center" style="font-size: 20px; padding-top: 0px;">Add new Item
                             </p>
