@@ -172,6 +172,9 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
         case 'recipesList':
           include_once VIEWSDIR . DS . 'components/admin/recipesList.php';
           break;
+        case'clientPlan':
+          include_once VIEWSDIR . DS . '/components/nutritionist/client-plan.php';
+          break;
         default: // also case 'nutritionist-dashboard':
           include_once VIEWSDIR . DS . '/components/nutritionist/main-dashboard.php';
           break;

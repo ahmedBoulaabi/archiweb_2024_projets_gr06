@@ -234,7 +234,7 @@ class NutritionistModel
      * length, ensuring that the progress reflects real-time information. This method is particularly useful for
      * nutritionists looking to monitor the status and progress of their clients' dietary plans.
      *
-     * @return void Outputs a JSON-encoded array containing a success message and the data array if progress data
+     * @return array|bool Outputs a JSON-encoded array containing a success message and the data array if progress data
      *         is found for the specified nutritionist. The data array includes keys for 'total_users', 'not_completed',
      *         'completed', and 'users_progress'. The 'users_progress' key contains an array of user progress information,
      *         each including 'user_id', 'fullname', 'email', 'goal', 'img', 'plan_progress', and 'plan_creation_date'.
@@ -259,18 +259,10 @@ class NutritionistModel
  LEFT JOIN user_plan up ON u.id = up.user_id
  LEFT JOIN plans p ON up.plan_id = p.id
  WHERE nc.nutritionist_id = :nutritionist_id";
-
-
-
-
         $this->db->query($sql);
         $this->db->bind(':nutritionist_id', $nutritionistId);
-
         $rows = $this->db->resultSet();
-
         //  var_dump($rows); 
-
-
         if ($this->db->rowCount() > 0) {
             return $rows;
         } else {
