@@ -218,34 +218,6 @@ class NutritionistModel
      * dietary plans.
      */
 
-
-    /**
-     * getUserProgressForNutritionist
-     * 
-     * Retrieves the progress data for all clients associated with a specific nutritionist.
-     *
-     * This method fetches detailed progress information for each client managed by a specified nutritionist.
-     * It includes each client's ID, full name, email, dietary goal, profile image, progress on their dietary plan
-     * (as a percentage), and the creation date of their plan. Additionally, it calculates overall statistics such
-     * as the total number of users managed by the nutritionist, the number of users who have not completed their
-     * plan, and the number of users who have completed their plan.
-     *
-     * The progress percentage is calculated based on the current date relative to the plan's start date and total
-     * length, ensuring that the progress reflects real-time information. This method is particularly useful for
-     * nutritionists looking to monitor the status and progress of their clients' dietary plans.
-     *
-     * @return void Outputs a JSON-encoded array containing a success message and the data array if progress data
-     *         is found for the specified nutritionist. The data array includes keys for 'total_users', 'not_completed',
-     *         'completed', and 'users_progress'. The 'users_progress' key contains an array of user progress information,
-     *         each including 'user_id', 'fullname', 'email', 'goal', 'img', 'plan_progress', and 'plan_creation_date'.
-     *         If no progress data is found or if the nutritionist ID is not provided, outputs a JSON-encoded array
-     *         containing an error message.
-     *
-     * The method assumes the presence of a 'nutri_id' parameter in the request, identifying the nutritionist whose
-     * client progress data is to be retrieved. It relies on the nutriModel's `getUserProgressForNutritionist` method
-     * to fetch the necessary data from the database.
-     */
-
     public function getUserProgressForNutritionist($nutritionistId)
     {
 
@@ -254,11 +226,11 @@ class NutritionistModel
         COUNT(up.user_id) OVER () AS total_users,
         SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) < p.total_length THEN 1 ELSE 0 END) OVER () AS not_completed,
         SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) >= p.total_length THEN 1 ELSE 0 END) OVER () AS completed
- FROM users u
- JOIN nutritionist_client nc ON u.id = nc.client_id
- LEFT JOIN user_plan up ON u.id = up.user_id
- LEFT JOIN plans p ON up.plan_id = p.id
- WHERE nc.nutritionist_id = :nutritionist_id";
+        FROM users u
+        JOIN nutritionist_client nc ON u.id = nc.client_id
+        LEFT JOIN user_plan up ON u.id = up.user_id
+        LEFT JOIN plans p ON up.plan_id = p.id
+        WHERE nc.nutritionist_id = :nutritionist_id";
 
 
 
