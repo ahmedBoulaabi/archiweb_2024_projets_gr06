@@ -251,7 +251,7 @@ $durationJson = json_encode($duration);
                                 'width: fit-content; max-width: 250px; min-width: 250px; align-items:center';
                             var imgPath;
                             if (recipe.image_url == null) {
-                                imgPath = "https://www.allrecipes.com/thmb/5SdUVhHTMs-rta5sOblJESXThEE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/11691-tomato-and-garlic-pasta-ddmfs-3x4-1-bf607984a23541f4ad936b33b22c9074.jpg";
+                                imgPath = "<?= BASE_APP_DIR ?>/public/images/recipesImages/default-recipe-image.jpg";
                             } else {
                                 imgPath = "<?= BASE_APP_DIR ?>/public/images/recipesImages/" + recipe.image_url;
 
