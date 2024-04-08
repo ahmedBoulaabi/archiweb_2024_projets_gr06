@@ -196,32 +196,6 @@ class NutritionistModel
     /**
      * getUserProgressForNutritionist
      * 
-     * Retrieves progress information for all clients managed by a specific nutritionist. This includes details
-     * about each user's progress with their dietary plan, the total length of their plan, and the creation date
-     * of their plan. Additionally, it calculates the overall progress percentage based on the current date 
-     * relative to the plan's start and total length. The function also aggregates the total number of users, 
-     * the number of users who have not completed their plan, and the number of users who have completed their plan.
-     * 
-     * The method joins several tables: users, nutritionist_client, user_plan, and plans, to gather the required
-     * information. It filters records based on the provided nutritionist ID, ensuring that only clients associated 
-     * with the specified nutritionist are considered.
-     * 
-     * @param int $nutritionistId The unique identifier for the nutritionist whose clients' progress is being queried.
-     * 
-     * @return array|false Returns an array of objects where each object contains the user details along with their
-     *                     plan progress, total users under the nutritionist, the count of users not completed, and
-     *                     the count of users completed. If no records are found, or in the case of a query failure,
-     *                     returns false.
-     * 
-     * The progress calculation is dynamic and reflects the user's progression through their plan as of the current date.
-     * This function is particularly useful for nutritionists looking to monitor the status and progress of their clients'
-     * dietary plans.
-     */
-
-
-    /**
-     * getUserProgressForNutritionist
-     * 
      * Retrieves the progress data for all clients associated with a specific nutritionist.
      *
      * This method fetches detailed progress information for each client managed by a specified nutritionist.
@@ -254,11 +228,16 @@ class NutritionistModel
         COUNT(up.user_id) OVER () AS total_users,
         SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) < p.total_length THEN 1 ELSE 0 END) OVER () AS not_completed,
         SUM(CASE WHEN DATEDIFF(CURDATE(), up.creation_date) >= p.total_length THEN 1 ELSE 0 END) OVER () AS completed
- FROM users u
- JOIN nutritionist_client nc ON u.id = nc.client_id
- LEFT JOIN user_plan up ON u.id = up.user_id
- LEFT JOIN plans p ON up.plan_id = p.id
- WHERE nc.nutritionist_id = :nutritionist_id";
+
+        FROM users u
+        JOIN nutritionist_client nc ON u.id = nc.client_id
+        LEFT JOIN user_plan up ON u.id = up.user_id
+        LEFT JOIN plans p ON up.plan_id = p.id
+        WHERE nc.nutritionist_id = :nutritionist_id";
+
+
+
+
         $this->db->query($sql);
         $this->db->bind(':nutritionist_id', $nutritionistId);
         $rows = $this->db->resultSet();
