@@ -350,7 +350,6 @@ class NutritionistModel
     }
 
 
-
  /**
      * addClientPlan
      * 
@@ -414,6 +413,7 @@ class NutritionistModel
         return true;
     }
     
+
 
     function ifClientHavePlan($clientId)
     {
