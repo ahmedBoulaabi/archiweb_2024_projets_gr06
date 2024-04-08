@@ -127,7 +127,7 @@ CREATE TABLE `plan_recipes` (
   `id` int(11) NOT NULL,
   `plan_id` int(11) DEFAULT NULL,
   `recipe_id` int(11) DEFAULT NULL,
-  `date` date DEFAULT NULL,
+  `date` int(11) DEFAULT NULL,
   `consume` boolean NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

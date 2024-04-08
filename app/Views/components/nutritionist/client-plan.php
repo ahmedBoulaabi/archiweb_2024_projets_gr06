@@ -59,10 +59,10 @@ $ClientIdJson=json_encode($clientId);
                             <p>The number of days of the plan (repeats through the duration)</p>
                         </div>
                         <div class="selector width-per-item">
-                            <a href="?tab=clientPlan&period=7&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
-                            <a href="?tab=clientPlan&period=14&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 14 ? 'selected' : '' ?>">14
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=7&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=14&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 14 ? 'selected' : '' ?>">14
                                 Days</a>
-                            <a href="?tab=clientPlan&period=30&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 30 ? 'selected' : '' ?>">30
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=30&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 30 ? 'selected' : '' ?>">30
                                 Days</a>
                         </div>
                     </div>
@@ -73,13 +73,13 @@ $ClientIdJson=json_encode($clientId);
                             <p>The number of total days of the plan</p>
                         </div>
                         <div class="selector width-per-item">
-                            <a href="?tab=clientPlan&period=<?= $period ?>&duration=7" class="text-decoration-none selection <?= $duration == 7 ? 'selected' : '' ?>">7
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=7" class="text-decoration-none selection <?= $duration == 7 ? 'selected' : '' ?>">7
                                 Days</a>
-                            <a href="?tab=clientPlan&period=<?= $period ?>&duration=14" class="text-decoration-none selection <?= $duration == 14 ? 'selected' : '' ?>">14
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=14" class="text-decoration-none selection <?= $duration == 14 ? 'selected' : '' ?>">14
                                 Days</a>
-                            <a href="?tab=clientPlan&period=<?= $period ?>&duration=30" class="text-decoration-none selection <?= $duration == 30 ? 'selected' : '' ?>">30
+                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=30" class="text-decoration-none selection <?= $duration == 30 ? 'selected' : '' ?>">30
                                 Days</a>
-                            <a href="?tab=clientPlan&period=<?= $period ?>&duration=60" class="text-decoration-none selection <?= $duration == 60 ? 'selected' : '' ?>">60
+                            <a href="?tab=clientPlan&&clientId=<?= $clientId ?>period=<?= $period ?>&duration=60" class="text-decoration-none selection <?= $duration == 60 ? 'selected' : '' ?>">60
                                 Days</a>
                         </div>
                     </div>
@@ -145,14 +145,14 @@ $ClientIdJson=json_encode($clientId);
         <div class="bg-gray mx-3 rounded" id="dayPlan">
             <?php for ($day = 1; $day <= $period; $day++) : ?>
                 <div>
-                    <p class="p-3 text-white fw-bold" style="">Day
+                    <p class="p-3 text-white fw-bold">Day
                         <?= $day ?>:
                     </p>
                     <div class="bg-dark-gray rounded p-2 d-flex flex-wrap flex-row gap-4 container-fluid" style="width: 95%">
                         <div class="rounded d-flex flex-wrap flex-row gap-4" style="width: fit-content" id="day-<?php echo $day ?>">
 
                         </div>
-                        <a href="?tab=clientPlan&period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal2" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 300px;width: fit-content; width: 250px">
+                        <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal2" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 300px;width: fit-content; width: 250px">
                             <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);" src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
                             <p class="fw-bold text-main text-center" style="font-size: 20px; padding-top: 0px;">Add new Item
                             </p>
@@ -287,4 +287,51 @@ $ClientIdJson=json_encode($clientId);
         });
     </script>
 
+<!-- script to add plan  -->
+<script type="text/javascript">
+        $("#add-plan-btn").click(function(e) {
+
+            console.log("add plan btn clicked");
+            if ($("#form-data")[0].checkValidity()) {
+                e.preventDefault()
+                //recupiration des valeur nécaissaire a transfirer
+                var recipesData = JSON.parse(localStorage.getItem('recipes'));
+                if (!recipesData) {
+                    recipesData = [];
+                }
+                var period = <?php echo $periodJson; ?>;
+                var duration = <?php echo $durationJson; ?>;
+                var clientID = <?php echo $ClientIdJson; ?>;
+                var planName = $('#plan-name').val();
+                console.log(period);
+                console.log(duration);
+                console.log(planName);
+                if (recipesData.length > 0) {
+                    // Convertir recipesData en JSON
+                    var recipesDataJSON = JSON.stringify(recipesData);
+                    var additionalData = "&recipesData=" + encodeURIComponent(recipesDataJSON) + "&period=" +
+                        period +
+                        "&duration=" + duration + "&planName=" + planName+ "&clientId=" +clientID;
+                    // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
+                    performAjaxRequest(
+                        "POST",
+                        "addClientPlan",
+                        additionalData,
+                        "Plan added successfully!",
+                        "",
+                    );
+                } else {
+                    // Si le tableau est vide, imprimer un message indiquant qu'il n'y a aucun élément
+                    Swal.fire({
+                        title: `Recipe Plan Incomplete`,
+                        icon: 'info',
+                        html: `
+              <div style="text-align: left;">
+                <p>Please ensure that recipes are added to your plan</p>
+              </div>`,
+                    });
+                }
+            }
+        });
+    </script>
 

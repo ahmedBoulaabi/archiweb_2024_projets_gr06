@@ -200,7 +200,9 @@ function handleAjaxResponse(
         action != "deleteClient" &&
         action != "insertPlan" &&
         action != "addNewRecipe" &&
-        action != "updateRecipe" 
+        action != "updateRecipe" &&
+        action != 'addClientPlan'
+        
       ) {
         window.location.href = redirectHref;
       } else if (redirectHref == "recipes-list") {
@@ -263,7 +265,6 @@ function performAjaxRequest(
             'lose-weight-fast': '#ffd3e2',
             'lose-weight-normal': '#e9e7fd'
           };
-
           const spanColors = {
             'gain-weight-normal': '#34c471',
             'lose-weight-fast': '#df3670',
@@ -317,7 +318,6 @@ function performAjaxRequest(
               </div>`;
             $(".project-boxes").append(clientHtml);
           });
-
           break;
         case "getAllUsers":
           $("#showUser").html(response.message);
@@ -370,9 +370,6 @@ function performAjaxRequest(
             icon: "success",
           });
           break;
-
-
-
         case "countNotification":
           const element = document.createElement("div");
           element.innerHTML = response.data;
@@ -514,6 +511,10 @@ function performAjaxRequest(
             false
           );
           break;
+          case 'addClientPlan':
+            console.log(response.message);
+            handleAjaxResponse(action, response, "Plan Added successfully", "", false);
+            break;
         case "UserHavePlan":
 
           if (response.message === "PlanExist") {

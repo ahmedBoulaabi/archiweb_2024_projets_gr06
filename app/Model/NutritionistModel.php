@@ -349,6 +349,72 @@ class NutritionistModel
         return $result;
     }
 
+
+ /**
+     * addClientPlan
+     * 
+     * This function adds a new plan for the user based on the provided data. If a plan name
+     * is not provided, it defaults to "Default Plan for Client" followed by the client's ID. 
+     * The plan details are inserted into the plans table, and the user-plan relationship 
+     * is stored in the user_plan table. Additionally, each recipe in the plan is inserted 
+     * into the plan_recipes table.
+     * 
+     * @param array $recipesData An array containing information about the recipes in the plan
+     * @param int $period The number of days of the plan (repeats through the duration)
+     * @param int $clientId The number of days of the plan (repeats through the duration)
+
+     * @param int $duration The total number of days of the plan
+     * @param string|null $plan_name The name of the plan (optional)
+     * @return bool Returns true if the plan is successfully added, false otherwise
+     */
+    function addClientPlan($clientId,$recipesData, $period, $duration, $plan_name)
+    {
+    
+        // Insert into the `plans` table
+        $planName = $plan_name ??  "Default Plan for User " .$clientId;
+        $creatorId = $_SESSION['id']; //  user ID from the session
+        $type = "Your Plan Type"; // You can define a type for the plan
+        $sql = "INSERT INTO plans (name, period, total_length, creator, type) VALUES (:name, :period, :total_length, :creator, :type)";
+        $this->db->query($sql);
+        $params_dict = [
+            ":name",
+            ":period",
+            ":total_length",
+            ":creator",
+            ":type",
+        ];
+
+        $values_dict = [
+            $plan_name,
+            $period,
+            $duration,
+            $creatorId,
+            $type
+        ];
+        $this->db->bindMultipleParams($params_dict, $values_dict);
+
+        $this->db->execute();
+        $planId = $this->db->lastInsertId(); // Get the ID of the inserted plan
+
+        $sql = "INSERT INTO user_plan (user_id, plan_id, creation_date) VALUES (:user_id, :plan_id, NOW())";
+        $this->db->query($sql);
+        $this->db->bindMultipleParams([':user_id', ':plan_id'], [$clientId, $planId]);
+        $this->db->execute();
+
+        foreach ($recipesData as $recipe) {
+            $recipeId = $recipe['id'];
+            $date = $recipe['date'];
+
+            $sql = "INSERT INTO plan_recipes (plan_id, recipe_id, date) VALUES (:plan_id, :recipe_id, :date)";
+            $this->db->query($sql);
+            $this->db->bindMultipleParams([':recipe_id', ':plan_id', ':date'], [$recipeId, $planId, $date]);
+            $this->db->execute();
+        }
+        return true;
+    }
+    
+
+
     function ifClientHavePlan($clientId)
     {
         $sql = "SELECT EXISTS (SELECT 1 FROM user_plan WHERE user_id = :userId) AS planExists";
