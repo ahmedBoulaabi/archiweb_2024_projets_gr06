@@ -2,8 +2,10 @@
 
 namespace Manger\Controller;
 
-use Manger\Model\AdminModel;
-use Manger\Model\UserModel;
+use Manger\Model\{
+    AdminModel,
+    UserModel
+};
 
 /**
  * Controller for Admin-related things.

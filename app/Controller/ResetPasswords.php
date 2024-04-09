@@ -3,8 +3,10 @@
 namespace Manger\Controller;
 
 use PHPMailer\PHPMailer\PHPMailer;
-use Manger\Model\ResetPasswordModel;
-use Manger\Model\UserModel;
+use Manger\Model\{
+    ResetPasswordModel,
+    UserModel
+};
 
 /**
  * Controller used to reset password
