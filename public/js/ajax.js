@@ -21,7 +21,7 @@ function getMessageBoxHtml(conversation) {
 function displayNoNutritionist(idNutri = null) {
   if (idNutri == null) {
     $("#discussion-class").html(`
-    <div class="no-nutritionist-wrapper" style="cursor:pointer;">
+    <div class="no-nutritionist-wrapper" >
       <div class="no-nutritionist-content">
         <div class="no-nutritionist-header">
           <h3 class="no-nutritionist-title" style="color:white;">No Nutritionist</h3>
@@ -30,7 +30,7 @@ function displayNoNutritionist(idNutri = null) {
     </div>
   `);
   } else {
-    $("#discussion-class").html(`    <div class="message-box" data-id=${idNutri} style="cursor:pointer;">
+    $("#discussion-class").html(`    <div class="message-box" data-id=${idNutri}>
     <div class="message-content">
       <div class="message-header">
         <div class="name">No conversation yet</div>
@@ -202,7 +202,7 @@ function handleAjaxResponse(
         action != "addNewRecipe" &&
         action != "updateRecipe" &&
         action != 'addClientPlan'
-        
+
       ) {
         window.location.href = redirectHref;
       } else if (redirectHref == "recipes-list") {
@@ -235,7 +235,7 @@ function performAjaxRequest(
   $.ajax({
     url: "index.php",
     type: requestType,
-    data: $("#form-data").serialize() + "&action=" + action +"&additionalData="+ additionalData,
+    data: $("#form-data").serialize() + "&action=" + action + "&additionalData=" + additionalData,
     dataType: "json",
     success: function (response) {
 
@@ -486,7 +486,7 @@ function performAjaxRequest(
           $("#edit_weight").val(response.data.weight);
           $("#edit_caloriesgoal").val(response.data.daily_caloriegoal);
 
-          
+
           // Gérer l'image de la recette
           if (response.data.image_url) {
             $("#edit_imageUpload")
@@ -511,10 +511,10 @@ function performAjaxRequest(
             false
           );
           break;
-          case 'addClientPlan':
-            console.log(response.message);
-            handleAjaxResponse(action, response, "Plan Added successfully", "", false);
-            break;
+        case 'addClientPlan':
+          console.log(response.message);
+          handleAjaxResponse(action, response, "Plan Added successfully", "", false);
+          break;
         case "UserHavePlan":
 
           if (response.message === "PlanExist") {
@@ -560,15 +560,14 @@ function performAjaxRequest(
             $("#userNotHavePlan").show();
           }
           break;
-          case "ClientHavePlan":
+        case "ClientHavePlan":
           console.log(response.message);
           if (response.message === 'PlanExist') {
             localStorage.setItem('recipes', JSON.stringify(response.data));
-            lienActuel=window.location.href;
+            lienActuel = window.location.href;
             console.log(additionalData);
-            if(lienActuel=="https://localhost/archiweb_2024_projets_gr06/nutritionist-dashboard?tab=clientPlan&clientId="+additionalData)
-            {
-              window.location.href = "nutritionist-dashboard?tab=clientPlan&clientId="+additionalData+"&period="+response.planInfo["period"];
+            if (lienActuel == "https://localhost/archiweb_2024_projets_gr06/nutritionist-dashboard?tab=clientPlan&clientId=" + additionalData) {
+              window.location.href = "nutritionist-dashboard?tab=clientPlan&clientId=" + additionalData + "&period=" + response.planInfo["period"];
             }
             $("#GlobDiv").css("height", "fit-content");
             $('#userHavePlan').show();
