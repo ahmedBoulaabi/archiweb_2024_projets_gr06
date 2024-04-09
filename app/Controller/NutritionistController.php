@@ -190,10 +190,10 @@ class NutritionistController
     }
     public function getUserProgressForNutritionist()
     {
-        header('Content-Type: application/json');
+        header(APPJSON);
 
         $nutritionistId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
-        
+
         // Call the model method to get progress data for users of a nutritionist
         $data = $this->nutriModel->getUserProgressForNutritionist($nutritionistId);
 
@@ -261,21 +261,20 @@ class NutritionistController
     }
     public function clientHavePlan($clientId)
     {
-     
-         if ($this->nutriModel->ifClientHavePlan($clientId)) {
-             $result = $this->nutriModel->getPlanRecipesDetail($clientId);
-             $data = $result['planRecipesDetails'];
-             $planInfo = $result['planData'];
-             echo json_encode(['success' => true, 'message' => 'PlanExist', 'data' => $data, 'planInfo' => $planInfo]);
-         } else {
-             echo json_encode(['success' => true, 'message' => 'noPlanExist']);
-         }
-     
+
+        if ($this->nutriModel->ifClientHavePlan($clientId)) {
+            $result = $this->nutriModel->getPlanRecipesDetail($clientId);
+            $data = $result['planRecipesDetails'];
+            $planInfo = $result['planData'];
+            echo json_encode(['success' => true, 'message' => 'PlanExist', 'data' => $data, 'planInfo' => $planInfo]);
+        } else {
+            echo json_encode(['success' => true, 'message' => 'noPlanExist']);
+        }
     }
 
-    public function addPlan($clientId,$recipesData, $period, $duration, $planName)
+    public function addPlan($clientId, $recipesData, $period, $duration, $planName)
     {
-        if ($this->nutriModel->addClientPlan($clientId,$recipesData, $period, $duration, $planName)) {
+        if ($this->nutriModel->addClientPlan($clientId, $recipesData, $period, $duration, $planName)) {
             echo json_encode(['success' => true, 'message' => "plan added"]);
         } else {
             echo json_encode(['success' => false, 'message' => 'failed to insert plan']);

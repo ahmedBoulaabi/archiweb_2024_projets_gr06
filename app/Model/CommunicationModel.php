@@ -97,7 +97,7 @@ class CommunicationModel
      */
     public function getDiscussion($ownID, $targetID, $role)
     {
-        header('Content-Type: application/json');
+        header(APPJSON);
 
         if ($role == "Regular") {
 

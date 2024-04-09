@@ -5,7 +5,6 @@ namespace Manger\Model;
 use Config\Database;
 
 
-
 /**
  * User Class
  *
@@ -765,12 +764,10 @@ class UserModel
             } else {
                 return false;
             }
-
         } catch (\PDOException $e) {
             // Handle exception
             echo "Database error: " . $e->getMessage();
             return false;
         }
     }
-
 }

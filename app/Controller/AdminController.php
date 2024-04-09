@@ -3,8 +3,6 @@
 namespace Manger\Controller;
 
 use Manger\Model\AdminModel;
-use Manger\Views\UserView;
-use Manger\Views\AdminView;
 use Manger\Model\UserModel;
 
 /**
@@ -27,12 +25,6 @@ class AdminController
      * @var UserModel
      */
     private $userModel;
-    /**
-     * recipeModel
-     *
-     * @var RecipeModel
-     */
-    private $recipeModel;
 
 
 
@@ -313,7 +305,7 @@ class AdminController
                 $imageUploadPath = '/public/images/profile-images/' . $fileName;
             } else {
                 // Handle file upload failure
-                header('Content-Type: application/json');
+                header(APPJSON);
                 echo json_encode(['success' => false, 'message' => 'File upload failed']);
                 exit; // Stop execution if file upload fails
             }
@@ -334,7 +326,7 @@ class AdminController
 
         // Check if user with this email already exists
         if ($this->userModel->findUserByEmail($data['email'])) {
-            header('Content-Type: application/json');
+            header(APPJSON);
             echo json_encode(['success' => false, 'message' => 'Email already exists']);
             return;
         }
@@ -344,10 +336,10 @@ class AdminController
 
         // Attempt to register the user
         if ($this->adminModel->addNewUser($data)) {
-            header('Content-Type: application/json');
+            header(APPJSON);
             echo json_encode(['success' => true, 'redirect' => 'login.php']);
         } else {
-            header('Content-Type: application/json');
+            header(APPJSON);
             echo json_encode(['success' => false, 'message' => 'Something went wrong']);
         }
     }
@@ -361,8 +353,9 @@ class AdminController
      *
      * @return void Outputs JSON response.
      */
-    public function updateUser(){
-         // Check if a new file was uploaded and handle the file upload first
+    public function updateUser()
+    {
+        // Check if a new file was uploaded and handle the file upload first
         $newImageUploadPath = ''; // Default value if no new file is uploaded
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["edit_imageUpload"])) {
             $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/archiweb_2024_projets_gr06/public/images/profile-images/';
@@ -381,7 +374,7 @@ class AdminController
                 $newImageUploadPath = '/public/images/profile-images/' . $fileName;
             } else {
                 // Handle file upload failure
-                header('Content-Type: application/json');
+                header(APPJSON);
                 echo json_encode(['success' => false, 'message' => 'File upload failed']);
                 exit; // Stop execution if file upload fails
             }
@@ -418,10 +411,10 @@ class AdminController
 
         // Attempt to update the recipe
         if ($this->adminModel->updateUser($data)) {
-            header('Content-Type: application/json');
+            header(APPJSON);
             echo json_encode(['success' => true, 'message' => 'User updated successfully']);
         } else {
-            header('Content-Type: application/json');
+            header(APPJSON);
             echo json_encode(['success' => false, 'message' => 'Something went wrong']);
         }
     }
@@ -457,7 +450,7 @@ class AdminController
                 $imageUploadPath = '/public/images/recipesImages/' . $fileName;
             } else {
                 // Handle file upload failure
-                header('Content-Type: application/json');
+                header(APPJSON);
                 echo json_encode(['success' => false, 'message' => 'File upload failed']);
                 exit; // Stop execution if file upload fails
             }
@@ -484,76 +477,76 @@ class AdminController
 
         // Attempt to register the recipe
         if ($this->adminModel->addNewRecipe($data)) {
-            header('Content-Type: application/json');
+            header(APPJSON);
             echo json_encode(['success' => true, 'redirect' => 'login.php']);
         } else {
-            header('Content-Type: application/json');
+            header(APPJSON);
             echo json_encode(['success' => false, 'message' => 'Something went wrong']);
         }
     }
     /**
- * Update an existing recipe with or without a new image.
- *
- * Processes the form submission, sanitizes input, handles image upload (if a new image is provided),
- * and updates the recipe in the database. If a new image is provided, it updates the image filename in the database.
- * Responds with JSON indicating success or failure.
- *
- * @return void Outputs JSON response.
- */
-public function updateRecipe()
-{
-    // Check if a new file was uploaded and handle the file upload first
-    $newImageUploadPath = ''; // Default value if no new file is uploaded
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["edit_imageUpload"])) {
-        $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/archiweb_2024_projets_gr06/public/images/recipesImages/';
-        $fileName = basename($_FILES["edit_imageUpload"]["name"]);
-        $targetFilePath = $targetDir . $fileName;
+     * Update an existing recipe with or without a new image.
+     *
+     * Processes the form submission, sanitizes input, handles image upload (if a new image is provided),
+     * and updates the recipe in the database. If a new image is provided, it updates the image filename in the database.
+     * Responds with JSON indicating success or failure.
+     *
+     * @return void Outputs JSON response.
+     */
+    public function updateRecipe()
+    {
+        // Check if a new file was uploaded and handle the file upload first
+        $newImageUploadPath = ''; // Default value if no new file is uploaded
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["edit_imageUpload"])) {
+            $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/archiweb_2024_projets_gr06/public/images/recipesImages/';
+            $fileName = basename($_FILES["edit_imageUpload"]["name"]);
+            $targetFilePath = $targetDir . $fileName;
 
-        // Optional: Validate file size and type here before proceeding with the upload
+            // Optional: Validate file size and type here before proceeding with the upload
 
-        // Create the target directory if it doesn't exist
-        if (!file_exists($targetDir)) {
-            mkdir($targetDir, 0777, true);
+            // Create the target directory if it doesn't exist
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            // Attempt to move the uploaded file to the target directory
+            if (move_uploaded_file($_FILES["edit_imageUpload"]["tmp_name"], $targetFilePath)) {
+                $newImageUploadPath = '/public/images/recipesImages/' . $fileName;
+            } else {
+                // Handle file upload failure
+                header(APPJSON);
+                echo json_encode(['success' => false, 'message' => 'File upload failed']);
+                exit; // Stop execution if file upload fails
+            }
         }
 
-        // Attempt to move the uploaded file to the target directory
-        if (move_uploaded_file($_FILES["edit_imageUpload"]["tmp_name"], $targetFilePath)) {
-            $newImageUploadPath = '/public/images/recipesImages/' . $fileName;
+        // Sanitize input data
+        $id = trim($_POST['edit_id'] ?? '');
+        $name = trim($_POST['edit_name'] ?? '');
+        $calories = trim($_POST['edit_calories'] ?? '');
+        $type = trim($_POST['edit_type'] ?? '');
+        $visibility = ($_POST['edit_visibility'] ?? '') === 'visible' ? 1 : 0;
+        $creator = trim($_POST['edit_creator'] ?? '');
+
+        $data = [
+            'id' => $id,
+            'name' => $name,
+            'calories' => $calories,
+            'type' => $type,
+            'visibility' => $visibility,
+            'creator' => $creator,
+            'image' => $newImageUploadPath
+        ];
+
+        // Attempt to update the recipe
+        if ($this->adminModel->updateRecipe($data)) {
+            header(APPJSON);
+            echo json_encode(['success' => true, 'message' => 'Recipe updated successfully']);
         } else {
-            // Handle file upload failure
-            header('Content-Type: application/json');
-            echo json_encode(['success' => false, 'message' => 'File upload failed']);
-            exit; // Stop execution if file upload fails
+            header(APPJSON);
+            echo json_encode(['success' => false, 'message' => 'Something went wrong']);
         }
     }
-
-    // Sanitize input data
-    $id = trim($_POST['edit_id'] ?? '');
-    $name = trim($_POST['edit_name'] ?? '');
-    $calories = trim($_POST['edit_calories'] ?? '');
-    $type = trim($_POST['edit_type'] ?? '');
-    $visibility = ($_POST['edit_visibility'] ?? '') === 'visible' ? 1 : 0;
-    $creator = trim($_POST['edit_creator'] ?? '');
-
-    $data = [
-        'id' => $id,
-        'name' => $name,
-        'calories' => $calories,
-        'type' => $type,
-        'visibility' => $visibility,
-        'creator' => $creator,
-        'image' => $newImageUploadPath
-    ];
-
-    // Attempt to update the recipe
-    if ($this->adminModel->updateRecipe($data)) {
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'message' => 'Recipe updated successfully']);
-    } else {
-        header('Content-Type: application/json');
-        echo json_encode(['success' => false, 'message' => 'Something went wrong']);
-    }
-}
     /**
      * Handles the deletion of a recipe.
      *

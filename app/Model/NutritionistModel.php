@@ -269,7 +269,7 @@ class NutritionistModel
             return false;
         }
     }
-            /**
+    /**
      * getClienPlan
      * 
      * Retrieves the plan associated with the specified user ID from the database.
@@ -289,7 +289,7 @@ class NutritionistModel
             return false;
         }
     }
-        /**
+    /**
      * getPlanInfo
      * 
      * get all information about user plan from plans table 
@@ -309,7 +309,7 @@ class NutritionistModel
             return false;
         }
     }
-        /**
+    /**
      * getRecipesAndDay
      *
      * Retrieves recipes along with their associated day from the database based on the provided plan ID.
@@ -324,7 +324,7 @@ class NutritionistModel
         $recipes = $this->db->resultSet();
         return $recipes;
     }
-        /**
+    /**
      * getPlanRecipesDetail
      * 
      * Retrieves the details of recipes associated with the user's plan from the database.
@@ -350,7 +350,7 @@ class NutritionistModel
     }
 
 
- /**
+    /**
      * addClientPlan
      * 
      * This function adds a new plan for the user based on the provided data. If a plan name
@@ -367,11 +367,11 @@ class NutritionistModel
      * @param string|null $plan_name The name of the plan (optional)
      * @return bool Returns true if the plan is successfully added, false otherwise
      */
-    function addClientPlan($clientId,$recipesData, $period, $duration, $plan_name)
+    function addClientPlan($clientId, $recipesData, $period, $duration, $plan_name)
     {
-    
+
         // Insert into the `plans` table
-        $planName = $plan_name ??  "Default Plan for User " .$clientId;
+        $planName = $plan_name ??  "Default Plan for User " . $clientId;
         $creatorId = $_SESSION['id']; //  user ID from the session
         $type = "Your Plan Type"; // You can define a type for the plan
         $sql = "INSERT INTO plans (name, period, total_length, creator, type) VALUES (:name, :period, :total_length, :creator, :type)";
@@ -412,7 +412,7 @@ class NutritionistModel
         }
         return true;
     }
-    
+
 
 
     function ifClientHavePlan($clientId)

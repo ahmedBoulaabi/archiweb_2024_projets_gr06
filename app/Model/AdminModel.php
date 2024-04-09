@@ -58,34 +58,34 @@ class AdminModel
      * @return array|false An array of user data if users are found, or false if no requests are present.
      */
     public function getAllRequests()
-{
-    $data = array();
-    // Adjust the SELECT statement to join the `nutri_requests` table with the `users` table
-    // and select only the necessary columns.
-    $sql = "SELECT n.id, u.fullname, u.email, u.img, n.created_date  , n.etat
+    {
+        $data = array();
+        // Adjust the SELECT statement to join the `nutri_requests` table with the `users` table
+        // and select only the necessary columns.
+        $sql = "SELECT n.id, u.fullname, u.email, u.img, n.created_date  , n.etat
             FROM nutri_requests n
             JOIN users u ON n.nutri_id = u.id";
 
-    $this->db->query($sql);
-    $rows = $this->db->resultSet();
+        $this->db->query($sql);
+        $rows = $this->db->resultSet();
 
-    if ($this->db->rowCount() > 0) {
-        foreach ($rows as $row) {
-            // Add only the needed fields to the data array
-            $data[] = array(
-                'id' => $row->id,
-                'fullname' => $row->fullname,
-                'email' => $row->email,
-                'img' => $row->img,
-                'etat'=> $row->etat,
-                'created_date' => $row->created_date
-            );
+        if ($this->db->rowCount() > 0) {
+            foreach ($rows as $row) {
+                // Add only the needed fields to the data array
+                $data[] = array(
+                    'id' => $row->id,
+                    'fullname' => $row->fullname,
+                    'email' => $row->email,
+                    'img' => $row->img,
+                    'etat' => $row->etat,
+                    'created_date' => $row->created_date
+                );
+            }
+            return $data;
+        } else {
+            return false;
         }
-        return $data;
-    } else {
-        return false;
     }
-}
 
 
     /**

@@ -8,12 +8,16 @@
     },
     "autoload": {
         "psr-4": {
+            "Manger\\Controller\\": "app/Controller",
+            "Manger\\Model\\": "app/Model",
+            "Manger\\View\\": "app/View",
+            "Manger\\Helpers\\": "app/Helpers",
             "Manger\\": "app",
             "PHPMailer\\PHPMailer\\": "app/PHPMailer/src/",
             "Config\\": "Config/"
         },
         "files": [
-            "app/Views/utils/global.php",
+            "app/View/utils/global.php",
             "Config/Globals.php"
         ]
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace Manger\Views;
+namespace Manger\View;
 
 /**
  * Access the PHP files to display
