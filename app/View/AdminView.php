@@ -35,6 +35,12 @@ class AdminView
         return endStream();
     }
 
+    /**
+     * Renders the user table component with the provided data.
+     *
+     * @param  mixed $data The data to be used for rendering the user table.
+     * @return void
+     */
     public function renderUserTable($data)
     {
         require VIEWSDIR . DS . 'components' . DS . 'admin' . DS . 'users-table.php';
