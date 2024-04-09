@@ -31,7 +31,8 @@
         "post-update-cmd": [
             "php init_database.php"
         ],
-        "phpdoc": "phpDocumentor -d app Config -t doc --ignore app/PHPMailer/"
+        "phpdoc": "phpDocumentor -d app Config -t doc --ignore app/PHPMailer/",
+        "serve": "php -S localhost:8000 -t ../"
     },
     "minimum-stability": "stable",
     "prefer-stable": true
