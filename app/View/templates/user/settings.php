@@ -1,5 +1,5 @@
 <?php
-//app/Views/user/settings.php
+//app/View/user/settings.php
 
 require_once CLASSDIR . DS . 'Helpers/SessionHelper.php';
 
