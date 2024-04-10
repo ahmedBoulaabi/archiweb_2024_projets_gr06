@@ -4,7 +4,7 @@ define('ROOT', dirname(dirname(__FILE__)));
 define('CLASSDIR', ROOT . DS . 'app');
 define('CONTROLLERSDIR', CLASSDIR . DS . 'Controller');
 define('MODELSDIR', CLASSDIR . DS . 'Model');
-define('VIEWSDIR', CLASSDIR . DS . 'Views');
+define('VIEWSDIR', CLASSDIR . DS . 'View');
 define('TEMPLATESDIR', VIEWSDIR . DS . 'templates');
 
 define('BASE_APP_DIR', '/archiweb_2024_projets_gr06');

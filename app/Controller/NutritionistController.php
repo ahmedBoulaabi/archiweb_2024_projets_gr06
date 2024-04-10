@@ -180,21 +180,28 @@ class NutritionistController
         try {
             $recipesCount = $this->nutriModel->getRecipesCountForCreator($creatorId);
 
-            // Assuming the count is successfully retrieved, send a JSON response
             echo json_encode(['success' => true, 'count' => $recipesCount]);
         } catch (\PDOException $e) {
-            // If an error occurs, send a JSON response with the error message
             echo json_encode(['success' => false, 'message' => 'An error occurred while fetching the recipe count for the creator.']);
         }
         exit;
     }
+    /**
+     * 
+     * Retrieves and processes progress data for users associated with a specific nutritionist.
+     * 
+     * Expects the nutritionist ID as a GET parameter 'nutri_id'.
+     * Prepares a response array with total users, not completed, completed, and user progress data.
+     * Echoes the response as a JSON-encoded array with a success or error message.
+     *
+     * @return void
+     **/
     public function getUserProgressForNutritionist()
     {
-        header('Content-Type: application/json');
+        header(APPJSON);
 
         $nutritionistId = isset($_GET['nutri_id']) ? $_GET['nutri_id'] : '';
-        
-        // Call the model method to get progress data for users of a nutritionist
+
         $data = $this->nutriModel->getUserProgressForNutritionist($nutritionistId);
 
         if ($data) {
@@ -261,21 +268,20 @@ class NutritionistController
     }
     public function clientHavePlan($clientId)
     {
-     
-         if ($this->nutriModel->ifClientHavePlan($clientId)) {
-             $result = $this->nutriModel->getPlanRecipesDetail($clientId);
-             $data = $result['planRecipesDetails'];
-             $planInfo = $result['planData'];
-             echo json_encode(['success' => true, 'message' => 'PlanExist', 'data' => $data, 'planInfo' => $planInfo]);
-         } else {
-             echo json_encode(['success' => true, 'message' => 'noPlanExist']);
-         }
-     
+
+        if ($this->nutriModel->ifClientHavePlan($clientId)) {
+            $result = $this->nutriModel->getPlanRecipesDetail($clientId);
+            $data = $result['planRecipesDetails'];
+            $planInfo = $result['planData'];
+            echo json_encode(['success' => true, 'message' => 'PlanExist', 'data' => $data, 'planInfo' => $planInfo]);
+        } else {
+            echo json_encode(['success' => true, 'message' => 'noPlanExist']);
+        }
     }
 
-    public function addPlan($clientId,$recipesData, $period, $duration, $planName)
+    public function addPlan($clientId, $recipesData, $period, $duration, $planName)
     {
-        if ($this->nutriModel->addClientPlan($clientId,$recipesData, $period, $duration, $planName)) {
+        if ($this->nutriModel->addClientPlan($clientId, $recipesData, $period, $duration, $planName)) {
             echo json_encode(['success' => true, 'message' => "plan added"]);
         } else {
             echo json_encode(['success' => false, 'message' => 'failed to insert plan']);

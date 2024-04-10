@@ -3,9 +3,11 @@
 namespace Manger\Controller;
 
 use Manger\Model\UserModel;
-use Manger\Views\UserView;
-use Manger\Views\AdminView;
-use Manger\Views\NutritionistView;
+use Manger\View\{
+    UserView,
+    AdminView,
+    NutritionistView
+};
 
 /**
  * Controller for User-related things.
@@ -428,8 +430,7 @@ class UserController
             } else {
                 echo json_encode(['success' => false, 'message' => "there is a probleme to add"]);
                 exit;
-            }
-            ;
+            };
         }
     }
 

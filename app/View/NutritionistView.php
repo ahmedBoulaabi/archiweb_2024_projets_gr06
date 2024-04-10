@@ -1,6 +1,6 @@
 <?php
 
-namespace Manger\Views;
+namespace Manger\View;
 
 /**
  * Access the PHP files to display
@@ -29,11 +29,9 @@ class NutritionistView
         if (file_exists($filePath)) {
             include $filePath;
         } else {
-            include TEMPLATESDIR . DS . '404-error.php' ; 
+            include TEMPLATESDIR . DS . '404-error.php';
         }
 
         return endStream();
     }
-
-    
 }

@@ -5,7 +5,6 @@ namespace Manger\Model;
 use Config\Database;
 
 
-
 /**
  * User Class
  *
@@ -282,7 +281,17 @@ class UserModel
         return $this->db->execute();
     }
 
-    // PLANNING - RECIPES
+    /**
+     * getRecipesByName
+     * 
+     * Retrieves recipes based on a search value and the user's ID.
+     * This method searches for recipes in the database where the recipe name matches the provided search value
+     * and the recipe creator is either the current user or the user with ID 42. It uses a SQL query with
+     * LIKE operator to perform a partial match on the recipe name.
+     * 
+     * @param string $searchValue The search value to match against the recipe names.
+     * @return array|bool Returns an array of matching recipes if found, or false if no matching recipes are found.
+     */
     public function getRecipesByName($searchValue)
     {
         // session_start();
@@ -765,12 +774,10 @@ class UserModel
             } else {
                 return false;
             }
-
         } catch (\PDOException $e) {
             // Handle exception
             echo "Database error: " . $e->getMessage();
             return false;
         }
     }
-
 }

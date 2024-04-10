@@ -23,6 +23,7 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,15 +34,13 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" />
   <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/globals.css" />
-    <link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
-    <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/planning.css" />
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
+  <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/planning.css" />
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/globals.css" />
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/nutritionist-dashboard.css">
+  <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/msg_css.css">
 </head>
+
 
 <body>
   <div class="app-container">
@@ -155,13 +154,13 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
         generateTabLink($tab, 'nutritionist-dashboard', 'Dashboard', $mainSVG);
         generateTabLink($tab, 'client-list', 'Client List', $usersListSVG);
         generateTabLink($tab, 'recipesList', 'Recipes List', $recipesListSVG);
-         
+
         ?>
-        <a href="dashboard" class="app-sidebar-link" > <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
-    <line x1="19" y1="12" x2="5" y2="12" />
-    <polyline points="12 19 5 12 12 5" />
-</svg>
- </a> 
+        <a href="dashboard" class="app-sidebar-link"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+        </a>
       </div>
 
 
@@ -173,7 +172,7 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
         case 'recipesList':
           include_once VIEWSDIR . DS . 'components/admin/recipesList.php';
           break;
-        case'clientPlan':
+        case 'clientPlan':
           include_once VIEWSDIR . DS . '/components/nutritionist/client-plan.php';
           break;
         default: // also case 'nutritionist-dashboard':

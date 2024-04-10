@@ -171,20 +171,21 @@ class Router
                     break;
                 case 'addClientPlan':
                     if (isset($_POST['recipesData']) && isset($_POST['period']) && isset($_POST['duration']) && isset($_POST['clientId'])) {
-                            $recipesData = json_decode($_POST['recipesData'], true);                            $period = $_POST['period'];
-                            $duration = $_POST['duration'];
-                            $planName = $_POST['planName'];
-                            $clientId = $_POST['clientId'];
-                            $this->nutriController->addPlan($clientId,$recipesData, $period, $duration, $planName);
-                        }
-                        break;
+                        $recipesData = json_decode($_POST['recipesData'], true);
+                        $period = $_POST['period'];
+                        $duration = $_POST['duration'];
+                        $planName = $_POST['planName'];
+                        $clientId = $_POST['clientId'];
+                        $this->nutriController->addPlan($clientId, $recipesData, $period, $duration, $planName);
+                    }
+                    break;
 
                         case 'modifyPlan':
                             echo json_encode(true);
                             break;
         
                 default:
-                    include __DIR__ . '/Views/templates/user/login.php';
+                    include __DIR__ . '/View/templates/user/login.php';
                     exit;
             }
         } elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {

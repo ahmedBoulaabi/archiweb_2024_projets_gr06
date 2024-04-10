@@ -34,7 +34,7 @@ if (isset($_SESSION['id'])) {
     <!-- Login Form-->
     <div class="container-fluid align-items-center flex-column d-flex" style="min-height: 100vh; padding-top: 140px;">
       <h1 class="fw-bold">Login</h1>
-      <form class="bg-gray rounded" style="width: 500px; min-height: 400px; margin-top: 40px; padding: 32px;" id="form-data" action="" method="post">
+      <form id="form-data" class="bg-gray rounded" style="width: 500px; min-height: 400px; margin-top: 40px; padding: 32px;z-index:1" action="" method="post">
 
         <div class="d-flex flex-column mt-4">
           <label class="font-bold text-white">Email</label>
@@ -50,10 +50,10 @@ if (isset($_SESSION['id'])) {
         <div class="d-flex flex-column mt-4">
           <input type="submit" class="py-3 px-4 rounded w-full" style="background-color: #d6ff92; border: 0; margin-bottom: 12px;" name="login" id="login" value="Login">
         </div>
-        <a class="logo self-end" href="reset-password">
+        <a class="self-end disguised-link" href="reset-password">
           Reset password </br>
         </a>
-        <a class="logo self-end" href="register">
+        <a class="self-end disguised-link" href="register">
           New User? Register here
         </a>
       </form>

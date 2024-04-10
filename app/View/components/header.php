@@ -1,4 +1,4 @@
-<header class="d-flex flex-column justify-content-between align-items-center bg-main position-fixed left-0 top-0" style="width: 180px; height: 100vh; padding: 80px 0;">
+<header class="d-flex flex-column justify-content-between align-items-center bg-main position-fixed left-0 top-0">
   <div>
     <!-- Logo -->
     <div class="logo">
@@ -8,19 +8,19 @@
   </div>
 
   <!-- Disconnect / Connect -->
-  <?php if (!isset($_SESSION['id'])): ?>
+  <?php if (!isset($_SESSION['id'])) : ?>
     <div>
-      <a class="logo" href="login">
+      <a class="logo disguised-link" style="font-size:30px;padding-bottom:20px;" href="login">
         Login
         <img src="" alt="" />
       </a>
-      <a class="logo" href="register">
+      <a class="logo disguised-link" style="font-size:30px" href="register">
         Register
         <img src="" alt="" />
       </a>
     </div>
 
-  <?php else: ?>
+  <?php else : ?>
 
     <div>
       <nav class="" style="padding-top: 15%">
@@ -58,7 +58,7 @@
 
 <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
 <script type="text/javascript">
-  $("#logout").click(function (e) {
+  $("#logout").click(function(e) {
     e.preventDefault();
     performAjaxRequest(
       "POST",
