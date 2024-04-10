@@ -542,13 +542,19 @@ function performAjaxRequest(
             let daysLeft = Math.ceil(totalLength - differenceInDays);
             let progressPercentage = (differenceInDays / totalLength) * 100;
             progressPercentage = Math.min(100, Math.max(0, progressPercentage));
-
+            
+           
+            
             $("#userHavePlan").show();
             $("#userNotHavePlan").hide();
             $("#planNameId").html(response.planInfo["name"]);
             $("#periodValue").html(response.planInfo["period"]);
             $("#durationValue").html(response.planInfo["total_length"]);
             $("#days-left").html(daysLeft + " Days Left");
+            $i=1;
+            while($i<=response.planInfo["period"]){
+              $("#"+$i).hide();
+            $i++;}
             $("#progress-val").html(progressPercentage.toFixed(2) + "%");
             $(".box-progress").css(
               "width",
@@ -576,6 +582,10 @@ function performAjaxRequest(
             $("#planNameId").html(response.planInfo["name"]);
             $("#periodValue").html(response.planInfo["period"]);
             $("#durationValue").html(response.planInfo["total_length"]);
+            $i=1;
+            while($i<=response.planInfo["period"]){
+              $("#"+$i).hide();
+            $i++;}
           } else if (response.message === 'noPlanExist') {
             $("#GlobDiv").css("height", "fit-content");
             $('#userHavePlan').hide();
@@ -583,6 +593,15 @@ function performAjaxRequest(
 
           }
           break;
+          case "modifyPlan":
+           
+            {
+              $i=1;
+            while($i<=7){
+              $("#"+$i).show();
+            $i++;}
+            }
+            
         case "toggleRecipeConsumed":
           var success = response.success;
           if (success) {

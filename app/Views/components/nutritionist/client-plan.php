@@ -143,20 +143,23 @@ $ClientIdJson=json_encode($clientId);
 
         <h4 class="mt-5 mb-3" style="padding-left: 20px;">Client Dietary Plan:</h4>
         <div class="bg-gray mx-3 rounded" id="dayPlan">
-            <?php for ($day = 1; $day <= $period; $day++) : ?>
+        <?php for ($day = 1; $day <= $period; $day++) : ?>
                 <div>
-                    <p class="p-3 text-white fw-bold">Day
+                    <p class="p-3 text-white fw-bold" >Day
                         <?= $day ?>:
                     </p>
-                    <div class="bg-dark-gray rounded p-2 d-flex flex-wrap flex-row gap-4 container-fluid" style="width: 95%">
+                    <div class="bg-dark-gray rounded p-2 d-flex flex-wrap flex-row gap-4 container-fluid" style="width: 95%; min-height:340px">
                         <div class="rounded d-flex flex-wrap flex-row gap-4" style="width: fit-content" id="day-<?php echo $day ?>">
 
                         </div>
-                        <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal2" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 300px;width: fit-content; width: 250px">
+                        <div id="<?= $day ?>" >
+                        <a   href="?period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 340px;width: fit-content; width: 250px">
                             <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);" src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
                             <p class="fw-bold text-main text-center" style="font-size: 20px; padding-top: 0px;">Add new Item
                             </p>
                         </a>
+                        </div>
+                        
                     </div>
                 </div>
             <?php endfor; ?>

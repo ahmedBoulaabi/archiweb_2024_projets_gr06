@@ -4,13 +4,12 @@ if (!isset($_SESSION['id'])) {
     header('Location: login');
     exit();
 }
-
-
+$etat = $_GET["etat"] ?? 0;
 $period = $_GET["period"] ?? 7;
 $duration = $_GET["duration"] ?? 30;
+$etatJson = json_encode($etat);
 $periodJson = json_encode($period);
 $durationJson = json_encode($duration);
-
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +38,8 @@ $durationJson = json_encode($duration);
     ?>
     <!-- BODY -->
     <script type="text/javascript">
+        var etat = <?php echo $etatJson; ?>;
+        if(etat==0){
         $(document).ready(function() {
             performAjaxRequest(
                 "POST",
@@ -48,6 +49,7 @@ $durationJson = json_encode($duration);
                 ""
             );
         });
+    }
     </script>
     <div class="container-fluid bg-bg pt-5" style="padding-left: 180px; min-height: 100vh;">
         <!-- MODAL -->
@@ -166,18 +168,21 @@ $durationJson = json_encode($duration);
         <div class="bg-gray mx-3 rounded" id="dayPlan">
             <?php for ($day = 1; $day <= $period; $day++) : ?>
                 <div>
-                    <p class="p-3 text-white fw-bold" style="">Day
+                    <p class="p-3 text-white fw-bold" >Day
                         <?= $day ?>:
                     </p>
-                    <div class="bg-dark-gray rounded p-2 d-flex flex-wrap flex-row gap-4 container-fluid" style="width: 95%">
+                    <div class="bg-dark-gray rounded p-2 d-flex flex-wrap flex-row gap-4 container-fluid" style="width: 95%; min-height:340px">
                         <div class="rounded d-flex flex-wrap flex-row gap-4" style="width: fit-content" id="day-<?php echo $day ?>">
 
                         </div>
-                        <a href="?period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 300px;width: fit-content; width: 250px">
+                        <div id="<?= $day ?>" >
+                        <a   href="?period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 340px;width: fit-content; width: 250px">
                             <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);" src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
                             <p class="fw-bold text-main text-center" style="font-size: 20px; padding-top: 0px;">Add new Item
                             </p>
                         </a>
+                        </div>
+                        
                     </div>
                 </div>
             <?php endfor; ?>
@@ -350,6 +355,29 @@ $durationJson = json_encode($duration);
                     });
                 }
             }
+        });
+    </script>
+
+
+<script type="text/javascript">
+        $("#modify-plan-btn").click(function(e) {
+
+            console.log("ùodify plan btn clicked");
+           
+                e.preventDefault()
+                //recupiration des valeur nécaissaire a transfirer
+                
+                    // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
+                    performAjaxRequest(
+                        "POST",
+                        "modifyPlan",
+                        "",
+                        "Plan updated successfully!",
+                        "",
+                    );
+               
+                 
+            
         });
     </script>
 

@@ -179,6 +179,10 @@ class Router
                         }
                         break;
 
+                        case 'modifyPlan':
+                            echo json_encode(true);
+                            break;
+        
                 default:
                     include __DIR__ . '/Views/templates/user/login.php';
                     exit;
