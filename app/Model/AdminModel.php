@@ -330,7 +330,7 @@ class AdminModel
     public function updateUser($data)
     {
         // Prépare la requête SQL pour mettre à jour les données de l'utilisateur dans la base de données.
-        $this->db->query('UPDATE users SET fullname = :fullname, email = :email, gender = :gender, goal = :goal, age = :age, role = :role, height = :height, weight = :weight, daily_caloriegoal = :daily_caloriegoal WHERE id = :id');
+        $this->db->query('UPDATE users SET fullname = :fullname, email = :email, gender = :gender, goal = :goal, age = :age, role = :role, height = :height, weight = :weight, daily_caloriegoal = :daily_caloriegoal, img = :image_url WHERE id = :id');
 
         // Lie les paramètres à la requête.
         $this->db->bind(':id', $data['id']);
@@ -343,6 +343,7 @@ class AdminModel
         $this->db->bind(':height', $data['height']);
         $this->db->bind(':weight', $data['weight']);
         $this->db->bind(':daily_caloriegoal', $data['caloriesgoal']);
+        $this->db->bind(':image_url', $data['image']);
 
         // Exécute la requête et gère les exceptions.
         try {

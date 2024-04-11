@@ -51,7 +51,7 @@
       <div class="modal-body">
       <form action="" method="post" id="edit-user-form" enctype="multipart/form-data">
       <form action="" method="post" id="edit-user-form" enctype="multipart/form-data">
-  <input type="text" id="edit_user_id" name="edit_user_id">
+  <input type="hidden" id="edit_user_id" name="edit_user_id">
   <div class="form-group">
     <label for="edit_fname">First Name</label>
     <input type="text" class="form-control" id="edit_fname" name="edit_fname" required>
