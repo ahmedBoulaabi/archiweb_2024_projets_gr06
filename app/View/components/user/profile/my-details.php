@@ -22,7 +22,6 @@
                 " src="<?php
                         //si $_SESSION['img'] est défini et correspond à une image existante
                         if (isset($_SESSION['img']) && file_exists($_SESSION['img'])) {
-                          // Si c'est le cas, affiche l'image de la session
                           echo $_SESSION['img'];
                         } else {
                           echo IMAGESDIR . 'default-user.png';
