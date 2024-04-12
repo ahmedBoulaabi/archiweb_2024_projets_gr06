@@ -128,7 +128,7 @@ CREATE TABLE `plan_recipes` (
   `plan_id` int(11) DEFAULT NULL,
   `recipe_id` int(11) DEFAULT NULL,
   `date` int(11) DEFAULT NULL,
-  `consume` boolean NOT NULL DEFAULT 0
+  `consumed` boolean NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -174,19 +174,20 @@ CREATE TABLE `recipes` (
 --
 
 INSERT INTO `recipes` (`id`, `name`, `calories`, `type`, `image_url`, `visibility`, `creation_date`, `creator`) VALUES
-(1, 'Green Smoothie Bowl', 350, 'breakfast', '/public/images/recipesImages/Green-Smoothie.jpg', 1, '2024-01-27 00:00:00', 42),
-(2, 'Quinoa Salad', 450, 'lunch', '/public/images/recipesImages/quinoa-salad.jpg', 1, '2024-01-27 00:00:00', 42),
-(3, 'Grilled Salmon with Asparagus', 500, 'dinner', '/public/images/recipesImages/salmon.jpg', 1, '2024-01-27 00:00:00', 42),
-(4, 'Avocado Toast', 250, 'breakfast', '/public/images/recipesImages/Avocado-Toast-.jpg', 1, '2024-01-27 00:00:00', 42),
-(5, 'Tomato Basil Soup', 175, 'lunch', '/public/images/recipesImages/Basilic_Soup.jpg', 1, '2024-01-27 00:00:00', 42),
-(6, 'Chicken Caesar Salad', 400, 'lunch', '/public/images/recipesImages/grilled-chicken-caesar-salad-hero.jpg', 1, '2024-01-27 00:00:00', 42),
-(7, 'Beef Stir Fry', 550, 'dinner', '/public/images/recipesImages/beef-stir-fry-01.jpg', 1, '2024-01-27 00:00:00', 42),
-(9, 'Berry Yogurt Parfait', 220, 'snack', '/public/images/recipesImages/yogurt-parfait-4.jpg', 1, '2024-01-27 00:00:00', 42),
-(10, 'Peanut Butter Banana Smoothie', 350, 'snack', '/public/images/recipesImages/Simply-Recipes-Peanut-Butter-Banana-Smoothie.jpg', 1, '2024-01-27 00:00:00', 42),
-(12, 'jhzd', 77, 'breakfast', '/public/images/recipesImages/Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 45),
-(14, 'jj', 7897, 'breakfast', '/public/images/recipesImages/Annotation 2023-11-10 011721.png', 0, '2024-03-29 00:00:00', 45),
-(15, '79879', 7987, 'breakfast', '/public/images/recipesImages/Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 43),
-(16, '98789', 98798, 'breakfast', '/public/images/recipesImages/Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 43);
+(1, 'Green Smoothie Bowl', 350, 'breakfast', 'Green-Smoothie.jpg', 1, '2024-01-27 00:00:00', 42),
+(2, 'Quinoa Salad', 450, 'lunch', 'quinoa-salad.jpg', 1, '2024-01-27 00:00:00', 42),
+(3, 'Grilled Salmon with Asparagus', 500, 'dinner', 'salmon.jpg', 1, '2024-01-27 00:00:00', 42),
+(4, 'Avocado Toast', 250, 'breakfast', 'Avocado-Toast.jpg', 1, '2024-01-27 00:00:00', 42),
+(5, 'Tomato Basil Soup', 175, 'lunch', 'Basilic_Soup.jpg', 1, '2024-01-27 00:00:00', 42),
+(6, 'Chicken Caesar Salad', 400, 'lunch', 'grilled-chicken-caesar-salad-hero.jpg', 1, '2024-01-27 00:00:00', 42),
+(7, 'Beef Stir Fry', 550, 'dinner', 'beef-stir-fry-01.jpg', 1, '2024-01-27 00:00:00', 42),
+(9, 'Berry Yogurt Parfait', 220, 'snack', 'yogurt-parfait-4.jpg', 1, '2024-01-27 00:00:00', 42),
+(10, 'Peanut Butter Banana Smoothie', 350, 'snack', 'Simply-Recipes-Peanut-Butter-Banana-Smoothie.jpg', 1, '2024-01-27 00:00:00', 41),
+(12, 'jhzd', 77, 'breakfast', 'Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 45),
+(14, 'jj', 7897, 'breakfast', 'Annotation 2023-11-10 011721.png', 0, '2024-03-29 00:00:00', 45),
+(15, '79879', 7987, 'breakfast', 'Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 43),
+(16, '98789', 98798, 'breakfast', 'Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 43);
+
 
 -- --------------------------------------------------------
 
