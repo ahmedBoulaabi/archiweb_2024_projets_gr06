@@ -421,6 +421,18 @@ class AdminController
         }
     }
 
+    public function requestPromotion()
+    {
+        $clientid = $_SESSION['id'];
+
+        if ($this->adminModel->requestPromotion($clientid)) {
+            echo json_encode(['success' => true, 'message' => "Request Sent"]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Something went wrong with the Request']);
+        }
+    
+    }
+
     /**
      * Add a new Recipe with image.
      *
@@ -573,4 +585,6 @@ class AdminController
             exit;
         }
     }
+
+
 }

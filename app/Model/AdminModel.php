@@ -315,6 +315,35 @@ class AdminModel
         }
     }
 
+    public function requestPromotion($id)
+{
+    // Prépare la requête SQL pour vérifier si l'ID est déjà présent dans la table nutri_requests.
+    $this->db->query('SELECT COUNT(*) as count FROM nutri_requests WHERE nutri_id = :id');
+
+    // Lie le paramètre à la requête.
+    $this->db->bind(':id', $id);
+
+    // Exécute la requête et gère les exceptions.
+    try {
+        $result = $this->db->single(); // Utilise 'single' pour obtenir un seul enregistrement.
+        if ($result->count > 0) {
+            // Si l'ID existe déjà, retourne un message ou une valeur indiquant que la demande existe déjà.
+            return "Request already exists.";
+        } else {
+            // Si l'ID n'existe pas, ajoute une nouvelle demande avec l'état 'pending'.
+            $this->db->query('INSERT INTO nutri_requests (nutri_id, etat) VALUES (:id, :etat)');
+            $this->db->bind(':id', $id);
+            $this->db->bind(':etat', 'pending');  // Ajoute l'état 'pending' à la nouvelle entrée.
+            $this->db->execute();
+            return "Request added successfully with status 'pending'.";
+        }
+    } catch (\PDOException $e) {
+        // Log ou gère l'erreur de base de données en conséquence.
+        echo "Database error: " . $e->getMessage();
+        return false;
+    }
+}
+
 
     /**
      * Update User Data in Database

@@ -183,6 +183,9 @@ function handleAjaxResponse(
     case "deleteRecipe":
       redirectHref = "dashboardAdmin?tab=recipesList";
       break;
+    case "requestPromotion":
+      redirectHref = "settings?tab=request";
+      break;
     default:
       redirectHref = "login";
       break;
@@ -201,7 +204,7 @@ function handleAjaxResponse(
         action != "insertPlan" &&
         action != "addNewRecipe" &&
         action != "updateRecipe" &&
-        action != 'addClientPlan'
+        action != 'addClientPlan' 
 
       ) {
         window.location.href = redirectHref;
@@ -212,7 +215,7 @@ function handleAjaxResponse(
         window.location.reload(true);
       }
     });
-    if (!logout && action != "deleteUser" && action != "deleteClient") {
+    if (!logout && action != "deleteUser" && action != "deleteClient" && action != "requestPromotion") {
       $("#form-data")[0].reset();
     }
   } else {
@@ -654,7 +657,6 @@ function performAjaxRequest(
           newMessage = formatMessage(message, ownID)
           $('#conversationMessages').prepend(newMessage)
           break;
-
         default:
           console.log("Unhandled action: " + action);
           handleAjaxResponse(action, response, successTitle, successMessage);
