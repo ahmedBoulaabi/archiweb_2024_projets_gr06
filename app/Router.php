@@ -139,7 +139,7 @@ class Router
                     break;
                 case 'insertPlan':
                     if (isset($_POST['recipesData']) && isset($_POST['period']) && isset($_POST['duration'])) {
-
+                        $_SESSION['etatPlan']= "show";
                         $recipesData = json_decode($_POST['recipesData'], true);
                         $period = $_POST['period'];
                         $duration = $_POST['duration'];
@@ -180,6 +180,12 @@ class Router
                     }
                     break;
 
+                        case 'modifyPlan':
+                           
+                            $_SESSION['etatPlan']= "update";
+                            echo json_encode(true);
+                            break;
+        
                 default:
                     include __DIR__ . '/View/templates/user/login.php';
                     exit;

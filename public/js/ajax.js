@@ -520,7 +520,9 @@ function performAjaxRequest(
           if (response.message === "PlanExist") {
             localStorage.setItem("recipes", JSON.stringify(response.data));
             localStorage.setItem("planInfo", JSON.stringify(response.planInfo));
-            // console.log(response.data);
+            console.log(response.data);
+            console.log(response.planInfo);
+
             lienActuel = window.location.href;
             if (
               lienActuel ==
@@ -542,26 +544,30 @@ function performAjaxRequest(
             let daysLeft = Math.ceil(totalLength - differenceInDays);
             let progressPercentage = (differenceInDays / totalLength) * 100;
             progressPercentage = Math.min(100, Math.max(0, progressPercentage));
-
+            
+           
+            
             $("#userHavePlan").show();
             $("#userNotHavePlan").hide();
             $("#planNameId").html(response.planInfo["name"]);
             $("#periodValue").html(response.planInfo["period"]);
             $("#durationValue").html(response.planInfo["total_length"]);
             $("#days-left").html(daysLeft + " Days Left");
+            $i=1;
+            while($i<=response.planInfo["period"]){
+              $("#"+$i).hide();
+            $i++;}
             $("#progress-val").html(progressPercentage.toFixed(2) + "%");
             $(".box-progress").css(
               "width",
               progressPercentage.toFixed(2) + "%"
             );
-            console.log(response.planInfo);
           } else if (response.message === "noPlanExist") {
             $("#userHavePlan").hide();
             $("#userNotHavePlan").show();
           }
           break;
         case "ClientHavePlan":
-          console.log(response.message);
           if (response.message === 'PlanExist') {
             localStorage.setItem('recipes', JSON.stringify(response.data));
             lienActuel = window.location.href;
@@ -575,6 +581,10 @@ function performAjaxRequest(
             $("#planNameId").html(response.planInfo["name"]);
             $("#periodValue").html(response.planInfo["period"]);
             $("#durationValue").html(response.planInfo["total_length"]);
+            $i=1;
+            while($i<=response.planInfo["period"]){
+              $("#"+$i).hide();
+            $i++;}
           } else if (response.message === 'noPlanExist') {
             $("#GlobDiv").css("height", "fit-content");
             $('#userHavePlan').hide();
@@ -582,6 +592,18 @@ function performAjaxRequest(
 
           }
           break;
+          case "modifyPlan":
+            {window.location.reload(true);
+              $i=1;
+            while($i<=7){
+              $("#"+$i).show();
+            $i++;}
+           
+            
+
+            
+            }
+            
         case "toggleRecipeConsumed":
           var success = response.success;
           if (success) {

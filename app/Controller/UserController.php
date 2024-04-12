@@ -181,6 +181,7 @@ class UserController
         $_SESSION['role'] = $user->role;
         $_SESSION['img'] = $user->img;
         $_SESSION['total_clients'] = $user->total_clients;
+        $_SESSION['etatPlan'] ="show";
     }
 
     /**
