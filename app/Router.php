@@ -179,6 +179,17 @@ class Router
                         $this->nutriController->addPlan($clientId, $recipesData, $period, $duration, $planName);
                     }
                     break;
+                case "requestPromotion":
+                    $this->adminController->requestPromotion();
+                    break;
+
+                case "acceptRequest":
+                    $this->adminController->acceptRequest();
+                    break;
+
+                case "deleteRequest":
+                    $this->adminController->deleteRequest();
+                    break;
 
                         case 'modifyPlan':
                            
@@ -262,8 +273,7 @@ class Router
                     case 'getMessagesFromAConvo':
                         $this->commController->getMessagesFromAConvo();
                         break;
-
-
+                    
                     default:
                         // If no specific action, fallback to generic page handling
                         $this->userController->GETPage($requested);

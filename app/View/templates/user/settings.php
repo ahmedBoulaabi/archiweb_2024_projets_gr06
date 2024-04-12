@@ -44,6 +44,7 @@ function generateTabLink($currentTab, $tabName, $label)
         generateTabLink($tab, 'security', 'Security');
         generateTabLink($tab, 'account-access', 'Account Access');
         generateTabLink($tab, 'notifications', 'Notifications');
+        if ($_SESSION['role'] === "Regular") generateTabLink($tab, 'request', 'Admin Request');
         ?>
       </ul>
 
@@ -60,6 +61,9 @@ function generateTabLink($currentTab, $tabName, $label)
           break;
         case 'notifications':
           include_once VIEWSDIR . DS . '/components/user/profile/notifications.php';
+          break;
+        case 'request':
+          include_once VIEWSDIR . DS . '/components/user/profile/request.php';
           break;
         default:
           include_once VIEWSDIR . DS . '/components/user/profile/my-details.php';

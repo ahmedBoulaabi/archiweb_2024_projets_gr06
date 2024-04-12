@@ -214,7 +214,10 @@ function handleAjaxResponse(
         action != "insertPlan" &&
         action != "addNewRecipe" &&
         action != "updateRecipe" &&
-        action != "addClientPlan"
+        action != 'addClientPlan' &&
+        action != "requestPromotion" &&
+        action != "acceptRequest" &&
+        action != "deleteRequest"
       ) {
         window.location.href = redirectHref;
       } else if (redirectHref == "recipes-list") {
@@ -224,7 +227,8 @@ function handleAjaxResponse(
         window.location.reload(true);
       }
     });
-    if (!logout && action != "deleteUser" && action != "deleteClient") {
+    if (!logout && action != "deleteUser" && action != "deleteClient" 
+    && action != "requestPromotion" && action != "acceptRequest" && action != "deleteRequest") {
       $("#form-data")[0].reset();
     }
   } else {
@@ -715,7 +719,6 @@ function performAjaxRequest(
           newMessage = formatMessage(message, ownID);
           $("#conversationMessages").prepend(newMessage);
           break;
-
         default:
           console.log("Unhandled action: " + action);
           handleAjaxResponse(action, response, successTitle, successMessage);

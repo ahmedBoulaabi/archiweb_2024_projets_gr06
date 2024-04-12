@@ -317,6 +317,116 @@ class AdminModel
 
 
     /**
+     * Request Promotion
+     *
+     * This function checks if a promotion request already exists for a given user ID in the nutri_requests table.
+     * If the request does not exist, it adds a new promotion request with the status set to 'pending'.
+     * It returns a message indicating whether the request was added or if it already exists.
+     *
+     * @param int $id The user ID for whom the promotion is requested.
+     * @return string A message indicating the success or existence of the request.
+     */
+    public function requestPromotion($id)
+    {
+        // Prepare SQL query to check if the ID is already present in the nutri_requests table.
+        $this->db->query('SELECT COUNT(*) as count FROM nutri_requests WHERE nutri_id = :id');
+
+        // Bind the ID parameter to the query.
+        $this->db->bind(':id', $id);
+
+        // Execute the query and handle exceptions.
+        try {
+            $result = $this->db->single(); // Use 'single' to fetch a single record.
+            if ($result->count > 0) {
+                // If the ID already exists, return a message indicating that the request already exists.
+                return "Request already exists.";
+            } else {
+                // If the ID does not exist, add a new request with the status 'pending'.
+                $this->db->query('INSERT INTO nutri_requests (nutri_id, etat) VALUES (:id, :etat)');
+                $this->db->bind(':id', $id);
+                $this->db->bind(':etat', 'pending');
+                $this->db->execute();
+                return "Request added successfully with status 'pending'.";
+            }
+        } catch (\PDOException $e) {
+            // Log or handle the database error accordingly.
+            echo "Database error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    /**
+     * Accept Request
+     *
+     * This function updates the role of a user to 'Nutritionist' based on a given promotion request ID.
+     * If the role update is successful, it then deletes the promotion request.
+     * It returns true if both the update and the deletion are successful, otherwise false.
+     *
+     * @param int $id The ID of the promotion request.
+     * @return bool True if the role update and request deletion are successful, false otherwise.
+     */
+    public function acceptRequest($id)
+    {
+        // Prepare SQL query to update the user's role in the database.
+        $this->db->query('UPDATE users SET role = :role WHERE id = (SELECT nutri_id FROM nutri_requests WHERE id = :request_id)');
+
+        // Bind parameters to the query.
+        $this->db->bind(':role', 'Nutritionist');
+        $this->db->bind(':request_id', $id);
+
+        // Execute the query to update the role.
+        try {
+            $updateSuccess = $this->db->execute();
+            // Check if the role update was successful before deleting the request.
+            if ($updateSuccess) {
+                // Prepare SQL query to delete the promotion request.
+                $this->db->query('DELETE FROM nutri_requests WHERE id = :request_id');
+
+                // Reuse the same parameter bound to the deletion query.
+                $this->db->bind(':request_id', $id);
+
+                // Execute the query to delete the request.
+                return $this->db->execute();
+            } else {
+                return false; // If the role update failed, do not attempt to delete the request.
+            }
+        } catch (\PDOException $e) {
+            // Log or handle the database error accordingly.
+            echo "Database error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    /**
+     * Delete Request
+     *
+     * This function removes a promotion request from the nutri_requests table based on the provided ID.
+     * It executes a prepared statement to delete the request. If the deletion is successful,
+     * it returns true, otherwise it returns false. This function is useful for cleaning up old or
+     * processed requests to keep the database tidy.
+     *
+     * @param int $id The unique identifier of the promotion request to be deleted.
+     * @return bool True if the deletion is successful, false otherwise.
+     */
+    public function deleteRequest($id)
+    {
+        // Prepare SQL query to delete the promotion request from the database.
+        $this->db->query('DELETE FROM nutri_requests WHERE id = :request_id');
+
+        // Bind the request ID parameter to the query.
+        $this->db->bind(':request_id', $id);
+
+        // Execute the query to delete the request.
+        try {
+            return $this->db->execute();
+        } catch (\PDOException $e) {
+            // Log or handle the database error accordingly.
+            echo "Database error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    /**
      * Update User Data in Database
      *
      * Prepares the SQL query to update user data in the database. Binds the input data to the query parameters
