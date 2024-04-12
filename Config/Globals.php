@@ -6,6 +6,7 @@ define('CONTROLLERSDIR', CLASSDIR . DS . 'Controller');
 define('MODELSDIR', CLASSDIR . DS . 'Model');
 define('VIEWSDIR', CLASSDIR . DS . 'View');
 define('TEMPLATESDIR', VIEWSDIR . DS . 'templates');
+define('IMAGESDIR', 'public/images' . DS);
 
 define('BASE_APP_DIR', '/archiweb_2024_projets_gr06');
 define('APPJSON', 'Content-Type: application/json');

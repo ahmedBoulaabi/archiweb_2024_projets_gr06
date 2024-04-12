@@ -19,7 +19,15 @@
                   border-radius: 100%;
                   object-fit: cover;
                   object-position: 50% 0%;
-                " src="https://images.unsplash.com/photo-1605993439219-9d09d2020fa5?q=80&w=3333&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                " src="<?php
+                        //si $_SESSION['img'] est défini et correspond à une image existante
+                        if (isset($_SESSION['img']) && file_exists($_SESSION['img'])) {
+                          // Si c'est le cas, affiche l'image de la session
+                          echo $_SESSION['img'];
+                        } else {
+                          echo IMAGESDIR . 'default-user.png';
+                        }
+                        ?>" />
       <input type="file" aria-label="profile-image" class="form-control mt-2" style="height: fit-content" id="profile-image" name="profile-image" />
     </div>
 
