@@ -214,7 +214,7 @@ function handleAjaxResponse(
         action != "insertPlan" &&
         action != "addNewRecipe" &&
         action != "updateRecipe" &&
-        action != 'addClientPlan' &&
+        action != "addClientPlan" &&
         action != "requestPromotion" &&
         action != "acceptRequest" &&
         action != "deleteRequest"
