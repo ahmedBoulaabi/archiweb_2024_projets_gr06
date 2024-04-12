@@ -1,6 +1,8 @@
 function getMessageBoxHtml(conversation) {
   return `
-    <div class="message-box" data-id=${conversation.interlocutorID} style="cursor:pointer;">
+    <div class="message-box" data-id=${
+      conversation.interlocutorID
+    } style="cursor:pointer;">
       <img src=${conversation.img} alt="profile image">
       <div class="message-content">
         <div class="message-header">
@@ -11,7 +13,11 @@ function getMessageBoxHtml(conversation) {
           ${conversation.lastMessage.contenu}
         </p>
         <span class="message-line time">
-        ${conversation.lastMessage.etat == 0 ? conversation.lastMessage.date_envoi : ""}
+        ${
+          conversation.lastMessage.etat == 0
+            ? conversation.lastMessage.date_envoi
+            : ""
+        }
         </span>
       </div>
     </div>
@@ -30,7 +36,8 @@ function displayNoNutritionist(idNutri = null) {
     </div>
   `);
   } else {
-    $("#discussion-class").html(`    <div class="message-box" data-id=${idNutri}>
+    $("#discussion-class")
+      .html(`    <div class="message-box" data-id=${idNutri}>
     <div class="message-content">
       <div class="message-header">
         <div class="name">No conversation yet</div>
@@ -41,36 +48,42 @@ function displayNoNutritionist(idNutri = null) {
       </p>
     </div>
   </div>`);
-
   }
-
 
   // Ajouter les styles CSS pour centrer le message
   $(".no-nutritionist-wrapper").css({
-    "display": "flex",
+    display: "flex",
     "justify-content": "center",
     "align-items": "center",
-    "height": "100%"
+    height: "100%",
   });
 
   $(".no-nutritionist-content").css({
-    "text-align": "center"
+    "text-align": "center",
   });
 }
 
 function formatMessage(message, ownID) {
   //console.log(message);
-  var ownMsg = ownID == message.expediteur_id
+  var ownMsg = ownID == message.expediteur_id;
 
   return `
-  <div class="d-flex flex-column ${ownMsg ? 'align-items-end' : 'align-items-start'} mb-4">
-    <div class="d-flex ${ownMsg ? 'justify-content-end' : 'justify-content-start'}">
-      <div class="msg_cotainer" ${ownMsg ? 'style="display:inline;background-color:#4287f5;"' : ''}>
+  <div class="d-flex flex-column ${
+    ownMsg ? "align-items-end" : "align-items-start"
+  } mb-4">
+    <div class="d-flex ${
+      ownMsg ? "justify-content-end" : "justify-content-start"
+    }">
+      <div class="msg_cotainer" ${
+        ownMsg ? 'style="display:inline;background-color:#4287f5;"' : ""
+      }>
         ${message.contenu}
       </div>
     </div>
-    <div class="d-flex ${ownMsg ? 'justify-content-end' : 'justify-content-start'}">
-      <span class="msg_time${ownMsg ? '_send' : ''}">
+    <div class="d-flex ${
+      ownMsg ? "justify-content-end" : "justify-content-start"
+    }">
+      <span class="msg_time${ownMsg ? "_send" : ""}">
         ${message.date_envoi}
       </span>
     </div>
@@ -79,8 +92,8 @@ function formatMessage(message, ownID) {
 }
 function displayConversations(response) {
   var data = response.data;
-  var ownID = response.ownID
-  var role = response.role
+  var ownID = response.ownID;
+  var role = response.role;
   var discussions = {};
   var interlocutorFullname;
 
@@ -97,7 +110,6 @@ function displayConversations(response) {
     profilePicture = message.interlocutor_img;
     goal = message.interlocutor_goal;
 
-
     // Vérifier si la discussion existe déjà dans l'objet
     if (!discussions[interlocutorID]) {
       discussions[interlocutorID] = {
@@ -106,14 +118,17 @@ function displayConversations(response) {
         fullname: interlocutorFullname,
         img: profilePicture,
         interlocutorID: interlocutorID,
-        goal: goal
+        goal: goal,
       };
     }
 
     discussions[interlocutorID].messages.push(message);
 
     // indique quel est le dernier message (il sera affiché)
-    if (!discussions[interlocutorID].lastMessage || message.date_envoi > discussions[interlocutorID].lastMessage.date_envoi) {
+    if (
+      !discussions[interlocutorID].lastMessage ||
+      message.date_envoi > discussions[interlocutorID].lastMessage.date_envoi
+    ) {
       discussions[interlocutorID].lastMessage = message;
     }
   });
@@ -128,13 +143,12 @@ function displayConversations(response) {
   console.log(discussions);
   var listeConvHTML = "";
 
-  Object.values(discussions).forEach(discussion => {
-    listeConvHTML += getMessageBoxHtml(discussion)
+  Object.values(discussions).forEach((discussion) => {
+    listeConvHTML += getMessageBoxHtml(discussion);
   });
-  $(".messages").html(listeConvHTML)
-  $("#discussion-class").html(listeConvHTML)
+  $(".messages").html(listeConvHTML);
+  $("#discussion-class").html(listeConvHTML);
 }
-
 
 function handleAjaxError(jqXHR, textStatus, errorThrown) {
   console.error("AJAX Error:", textStatus, errorThrown, jqXHR.responseText);
@@ -201,8 +215,7 @@ function handleAjaxResponse(
         action != "insertPlan" &&
         action != "addNewRecipe" &&
         action != "updateRecipe" &&
-        action != 'addClientPlan'
-
+        action != "addClientPlan"
       ) {
         window.location.href = redirectHref;
       } else if (redirectHref == "recipes-list") {
@@ -235,10 +248,14 @@ function performAjaxRequest(
   $.ajax({
     url: "index.php",
     type: requestType,
-    data: $("#form-data").serialize() + "&action=" + action + "&additionalData=" + additionalData,
+    data:
+      $("#form-data").serialize() +
+      "&action=" +
+      action +
+      "&additionalData=" +
+      additionalData,
     dataType: "json",
     success: function (response) {
-
       switch (action) {
         case "showAllRecipes":
           $("#RecipeList").html(response.message);
@@ -261,46 +278,50 @@ function performAjaxRequest(
             .getElementById("baseAppDir")
             .innerText.trim();
           const backgroundColors = {
-            'gain-weight-normal': '#c8f7dc',
-            'lose-weight-fast': '#ffd3e2',
-            'lose-weight-normal': '#e9e7fd'
+            "gain-weight-normal": "#c8f7dc",
+            "lose-weight-fast": "#ffd3e2",
+            "lose-weight-normal": "#e9e7fd",
           };
           const spanColors = {
-            'gain-weight-normal': '#34c471',
-            'lose-weight-fast': '#df3670',
-            'lose-weight-normal': '#4f3ff0'
+            "gain-weight-normal": "#34c471",
+            "lose-weight-fast": "#df3670",
+            "lose-weight-normal": "#4f3ff0",
           };
           response.data.users_progress.sort(function (a, b) {
-            var progressA = parseFloat(a.plan_progress.replace('%', ''));
-            var progressB = parseFloat(b.plan_progress.replace('%', ''));
+            var progressA = parseFloat(a.plan_progress.replace("%", ""));
+            var progressB = parseFloat(b.plan_progress.replace("%", ""));
             return progressB - progressA;
           });
 
           response.data.users_progress.forEach(function (client) {
-            if (client.plan_creation_date === null || client.plan_creation_date === undefined) {
+            if (
+              client.plan_creation_date === null ||
+              client.plan_creation_date === undefined
+            ) {
               return; // Skip this client and move on to the next one
             }
 
-
             const goal = client.goal; // Assuming row.goal contains the goal information
-            const backgroundColor = backgroundColors[goal] || '#ffffff';
-            const spanColor = spanColors[goal] || '#ffffff';
+            const backgroundColor = backgroundColors[goal] || "#ffffff";
+            const spanColor = spanColors[goal] || "#ffffff";
 
             var clientHtml = `
               <div class="project-box-wrapper">
                 <div class="project-box" style="background-color: ${backgroundColor};">
                   <div class="project-box-header">
-                    <span>${client.plan_creation_date
-              }</span> <!-- Assuming 'date' is part of your client object -->
+                    <span>${
+                      client.plan_creation_date
+                    }</span> <!-- Assuming 'date' is part of your client object -->
                     <div class="more-wrapper">
                       <!-- Button and SVG omitted for brevity -->
                     </div>
                   </div>
                   <div class="project-box-content-header">
-                  <img src="${client.img
-                ? baseAppDir + client.img
-                : "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
-              }" alt="profile image" class="img">
+                  <img src="${
+                    client.img
+                      ? baseAppDir + client.img
+                      : "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
+                  }" alt="profile image" class="img">
 
                     <p class="box-content-header">${client.fullname}</p>
                     <p class="box-content-subheader">${client.goal}</p>
@@ -308,11 +329,13 @@ function performAjaxRequest(
                   <div class="box-progress-wrapper">
                     <p class="box-progress-header">Progress</p>
                     <div class="box-progress-bar">
-                      <span class="box-progress" style="width: ${client.plan_progress
-              }; background-color: ${spanColor}"></span>
+                      <span class="box-progress" style="width: ${
+                        client.plan_progress
+                      }; background-color: ${spanColor}"></span>
                     </div>
-                    <p class="box-progress-percentage">${client.plan_progress
-              }</p>
+                    <p class="box-progress-percentage">${
+                      client.plan_progress
+                    }</p>
                   </div>
                 </div>
               </div>`;
@@ -395,11 +418,11 @@ function performAjaxRequest(
 
           $("#notif-user-" + sender.id).html(
             '<p style="width: 20%; margin: 10px 0">' +
-            sender.fullname +
-            "</p>" +
-            '<p style="width: 20%; margin: 15px 0" id="status-request-<?php echo $row->id ?>">' +
-            statusText +
-            "</p>"
+              sender.fullname +
+              "</p>" +
+              '<p style="width: 20%; margin: 15px 0" id="status-request-<?php echo $row->id ?>">' +
+              statusText +
+              "</p>"
           );
           $("#notif-user-" + sender.id).css("background-color", bgColor);
           Swal.fire({
@@ -411,7 +434,6 @@ function performAjaxRequest(
 
         case "getUserDetails":
           Swal.fire({
-
             title: `<strong>User Info: ID(${response.data.id})</strong>`,
             icon: "info",
             html: `
@@ -441,12 +463,14 @@ function performAjaxRequest(
                   <b>Name:</b> ${response.data.name}<br>
                   <b>Calories:</b> ${response.data.calories}<br>
                   <b>Type:</b> ${response.data.type}<br>
-                  <b>Visibility:</b> ${response.data.visibility == 1 ? "Visible" : "Not Visible"
-              }<br>
+                  <b>Visibility:</b> ${
+                    response.data.visibility == 1 ? "Visible" : "Not Visible"
+                  }<br>
                   <b>Creation Date:</b> ${response.data.creation_date}<br>
                   <b>Creator:</b> ${response.data.creator}<br>
-                  <img src="${response.data.image_url
-              }" alt="Recipe Image" style="max-width: 100%; margin-top: 10px;">
+                  <img src="${
+                    response.data.image_url
+                  }" alt="Recipe Image" style="max-width: 100%; margin-top: 10px;">
                 </div>
               `,
             showCancelButton: true,
@@ -486,7 +510,6 @@ function performAjaxRequest(
           $("#edit_weight").val(response.data.weight);
           $("#edit_caloriesgoal").val(response.data.daily_caloriegoal);
 
-
           // Gérer l'image de la recette
           if (response.data.image_url) {
             $("#edit_imageUpload")
@@ -511,12 +534,17 @@ function performAjaxRequest(
             false
           );
           break;
-        case 'addClientPlan':
+        case "addClientPlan":
           console.log(response.message);
-          handleAjaxResponse(action, response, "Plan Added successfully", "", false);
+          handleAjaxResponse(
+            action,
+            response,
+            "Plan Added successfully",
+            "",
+            false
+          );
           break;
         case "UserHavePlan":
-
           if (response.message === "PlanExist") {
             localStorage.setItem("recipes", JSON.stringify(response.data));
             localStorage.setItem("planInfo", JSON.stringify(response.planInfo));
@@ -544,19 +572,18 @@ function performAjaxRequest(
             let daysLeft = Math.ceil(totalLength - differenceInDays);
             let progressPercentage = (differenceInDays / totalLength) * 100;
             progressPercentage = Math.min(100, Math.max(0, progressPercentage));
-            
-           
-            
+
             $("#userHavePlan").show();
             $("#userNotHavePlan").hide();
             $("#planNameId").html(response.planInfo["name"]);
             $("#periodValue").html(response.planInfo["period"]);
             $("#durationValue").html(response.planInfo["total_length"]);
             $("#days-left").html(daysLeft + " Days Left");
-            $i=1;
-            while($i<=response.planInfo["period"]){
-              $("#"+$i).hide();
-            $i++;}
+            $i = 1;
+            while ($i <= response.planInfo["period"]) {
+              $("#" + $i).hide();
+              $i++;
+            }
             $("#progress-val").html(progressPercentage.toFixed(2) + "%");
             $(".box-progress").css(
               "width",
@@ -568,42 +595,47 @@ function performAjaxRequest(
           }
           break;
         case "ClientHavePlan":
-          if (response.message === 'PlanExist') {
-            localStorage.setItem('recipes', JSON.stringify(response.data));
+          if (response.message === "PlanExist") {
+            localStorage.setItem("recipes", JSON.stringify(response.data));
             lienActuel = window.location.href;
             console.log(additionalData);
-            if (lienActuel == "https://localhost/archiweb_2024_projets_gr06/nutritionist-dashboard?tab=clientPlan&clientId=" + additionalData) {
-              window.location.href = "nutritionist-dashboard?tab=clientPlan&clientId=" + additionalData + "&period=" + response.planInfo["period"];
+            if (
+              lienActuel ==
+              "https://localhost/archiweb_2024_projets_gr06/nutritionist-dashboard?tab=clientPlan&clientId=" +
+                additionalData
+            ) {
+              window.location.href =
+                "nutritionist-dashboard?tab=clientPlan&clientId=" +
+                additionalData +
+                "&period=" +
+                response.planInfo["period"];
             }
             $("#GlobDiv").css("height", "fit-content");
-            $('#userHavePlan').show();
-            $('#userNotHavePlan').hide();
+            $("#userHavePlan").show();
+            $("#userNotHavePlan").hide();
             $("#planNameId").html(response.planInfo["name"]);
             $("#periodValue").html(response.planInfo["period"]);
             $("#durationValue").html(response.planInfo["total_length"]);
-            $i=1;
-            while($i<=response.planInfo["period"]){
-              $("#"+$i).hide();
-            $i++;}
-          } else if (response.message === 'noPlanExist') {
+            $i = 1;
+            while ($i <= response.planInfo["period"]) {
+              $("#" + $i).hide();
+              $i++;
+            }
+          } else if (response.message === "noPlanExist") {
             $("#GlobDiv").css("height", "fit-content");
-            $('#userHavePlan').hide();
-            $('#userNotHavePlan').show();
-
+            $("#userHavePlan").hide();
+            $("#userNotHavePlan").show();
           }
           break;
-          case "modifyPlan":
-            {window.location.reload(true);
-              $i=1;
-            while($i<=7){
-              $("#"+$i).show();
-            $i++;}
-           
-            
+        case "modifyPlan": {
+          window.location.reload(true);
+          $i = 1;
+          while ($i <= 7) {
+            $("#" + $i).show();
+            $i++;
+          }
+        }
 
-            
-            }
-            
         case "toggleRecipeConsumed":
           var success = response.success;
           if (success) {
@@ -620,61 +652,69 @@ function performAjaxRequest(
           }
           break;
         case "getDiscussion":
-          console.log(response)
-          var role = response.role
+          console.log(response);
+          var role = response.role;
           if (role == "Admin") {
-            displayNoNutritionist(0) // cas où il n'y a pas encore de message 
+            displayNoNutritionist(0); // cas où il n'y a pas encore de message
           }
           if (response.success) {
-
-            if (response.data == "empty") { // requete fonctionne, mais pas de message à afficher
+            if (response.data == "empty") {
+              // requete fonctionne, mais pas de message à afficher
               if (role == "Regular") {
-                displayNoNutritionist(response.nutriID) // cas où il n'y a pas encore de message 
+                displayNoNutritionist(response.nutriID); // cas où il n'y a pas encore de message
               } else {
-                displayNoNutritionist(response.clientID) // cas où il n'y a pas encore de message 
+                displayNoNutritionist(response.clientID); // cas où il n'y a pas encore de message
               }
-            } else { // requete fonctionne, messages à afficher
+            } else {
+              // requete fonctionne, messages à afficher
               if (role == "NoNutritionist") {
-                displayNoNutritionist(null) // cas où il n'y a pas de nutritioniste
+                displayNoNutritionist(null); // cas où il n'y a pas de nutritioniste
               } else {
-                displayConversations(response)
+                displayConversations(response);
               }
             }
           } else {
             console.log("La requête n'a pas réussie.");
-            console.log(response.data)
+            console.log(response.data);
           }
           break;
 
         case "getMessagesFromAConvo":
-          wholeDiscussion = ""
+          wholeDiscussion = "";
 
           if (response.success && response.data != "empty") {
-            for (numMessage in response.data) { // ajout des différents messages dans la div de conversation
-              if (response.data[numMessage].etat != 1) { // ignore le message par défaut
-                wholeDiscussion = formatMessage(response.data[numMessage], response.ownID) + wholeDiscussion
+            for (numMessage in response.data) {
+              // ajout des différents messages dans la div de conversation
+              if (response.data[numMessage].etat != 1) {
+                // ignore le message par défaut
+                wholeDiscussion =
+                  formatMessage(response.data[numMessage], response.ownID) +
+                  wholeDiscussion;
               }
             }
-            $('#conversationMessages').html(wholeDiscussion)
+            $("#conversationMessages").html(wholeDiscussion);
           }
 
           // mettre le nom de l'interlocuteur pour savoir à qui on parle
-          const modalTitle = document.querySelector('.modal-title');
+          const modalTitle = document.querySelector(".modal-title");
           if (modalTitle && response.data[0].interlocutor_fullname) {
-            console.log("nom interlocutor: " + response.data[0].interlocutor_fullname);
-            modalTitle.innerHTML = "Send a message to " + response.data[0].interlocutor_fullname;
+            console.log(
+              "nom interlocutor: " + response.data[0].interlocutor_fullname
+            );
+            modalTitle.innerHTML =
+              "Send a message to " + response.data[0].interlocutor_fullname;
           }
           break;
 
-        case 'sendMessage':
-          var ownID = response.ownID
+        case "sendMessage":
+          var ownID = response.ownID;
           var message = {
-            'date_envoi': "Just now",
-            'expediteur_id': ownID,
-            'contenu': response.data
-          }
-          newMessage = formatMessage(message, ownID)
-          $('#conversationMessages').prepend(newMessage)
+            date_envoi: "Just now",
+            expediteur_id: ownID,
+            contenu: response.data,
+          };
+          newMessage = formatMessage(message, ownID);
+          $("#conversationMessages").prepend(newMessage);
           break;
 
         default:
