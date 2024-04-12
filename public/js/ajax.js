@@ -1,9 +1,8 @@
 function getMessageBoxHtml(conversation) {
   return `
-    <div class="message-box" data-id=${
-      conversation.interlocutorID
-    } style="cursor:pointer;">
-      <img src=${conversation.img} alt="profile image">
+
+    <div class="message-box" data-id=${conversation.interlocutorID} style="cursor:pointer;">
+      <img src=/archiweb_2024_projets_gr06${conversation.img} alt="profile image">
       <div class="message-content">
         <div class="message-header">
           <div class="name">${conversation.fullname}</div>
