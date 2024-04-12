@@ -183,9 +183,6 @@ function handleAjaxResponse(
     case "deleteRecipe":
       redirectHref = "dashboardAdmin?tab=recipesList";
       break;
-    case "requestPromotion":
-      redirectHref = "settings?tab=request";
-      break;
     default:
       redirectHref = "login";
       break;
@@ -204,7 +201,9 @@ function handleAjaxResponse(
         action != "insertPlan" &&
         action != "addNewRecipe" &&
         action != "updateRecipe" &&
-        action != 'addClientPlan' 
+        action != 'addClientPlan' &&
+        action != "requestPromotion" &&
+        action != "acceptRequest"
 
       ) {
         window.location.href = redirectHref;

@@ -183,6 +183,10 @@ class Router
                     $this->adminController->requestPromotion();
                     break;
 
+                case "acceptRequest":
+                    $this->adminController->acceptRequest();
+                    break;
+
                 default:
                     include __DIR__ . '/View/templates/user/login.php';
                     exit;
@@ -259,7 +263,7 @@ class Router
                     case 'getMessagesFromAConvo':
                         $this->commController->getMessagesFromAConvo();
                         break;
-                
+                    
                     default:
                         // If no specific action, fallback to generic page handling
                         $this->userController->GETPage($requested);

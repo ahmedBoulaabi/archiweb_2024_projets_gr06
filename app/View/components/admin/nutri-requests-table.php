@@ -28,7 +28,7 @@
           <?php endif; ?>
         </td>
         <td>
-          <a href="#" title="View Details" class="text-success infoBtn" id="<?= htmlspecialchars($row["id"]) ?>"><i class='bx bx-check-circle'></i></a>
+          <a href="#" title="Approve Request" class="text-success infoBtn" id="<?= htmlspecialchars($row["id"]) ?>"><i class='bx bx-check-circle'></i></a>
           <a href="" style="color: var(--danger)" class="delBtn" id="<?= htmlspecialchars($row["id"])  ?>"><i class='bx bxs-x-circle'></i></a>
           <a href=""><i class='bx bx-download'></i></a>
         </td>
@@ -47,9 +47,54 @@
 </div>
 <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
 <script type="text/javascript">
+  /*
   $(document).ready(function() {
 
+    $("body").on("click", ".infoBtn", function(e) {
+  e.preventDefault();
+  var tr = $(this).closest('tr');
+  var accept_id = $(this).attr('id');
+  console.log(accept_id);
 
+  Swal.fire({
+    title: "Accept Request?",
+    text: "Are you sure you want to accept this request?",
+    icon: "question", // Changed icon from 'warning' to 'question' for neutrality.
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, accept it!", // Changed text to reflect the action better.
+    cancelButtonText: "No, cancel!" // It's good to provide clear options.
+  }).then((result) => {
+    if (result.value) {
+      performAjaxRequest("POST", "acceptRequest", "&del_id=" + del_id, "Accepted!", "Request accepted successfully.");
+    }
+  });
+});*/
+
+
+    // Updated delete request using performAjaxRequest
+    $("body").on("click", ".infoBtn", function(e) {
+      e.preventDefault();
+      var tr = $(this).closest('tr');
+      var del_id = $(this).attr('id');
+      console.log(del_id)
+
+      Swal.fire({
+      title: "Accept Request?",
+      text: "Are you sure you want to accept this request?",
+      icon: "question", // Changed icon from 'warning' to 'question' for neutrality.
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, accept it!", // Changed text to reflect the action better.
+      cancelButtonText: "No, cancel!" // It's good to provide clear options.
+    }).then((result) => {
+        if (result.value) {
+          performAjaxRequest("POST", "acceptRequest", "&acc_id=" + del_id, "Accepted!", "Request accepted successfully.");
+        }
+      });
+    });
 
 
     // Updated delete request using performAjaxRequest
@@ -57,6 +102,7 @@
       e.preventDefault();
       var tr = $(this).closest('tr');
       var del_id = $(this).attr('id');
+      console.log(del_id)
 
       Swal.fire({
         title: "Are you sure?",
@@ -68,22 +114,9 @@
         confirmButtonText: "Yes, delete it!"
       }).then((result) => {
         if (result.value) {
-          performAjaxRequest("POST", "deleteUser", "&del_id=" + del_id, "Deleted!", "User deleted successfully.");
+          performAjaxRequest("POST", "deleteRequest", "&del_id=" + del_id, "Deleted!", "User deleted successfully.");
         }
       });
     });
 
-
-    //show user details
-    $("body").on("click", ".infoBtn", function(e) {
-      e.preventDefault();
-      info_id = $(this).attr('id');
-      var additionalData = "&info_id=" + info_id;
-
-      performAjaxRequest("GET", "getUserDetails", additionalData, "", "");
-
-
-    })
-
-  });
 </script>

@@ -432,6 +432,15 @@ class AdminController
         }
     
     }
+    public function acceptRequest()
+    {
+        $clientid = $_POST['acc_id'];
+        if ($this->adminModel->acceptRequest($clientid)) {
+            echo json_encode(['success' => true, 'message' => "Request Accepted"]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Something went wrong with the Request']);
+        }
+    }
 
     /**
      * Add a new Recipe with image.

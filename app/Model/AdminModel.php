@@ -315,6 +315,7 @@ class AdminModel
         }
     }
 
+
     public function requestPromotion($id)
 {
     // Prépare la requête SQL pour vérifier si l'ID est déjà présent dans la table nutri_requests.
@@ -336,6 +337,37 @@ class AdminModel
             $this->db->bind(':etat', 'pending');  // Ajoute l'état 'pending' à la nouvelle entrée.
             $this->db->execute();
             return "Request added successfully with status 'pending'.";
+        }
+    } catch (\PDOException $e) {
+        // Log ou gère l'erreur de base de données en conséquence.
+        echo "Database error: " . $e->getMessage();
+        return false;
+    }
+}
+public function acceptRequest($id)
+{
+    // Prépare la requête SQL pour mettre à jour le rôle de l'utilisateur dans la base de données.
+    $this->db->query('UPDATE users SET role = :role WHERE id = (SELECT nutri_id FROM nutri_requests WHERE id = :request_id)');
+
+    // Lie les paramètres à la requête.
+    $this->db->bind(':role', 'Nutritionist'); // Remplacez 'nouveau_role' par le nouveau rôle souhaité.
+    $this->db->bind(':request_id', $id);
+
+    // Exécute la requête pour mettre à jour le rôle.
+    try {
+        $updateSuccess = $this->db->execute();
+        // Vérifie si la mise à jour du rôle a réussi avant de supprimer la requête.
+        if ($updateSuccess) {
+            // Prépare la requête SQL pour supprimer la requête de promotion.
+            $this->db->query('DELETE FROM nutri_requests WHERE id = :request_id');
+
+            // Réutilise le même paramètre lié à la requête de suppression.
+            $this->db->bind(':request_id', $id);
+
+            // Exécute la requête pour supprimer la requête.
+            return $this->db->execute();
+        } else {
+            return false; // La mise à jour du rôle a échoué, donc la requête ne sera pas supprimée.
         }
     } catch (\PDOException $e) {
         // Log ou gère l'erreur de base de données en conséquence.
