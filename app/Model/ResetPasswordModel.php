@@ -65,7 +65,7 @@ class ResetPasswordModel
      */
     public function resetPassword($selector, $currentDate)
     {
-        $this->db->query('SELECT * FROM pwdReset WHERE pwdResetSelector=:selector AND
+        $this->db->query('SELECT * FROM pwdreset WHERE pwdResetSelector=:selector AND
             pwdResetExpires >= :currentDate');
         $this->db->bind(':selector', $selector);
         $this->db->bind(':currentDate', $currentDate);

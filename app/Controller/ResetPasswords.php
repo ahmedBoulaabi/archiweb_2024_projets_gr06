@@ -55,7 +55,7 @@ class ResetPasswords
         $this->mail->SMTPAuth = true;
         //    $this->mail->Port = 2525;
         $this->mail->Username = 'projetmangergr06@gmail.com';
-        $this->mail->Password = ''; // Put the password here 
+        $this->mail->Password = $_ENV['RST_MAIL_PWD']; // Put the password here 
         $this->mail->SMTPSecure = 'ssl';
         $this->mail->Port = 465;
     }
