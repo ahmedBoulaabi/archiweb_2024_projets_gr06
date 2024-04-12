@@ -4,9 +4,10 @@ if (!isset($_SESSION['id'])) {
     header('Location: login');
     exit();
 }
-$etat = $_GET["etat"] ?? 0;
+$etat = $_SESSION['etatPlan'];
 $period = $_GET["period"] ?? 7;
 $duration = $_GET["duration"] ?? 30;
+$varCheak = 0;
 $etatJson = json_encode($etat);
 $periodJson = json_encode($period);
 $durationJson = json_encode($duration);
@@ -39,17 +40,18 @@ $durationJson = json_encode($duration);
     <!-- BODY -->
     <script type="text/javascript">
         var etat = <?php echo $etatJson; ?>;
-        if(etat==0){
-        $(document).ready(function() {
-            performAjaxRequest(
-                "POST",
-                "UserHavePlan",
-                "",
-                "",
-                ""
-            );
-        });
-    }
+        console.log("1er script etat = " + etat);
+        if (etat == "show") {
+            $(document).ready(function() {
+                performAjaxRequest(
+                    "POST",
+                    "UserHavePlan",
+                    "",
+                    "",
+                    ""
+                );
+            });
+        }
     </script>
     <div class="container-fluid bg-bg pt-5" style="padding-left: 180px; min-height: 100vh;">
         <!-- MODAL -->
@@ -82,7 +84,7 @@ $durationJson = json_encode($duration);
                             <p>The number of days of the plan (repeats through the duration)</p>
                         </div>
                         <div class="selector width-per-item">
-                            <a href="?period=7&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
+                            <a href="?period=7&duration=<?= $duration ?>&etat=<?= $etat ?>"" class=" text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
                             <a href="?period=14&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 14 ? 'selected' : '' ?>">14
                                 Days</a>
                             <a href="?period=30&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 30 ? 'selected' : '' ?>">30
@@ -106,12 +108,11 @@ $durationJson = json_encode($duration);
                                 Days</a>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="bar-add-plan">
                         <div class="selector-label">
                             <h3 class="text-white">Name of the Plan</h3>
-                            <p>Add a name to your Plan</p>
+                                <p id="txtNamePlan">Add a name to your Plan</p>
                         </div>
-
 
                         <div class="selector width-per-item">
                             <form id="form-data" class="selector width-per-item">
@@ -121,9 +122,10 @@ $durationJson = json_encode($duration);
 
                         </div>
                     </div>
+                    
                 </div>
             </div>
-
+                
             <div id="userHavePlan" class="radio-container" style="background-color: var(--main-color);display: none;">
                 <div class="radio-container" style="background-color: var(--main-color);">
                     <div class="form-group text-center">
@@ -131,12 +133,12 @@ $durationJson = json_encode($duration);
                             <h3 class="text-white">Name of the Plan:</h3>
                         </div>
                         <div class="selector width-per-item d-flex justify-content-center">
-                            <h3 class="text-white"><strong id="planNameId"></strong></h3>
+                            <h3 class="text-white"><strong id="planNameId" name="planNameId"></strong></h3>
                         </div>
                         <div class="selector width-per-item d-flex justify-content-center">
-                            <button type="submit" name="modify-plan-btn" id="modify-plan-btn" class="btn text-decoration-none selection rounded p-1 text-white">
-                                <h3 class="text-white"><strong>Modify my plan</strong></h3>
-                            </button>
+                        <form id="form-data" class="selector width-per-item">
+                                <input type="submit" name="modify-plan-btn" id="modify-plan-btn" class="rounded p-1 px-3  selection " style="margin-left: 10px;" value="Modify Plan">
+                            </form>
                         </div>
 
                     </div>
@@ -163,26 +165,40 @@ $durationJson = json_encode($duration);
         </div>
 
 
+        <script>
+            if (etat != "show") {
+                document.addEventListener("DOMContentLoaded", function() {
+                             
+                document.getElementById("add-plan-btn").value = "Update Plan";
+                document.getElementById("txtNamePlan").textContent= "Update the name of your Plan";
+})
+                $("#userHavePlan").hide();
+                $("#userNotHavePlan").show();
+
+               
+              
+            }
+        </script>
 
         <h4 class="mt-5 mb-3" style="padding-left: 20px;">Your Dietary Plan:</h4>
         <div class="bg-gray mx-3 rounded" id="dayPlan">
             <?php for ($day = 1; $day <= $period; $day++) : ?>
                 <div>
-                    <p class="p-3 text-white fw-bold" >Day
+                    <p class="p-3 text-white fw-bold">Day
                         <?= $day ?>:
                     </p>
                     <div class="bg-dark-gray rounded p-2 d-flex flex-wrap flex-row gap-4 container-fluid" style="width: 95%; min-height:340px">
                         <div class="rounded d-flex flex-wrap flex-row gap-4" style="width: fit-content" id="day-<?php echo $day ?>">
 
                         </div>
-                        <div id="<?= $day ?>" >
-                        <a   href="?period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 340px;width: fit-content; width: 250px">
-                            <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);" src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
-                            <p class="fw-bold text-main text-center" style="font-size: 20px; padding-top: 0px;">Add new Item
-                            </p>
-                        </a>
+                        <div id="<?= $day ?>">
+                            <a href="?period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 340px;width: fit-content; width: 250px">
+                                <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);" src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
+                                <p class="fw-bold text-main text-center" style="font-size: 20px; padding-top: 0px;">Add new Item
+                                </p>
+                            </a>
                         </div>
-                        
+
                     </div>
                 </div>
             <?php endfor; ?>
@@ -286,7 +302,7 @@ $durationJson = json_encode($duration);
                     var selectedDay = getSelectedDay();
 
                     var recipeData = {
-                        id: recipeId,
+                        recipe_id: recipeId,
                         name: recipeName,
                         date: selectedDay
                     };
@@ -314,7 +330,6 @@ $durationJson = json_encode($duration);
 
     <script type="text/javascript">
         $("#add-plan-btn").click(function(e) {
-
             console.log("add plan btn clicked");
             if ($("#form-data")[0].checkValidity()) {
                 e.preventDefault()
@@ -359,25 +374,20 @@ $durationJson = json_encode($duration);
     </script>
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $("#modify-plan-btn").click(function(e) {
+            //recupiration des valeur nécaissaire a transfirer
+            e.preventDefault()
+            var period = <?php echo $periodJson; ?>;
+            // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
+            performAjaxRequest(
+                "POST",
+                "modifyPlan",
+                period,
+                "Plan updated successfully!",
+                "",
+            );
 
-            console.log("ùodify plan btn clicked");
-           
-                e.preventDefault()
-                //recupiration des valeur nécaissaire a transfirer
-                
-                    // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
-                    performAjaxRequest(
-                        "POST",
-                        "modifyPlan",
-                        "",
-                        "Plan updated successfully!",
-                        "",
-                    );
-               
-                 
-            
         });
     </script>
 
