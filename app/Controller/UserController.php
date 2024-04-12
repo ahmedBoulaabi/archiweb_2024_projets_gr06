@@ -181,7 +181,6 @@ class UserController
         $_SESSION['role'] = $user->role;
         $_SESSION['img'] = $user->img;
         $_SESSION['total_clients'] = $user->total_clients;
-        $_SESSION['etatPlan'] ="show";
     }
 
     /**
@@ -450,10 +449,14 @@ class UserController
         $data = $this->userModel->getUsersByNotifs();
 
         if ($data) {
-            ob_start();
-            include VIEWSDIR . DS . 'components' . DS . 'user' . DS . 'dashboard' . DS . 'senderNotifList.php';
-            $output = ob_get_clean();
-            echo json_encode(['success' => true, 'data' => $output]);
+            if ($data != "No notifications") {
+                ob_start();
+                include VIEWSDIR . DS . 'components' . DS . 'user' . DS . 'dashboard' . DS . 'senderNotifList.php';
+                $output = ob_get_clean();
+                echo json_encode(['success' => true, 'data' => $output]);
+            } else {
+                echo json_encode(['success' => true, 'data' => $data]);
+            }
         } else {
             echo json_encode(['success' => false, 'message' => 'Users from notification query failed.']);
         }

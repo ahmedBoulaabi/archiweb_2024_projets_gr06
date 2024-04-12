@@ -350,7 +350,7 @@ class UserModel
      * Use the list of notifications in the database to get access to all users who sent notifications
      * to the current connected user, then put their data in an array and return it
      *
-     * @return bool|object[]
+     * @return string|object[]
      */
     public function getUsersByNotifs()
     {
@@ -371,7 +371,7 @@ class UserModel
             }
             return $senderList;
         }
-        return false;
+        return "No notifications";
     }
 
     /**
@@ -638,7 +638,7 @@ class UserModel
         $this->db->execute();
 
         foreach ($recipesData as $recipe) {
-            $recipeId = $recipe['recipe_id'];
+            $recipeId = $recipe['rec    ipe_id'];
             $date = $recipe['date'];
 
             $sql = "INSERT INTO plan_recipes (plan_id, recipe_id, date) VALUES (:plan_id, :recipe_id, :date)";
