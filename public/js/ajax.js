@@ -520,7 +520,9 @@ function performAjaxRequest(
           if (response.message === "PlanExist") {
             localStorage.setItem("recipes", JSON.stringify(response.data));
             localStorage.setItem("planInfo", JSON.stringify(response.planInfo));
-            // console.log(response.data);
+            console.log(response.data);
+            console.log(response.planInfo);
+
             lienActuel = window.location.href;
             if (
               lienActuel ==
@@ -560,14 +562,12 @@ function performAjaxRequest(
               "width",
               progressPercentage.toFixed(2) + "%"
             );
-            console.log(response.planInfo);
           } else if (response.message === "noPlanExist") {
             $("#userHavePlan").hide();
             $("#userNotHavePlan").show();
           }
           break;
         case "ClientHavePlan":
-          console.log(response.message);
           if (response.message === 'PlanExist') {
             localStorage.setItem('recipes', JSON.stringify(response.data));
             lienActuel = window.location.href;
@@ -593,12 +593,15 @@ function performAjaxRequest(
           }
           break;
           case "modifyPlan":
-           
-            {
+            {window.location.reload(true);
               $i=1;
             while($i<=7){
               $("#"+$i).show();
             $i++;}
+           
+            
+
+            
             }
             
         case "toggleRecipeConsumed":
