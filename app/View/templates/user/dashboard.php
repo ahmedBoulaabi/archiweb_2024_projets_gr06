@@ -60,8 +60,7 @@ if ($_SESSION['role'] == "Regular") {
 
 
         <!-- Search bar -->
-        <input type="text" class="form-control" name="client-list-search" id="client-list-search"
-          placeholder="<?php echo $titleNotifIcon ?>">
+        <input type="text" class="form-control" name="client-list-search" id="client-list-search" placeholder="<?php echo $titleNotifIcon ?>">
 
         <!-- Results -->
         <div id="client-list-results" class="pt-4" style="max-height:350px; overflow:scroll;">
@@ -88,14 +87,11 @@ if ($_SESSION['role'] == "Regular") {
 
       <a href="#open-modal-notifs" id="click-to-show-notif">
 
-        <div class="text-bg text-center d-flex align-items-center justify-content-center position-absolute"
-          id="notif-displayer"
-          style="font-size: 16px; height:30px; width:30px; border-radius: 100%; left: -40%; top:40%; z-index:0; background-color: #252624;">
+        <div class="text-bg text-center d-flex align-items-center justify-content-center position-absolute" id="notif-displayer" style="font-size: 16px; height:30px; width:30px; border-radius: 100%; left: -40%; top:40%; z-index:0; background-color: #252624;">
         </div>
       </a>
       <a href="#open-modal" title="<?php echo $titleNotifIcon ?>">
-        <img src=" <?= BASE_APP_DIR ?>/public/images/icons/bell.png" style="z-index:2;"
-          alt="<?php echo $titleNotifIcon ?>" />
+        <img src=" <?= BASE_APP_DIR ?>/public/images/icons/bell.png" style="z-index:2;" alt="<?php echo $titleNotifIcon ?>" />
       </a>
     </div>
 
@@ -259,7 +255,7 @@ if ($_SESSION['role'] == "Regular") {
 
   // console.log(labels)
 
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
     var ctx = document.getElementById('timeline-graph').getContext('2d');
     var timelineChart = new Chart(ctx, {
       type: 'bar', // Type of graph
@@ -337,7 +333,7 @@ if ($_SESSION['role'] == "Regular") {
 
 
   // RECIPES DISPLAY
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
     const recipes = JSON.parse(localStorage.getItem('recipes')) || [];
     const planInfo = JSON.parse(localStorage.getItem('planInfo')) || {};
     const totalDays = planInfo.total_length || 0;
@@ -396,7 +392,7 @@ if ($_SESSION['role'] == "Regular") {
         recipesContainer.appendChild(recipeElement);
 
         // Attach click event listener to each recipe card
-        recipeElement.addEventListener('click', function () {
+        recipeElement.addEventListener('click', function() {
           console.log(`Recipe ${recipe.id} clicked`);
           var additionalData = "&recipe_id=" + recipe.id;
           recipeElement.classList.toggle("recipe-consumed");
@@ -423,8 +419,8 @@ if ($_SESSION['role'] == "Regular") {
       planContainer.prepend(dayDiv);
     }
   });
-  
-$(document).ready(function() {
+
+  $(document).ready(function() {
     function getDiscussion() {
       performAjaxRequest(
         "GET",
