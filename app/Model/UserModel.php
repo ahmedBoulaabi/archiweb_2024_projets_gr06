@@ -580,6 +580,31 @@ class UserModel
      */
     function addUserPlan($recipesData, $period, $duration, $plan_name)
     {
+        $userId = $_SESSION['id']; // ID de l'utilisateur depuis la session
+        $sql = "SELECT EXISTS (SELECT 1 FROM user_plan WHERE user_id = :userId) AS planExists";
+        $this->db->query($sql);
+        $this->db->bind(':userId', $userId);
+        $result = $this->db->single(); // Récupère le résultat de la clause EXISTS
+
+        if ($result->planExists == 1) {
+            // Supprimer les entrées existantes liées à l'utilisateur dans la table user_plan
+            $sql_delete_user_plan = "DELETE FROM user_plan WHERE user_id = :user_id";
+            $this->db->query($sql_delete_user_plan);
+            $this->db->bind(':user_id', $userId);
+            $this->db->execute();
+
+            // Supprimer les recettes associées à chaque plan de l'utilisateur dans la table plan_recipes
+            $sql_delete_plan_recipes = "DELETE FROM plan_recipes WHERE plan_id IN (SELECT id FROM plans WHERE creator = :creator_id)";
+            $this->db->query($sql_delete_plan_recipes);
+            $this->db->bind(':creator_id', $userId);
+            $this->db->execute();
+
+            // Supprimer les plans de l'utilisateur dans la table plans
+            $sql_delete_plans = "DELETE FROM plans WHERE creator = :creator_id";
+            $this->db->query($sql_delete_plans);
+            $this->db->bind(':creator_id', $userId);
+            $this->db->execute();
+        }
         $userId = $_SESSION['id']; //  user ID from the session
         // Insert into the `plans` table
         $planName = $plan_name ?? "Default Plan for User " . $userId;
@@ -613,7 +638,7 @@ class UserModel
         $this->db->execute();
 
         foreach ($recipesData as $recipe) {
-            $recipeId = $recipe['id'];
+            $recipeId = $recipe['recipe_id'];
             $date = $recipe['date'];
 
             $sql = "INSERT INTO plan_recipes (plan_id, recipe_id, date) VALUES (:plan_id, :recipe_id, :date)";
@@ -621,6 +646,7 @@ class UserModel
             $this->db->bindMultipleParams([':recipe_id', ':plan_id', ':date'], [$recipeId, $planId, $date]);
             $this->db->execute();
         }
+
         return true;
     }
     /**
