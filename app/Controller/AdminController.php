@@ -442,6 +442,16 @@ class AdminController
         }
     }
 
+    public function deleteRequest()
+    {
+        $clientid = $_POST['del_id'];
+        if ($this->adminModel->deleteRequest($clientid)) {
+            echo json_encode(['success' => true, 'message' => "Request Accepted"]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Something went wrong with the Request']);
+        }
+    }
+
     /**
      * Add a new Recipe with image.
      *

@@ -187,6 +187,10 @@ class Router
                     $this->adminController->acceptRequest();
                     break;
 
+                case "deleteRequest":
+                    $this->adminController->deleteRequest();
+                    break;
+
                 default:
                     include __DIR__ . '/View/templates/user/login.php';
                     exit;

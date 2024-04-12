@@ -203,7 +203,8 @@ function handleAjaxResponse(
         action != "updateRecipe" &&
         action != 'addClientPlan' &&
         action != "requestPromotion" &&
-        action != "acceptRequest"
+        action != "acceptRequest" &&
+        action != "deleteRequest"
 
       ) {
         window.location.href = redirectHref;
@@ -214,7 +215,8 @@ function handleAjaxResponse(
         window.location.reload(true);
       }
     });
-    if (!logout && action != "deleteUser" && action != "deleteClient" && action != "requestPromotion") {
+    if (!logout && action != "deleteUser" && action != "deleteClient" 
+    && action != "requestPromotion" && action != "acceptRequest" && action != "deleteRequest") {
       $("#form-data")[0].reset();
     }
   } else {

@@ -376,7 +376,16 @@ public function acceptRequest($id)
     }
 }
 
+public function deleteRequest($id)
+{
+    $this->db->query('DELETE FROM nutri_requests WHERE id = :request_id');
 
+            // Réutilise le même paramètre lié à la requête de suppression.
+            $this->db->bind(':request_id', $id);
+
+            // Exécute la requête pour supprimer la requête.
+            return $this->db->execute();
+}
     /**
      * Update User Data in Database
      *
