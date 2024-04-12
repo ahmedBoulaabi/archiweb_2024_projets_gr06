@@ -638,7 +638,7 @@ class UserModel
         $this->db->execute();
 
         foreach ($recipesData as $recipe) {
-            $recipeId = $recipe['rec    ipe_id'];
+            $recipeId = $recipe['recipe_id'];
             $date = $recipe['date'];
 
             $sql = "INSERT INTO plan_recipes (plan_id, recipe_id, date) VALUES (:plan_id, :recipe_id, :date)";
