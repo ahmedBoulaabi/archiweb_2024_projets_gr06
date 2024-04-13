@@ -7,7 +7,6 @@ if (!isset($_SESSION['id'])) {
 $etat = $_SESSION['etatPlan'];
 $period = $_GET["period"] ?? 7;
 $duration = $_GET["duration"] ?? 30;
-$varCheak = 0;
 $etatJson = json_encode($etat);
 $periodJson = json_encode($period);
 $durationJson = json_encode($duration);
@@ -62,20 +61,15 @@ $durationJson = json_encode($duration);
                 <div>Add a recipe to your planning for this day. Search from global recipes, and your custom recipes.
                     you can add <a href="<?= BASE_APP_DIR ?>/recipes-list">custom recipes here</a></div>
                 <br>
-
-
                 <!-- Search bar -->
                 <input type="text" class="form-control" name="plan-recipe-search" id="plan-recipe-search"
                     placeholder="Search for recipe">
-
                 <!-- Results -->
                 <div id="plan-recipe-results" class="pt-4" style="max-height:350px; overflow:scroll;">
-
                 </div>
             </div>
         </div>
         <!-- Planning Params -->
-
         <div style="min-height: 250px">
             <div id="userNotHavePlan" class="radio-container"
                 style="background-color: var(--main-color); display: none;">
@@ -86,7 +80,7 @@ $durationJson = json_encode($duration);
                             <p>The number of days of the plan (repeats through the duration)</p>
                         </div>
                         <div class="selector width-per-item">
-                            <a href="?period=7&duration=<?= $duration ?>&etat=<?= $etat ?>"
+                            <a href="?period=7&duration=<?= $duration ?>"
                                 class=" text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
                             <a href="?period=14&duration=<?= $duration ?>"
                                 class="text-decoration-none selection <?= $period == 14 ? 'selected' : '' ?>">14
@@ -96,7 +90,6 @@ $durationJson = json_encode($duration);
                                 Days</a>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <div class="selector-label">
                             <h3 class="text-white">Duration</h3>
@@ -122,7 +115,6 @@ $durationJson = json_encode($duration);
                             <h3 class="text-white">Name of the Plan</h3>
                             <p id="txtNamePlan">Add a name to your Plan</p>
                         </div>
-
                         <div class="selector width-per-item">
                             <form id="form-data" class="selector width-per-item">
                                 <input type="text" name="plan-name" id="plan-name" class="bg-bg rounded p-1 px-2"
@@ -131,13 +123,10 @@ $durationJson = json_encode($duration);
                                 <input type="submit" name="add-plan-btn" id="add-plan-btn"
                                     class="rounded p-1 px-3  selection " style="margin-left: 10px;" value="Add Plan">
                             </form>
-
                         </div>
                     </div>
-
                 </div>
             </div>
-
             <div id="userHavePlan" class="radio-container" style="background-color: var(--main-color);display: none;">
                 <div class="radio-container" style="background-color: var(--main-color);">
                     <div class="form-group text-center">
@@ -153,7 +142,6 @@ $durationJson = json_encode($duration);
                                     class="rounded p-1 px-3  selection " style="margin-left: 10px;" value="Modify Plan">
                             </form>
                         </div>
-
                     </div>
                     <div class="form-group">
                         <div class="selector-label">
@@ -189,12 +177,8 @@ $durationJson = json_encode($duration);
                 })
                 $("#userHavePlan").hide();
                 $("#userNotHavePlan").show();
-
-
-
             }
         </script>
-
         <h4 class="mt-5 mb-3" style="padding-left: 20px;">Your Dietary Plan:</h4>
         <div class="bg-gray mx-3 rounded" id="dayPlan">
             <?php for ($day = 1; $day <= $period; $day++): ?>
@@ -219,16 +203,13 @@ $durationJson = json_encode($duration);
                                 </p>
                             </a>
                         </div>
-
                     </div>
                 </div>
             <?php endfor; ?>
-
         </div>
     </div>
 
     <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
-
     <script type="text/javascript">
         // HANDLE SEARCH
         $(document).ready(function () {
@@ -236,7 +217,6 @@ $durationJson = json_encode($duration);
             var debouncedSearch = debounce(function () {
                 var inputValue = $('#plan-recipe-search').val();
                 // console.log(inputValue);
-
                 performAjaxRequest(
                     "GET",
                     "planSearchForRecipe",
@@ -257,11 +237,8 @@ $durationJson = json_encode($duration);
         // HANDLE SELECT RECIPE:
         document.addEventListener('DOMContentLoaded', (event) => {
             setTimeout(() => {
-
                 var recipes = JSON.parse(localStorage.getItem('recipes')) || [];
-
                 renderRecipes();
-
                 // Function to save recipes to localStorage
                 function saveRecipes() {
                     localStorage.setItem('recipes', JSON.stringify(recipes));
@@ -313,7 +290,6 @@ $durationJson = json_encode($duration);
                     ${etatJson == 'update' ? `<p class='remove-recipe' data-recipe-id='${recipe.id}' style='position:absolute;top:0;right:10px;color:red;font-weight:bold;font-size:20px;cursor:pointer;'>X</p> ` : ''}
                 </div>
             `;
-
                             // Append the new element to the day div
                             dayDiv.appendChild(recipeElement);
                         }
@@ -338,41 +314,41 @@ $durationJson = json_encode($duration);
                                 }
                             }
                         });
-
                     })
                 }
 
                 function handleRecipeClick() {
                     var recipeId = this.dataset.recipeId;
                     var recipeName = this.dataset.recipeName;
+                    var recipeImage = this.dataset.recipeImage;
+                    var calories = this.dataset.recipeCalories;
                     var selectedDay = getSelectedDay();
 
                     var recipeData = {
                         recipe_id: recipeId,
                         name: recipeName,
-                        date: selectedDay
+                        date: selectedDay,
+                        image_url:recipeImage,
+                        calories:calories
                     };
 
                     // Add the clicked recipe's data to the recipes array
                     recipes.push(recipeData);
-
                     saveRecipes();
-
                     // After updating recipes array, re-render the recipes
                     renderRecipes();
                 }
-
                 // Attach event listener to the parent container or document
                 document.addEventListener('click', function (event) {
                     var recipeItem = event.target.closest('.recipe-item');
                     if (recipeItem) {
                         handleRecipeClick.call(recipeItem);
+                        console.log(recipeItem);
                     }
                 });
             }, 300); // 300 millisecondes 
         });
     </script>
-
 
     <script type="text/javascript">
         $("#add-plan-btn").click(function (e) {
@@ -386,16 +362,15 @@ $durationJson = json_encode($duration);
                 }
                 var period = <?php echo $periodJson; ?>;
                 var duration = <?php echo $durationJson; ?>;
+                var etat = <?php echo $etatJson; ?>;
                 var planName = $('#plan-name').val();
                 // console.log(period);
-                // console.log(duration);
-                // console.log(planName);
                 if (recipesData.length > 0) {
                     // Convertir recipesData en JSON
                     var recipesDataJSON = JSON.stringify(recipesData);
                     var additionalData = "&recipesData=" + encodeURIComponent(recipesDataJSON) + "&period=" +
                         period +
-                        "&duration=" + duration + "&planName=" + planName;
+                        "&duration=" + duration + "&planName=" + planName+ "&etat=" + etat;
                     // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
                     performAjaxRequest(
                         "POST",
@@ -418,25 +393,19 @@ $durationJson = json_encode($duration);
             }
         });
     </script>
-
-
     <script type="text/javascript">
         $("#modify-plan-btn").click(function (e) {
             //recupiration des valeur nécaissaire a transfirer
             e.preventDefault()
             var period = <?php echo $periodJson; ?>;
-            // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
             performAjaxRequest(
                 "POST",
                 "modifyPlan",
                 period,
-                "Plan updated successfully!",
+                "",
                 "",
             );
-
         });
     </script>
-
 </body>
-
 </html>
