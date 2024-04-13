@@ -528,20 +528,21 @@ function performAjaxRequest(
           handleAjaxResponse(
             action,
             response,
-            "Plan Added successfully",
+            successTitle,
             "",
             false
           );
           break;
         case "addClientPlan":
-          console.log(response.message);
+        
           handleAjaxResponse(
             action,
             response,
-            "Plan Added successfully",
+            successTitle,
             "",
             false
           );
+          $("#GlobDiv").css("height", "fit-content");
           break;
         case "UserHavePlan":
           if (response.message === "PlanExist") {
@@ -549,7 +550,6 @@ function performAjaxRequest(
             localStorage.setItem("planInfo", JSON.stringify(response.planInfo));
             console.log(response.data);
             console.log(response.planInfo);
-
             lienActuel = window.location.href;
             if (
               lienActuel ==
@@ -595,7 +595,8 @@ function performAjaxRequest(
           break;
         case "ClientHavePlan":
           if (response.message === "PlanExist") {
-            localStorage.setItem("recipes", JSON.stringify(response.data));
+            localStorage.setItem("recipesClient", JSON.stringify(response.data));
+            console.log("izan"+response.data);
             lienActuel = window.location.href;
             console.log(additionalData);
             if (
@@ -621,9 +622,10 @@ function performAjaxRequest(
               $i++;
             }
           } else if (response.message === "noPlanExist") {
-            $("#GlobDiv").css("height", "fit-content");
+            
             $("#userHavePlan").hide();
             $("#userNotHavePlan").show();
+            $("#GlobDiv").css("height", "fit-content");
           }
           break;
         case "modifyPlan": {
@@ -633,7 +635,10 @@ function performAjaxRequest(
             $("#" + $i).show();
             $i++;
           }
+          $("#GlobDiv").css("height", "fit-content");
+          break;
         }
+       
 
         case "toggleRecipeConsumed":
           var success = response.success;

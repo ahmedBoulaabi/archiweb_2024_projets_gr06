@@ -171,6 +171,7 @@ class Router
                     break;
                 case 'addClientPlan':
                     if (isset($_POST['recipesData']) && isset($_POST['period']) && isset($_POST['duration']) && isset($_POST['clientId'])) {
+                        $_SESSION['etatPlan']= "show";
                         $recipesData = json_decode($_POST['recipesData'], true);
                         $period = $_POST['period'];
                         $duration = $_POST['duration'];
