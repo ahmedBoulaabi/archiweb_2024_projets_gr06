@@ -546,10 +546,10 @@ class UserModel
     function addRecipe($donnees)
     {
 
-        $sql = "INSERT INTO  recipes(name,calories,image_url) VALUES (:name, :calories, :image_url )";
+        $sql = "INSERT INTO  recipes(name,calories,image_url,type,visibility,creator) VALUES (:name, :calories, :image_url, :type, :visibility,:creator)";
         $this->db->query($sql);
-
-        $this->db->bindMultipleParams([':name', ':calories', ':image_url'], $donnees);
+        $this->db->bind(':creator', $_SESSION['id']);
+        $this->db->bindMultipleParams([':name', ':calories', ':image_url',':type','visibility'], $donnees);
 
         try {
             if ($this->db->execute()) {

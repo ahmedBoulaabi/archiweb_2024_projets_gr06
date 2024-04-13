@@ -510,21 +510,22 @@ function performAjaxRequest(
           handleAjaxResponse(
             action,
             response,
-            "Plan Added successfully",
+            successTitle,
             "",
             false
           );
           break;
-        case 'addClientPlan':
-          console.log(response.message);
-          handleAjaxResponse(action, response, "Plan Added successfully", "", false);
+        case "addClientPlan":      
+          handleAjaxResponse(
+           action,response,successTitle,"",false);
+          $("#GlobDiv").css("height", "fit-content");
           break;
         case "UserHavePlan":
 
           if (response.message === "PlanExist") {
             localStorage.setItem("recipes", JSON.stringify(response.data));
             localStorage.setItem("planInfo", JSON.stringify(response.planInfo));
-            // console.log(response.data);
+            //console.log(response.data);
             lienActuel = window.location.href;
             if (
               lienActuel ==
@@ -565,9 +566,9 @@ function performAjaxRequest(
           }
           break;
         case "ClientHavePlan":
-          console.log(response.message);
-          if (response.message === 'PlanExist') {
-            localStorage.setItem('recipes', JSON.stringify(response.data));
+          if (response.message === "PlanExist") {
+            localStorage.setItem("recipesClient", JSON.stringify(response.data));
+            console.log("izan"+response.data);
             lienActuel = window.location.href;
             console.log(additionalData);
             if (lienActuel == "https://localhost/archiweb_2024_projets_gr06/nutritionist-dashboard?tab=clientPlan&clientId=" + additionalData) {
@@ -579,13 +580,29 @@ function performAjaxRequest(
             $("#planNameId").html(response.planInfo["name"]);
             $("#periodValue").html(response.planInfo["period"]);
             $("#durationValue").html(response.planInfo["total_length"]);
-          } else if (response.message === 'noPlanExist') {
-            $("#GlobDiv").css("height", "fit-content");
-            $('#userHavePlan').hide();
-            $('#userNotHavePlan').show();
 
+            $i = 1;
+            while ($i <= response.planInfo["period"]) {
+              $("#" + $i).hide();
+              $i++;
+            }
+          } else if (response.message === "noPlanExist") {
+            
+            $("#userHavePlan").hide();
+            $("#userNotHavePlan").show();
+            $("#GlobDiv").css("height", "fit-content");
           }
           break;
+        case "modifyPlan": {
+          window.location.reload(true);
+          $i = 1;
+          while ($i <= 7) {
+            $("#" + $i).show();
+            $i++;
+          }
+          $("#GlobDiv").css("height", "fit-content");
+          break;
+        }
         case "toggleRecipeConsumed":
           var success = response.success;
           if (success) {
@@ -686,10 +703,16 @@ function performAjaxRequestWithImg(
   var fileInput = document.getElementById("image_url");
   var name = document.getElementById("name");
   var calories = document.getElementById("calories");
+  var type = document.getElementById("type");
+  var visibility = document.getElementById("visibility");
+
 
   if (fileInput.files.length > 0) {
     formData.append("name", name.value);
     formData.append("calories", calories.value);
+    formData.append("visibility", visibility.value);
+    formData.append("type", type.value);
+
     formData.append("action", action);
     formData.append("file", fileInput.files[0]);
     formData.append("additionalData", additionalData);

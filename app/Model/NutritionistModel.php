@@ -306,7 +306,7 @@ class NutritionistModel
      */
     function getRecipesAndDay($planId)
     {
-        $sql = "SELECT r.*, pr.date FROM recipes r JOIN plan_recipes pr ON r.id = pr.recipe_id WHERE pr.plan_id = :planId";
+        $sql = "SELECT r.*, pr.* FROM recipes r JOIN plan_recipes pr ON r.id = pr.recipe_id WHERE pr.plan_id = :planId";
         $this->db->query($sql);
         $this->db->bind(':planId', $planId);
         $recipes = $this->db->resultSet();
@@ -322,13 +322,14 @@ class NutritionistModel
      * @return array|null Returns an array containing the details of recipes associated with the user's plan.
      *                   If no plan is found for the user or if no recipes are associated with the plan, returns null.
      */
+
     function getPlanRecipesDetail($clientId)
     {
         // Récupération du plan de l'utilisateur
-        $userId = $_SESSION['id'];
         $plan = $this->getClientPlan($clientId);
         $planId = $plan->id;
         $planInfo = $this->getPlanInfo($planId);
+        $planInfo->creation_date = $plan->creation_date;
         $planRecipesDetails = $this->getRecipesAndDay($planId);
         $result = array(
             'planData' => $planInfo,
@@ -356,7 +357,31 @@ class NutritionistModel
      * @return bool Returns true if the plan is successfully added, false otherwise
      */
     function addClientPlan($clientId, $recipesData, $period, $duration, $plan_name)
-    {
+    {$userId = $clientId; // ID de client
+        $sql = "SELECT EXISTS (SELECT 1 FROM user_plan WHERE user_id = :userId) AS planExists";
+        $this->db->query($sql);
+        $this->db->bind(':userId', $userId);
+        $result = $this->db->single(); // Récupère le résultat de la clause EXISTS
+
+        if ($result->planExists == 1) {
+            // Supprimer les entrées existantes liées à l'utilisateur dans la table user_plan
+            $sql_delete_user_plan = "DELETE FROM user_plan WHERE user_id = :user_id";
+            $this->db->query($sql_delete_user_plan);
+            $this->db->bind(':user_id', $userId);
+            $this->db->execute();
+
+            // Supprimer les recettes associées à chaque plan de l'utilisateur dans la table plan_recipes
+            $sql_delete_plan_recipes = "DELETE FROM plan_recipes WHERE plan_id IN (SELECT id FROM plans WHERE creator = :creator_id)";
+            $this->db->query($sql_delete_plan_recipes);
+            $this->db->bind(':creator_id', $userId);
+            $this->db->execute();
+
+            // Supprimer les plans de l'utilisateur dans la table plans
+            $sql_delete_plans = "DELETE FROM plans WHERE creator = :creator_id";
+            $this->db->query($sql_delete_plans);
+            $this->db->bind(':creator_id', $userId);
+            $this->db->execute();
+        }
 
         // Insert into the `plans` table
         $planName = $plan_name ??  "Default Plan for User " . $clientId;
@@ -390,7 +415,7 @@ class NutritionistModel
         $this->db->execute();
 
         foreach ($recipesData as $recipe) {
-            $recipeId = $recipe['id'];
+            $recipeId = $recipe['recipe_id'];
             $date = $recipe['date'];
 
             $sql = "INSERT INTO plan_recipes (plan_id, recipe_id, date) VALUES (:plan_id, :recipe_id, :date)";

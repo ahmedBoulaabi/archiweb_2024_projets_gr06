@@ -25,9 +25,29 @@
             <label for="recipe name" class="font-bold text-white">Recipe name</label>
             <input type="text" name="name" id="name" placeholder="Ex: Burger" class="py-3 px-4 rounded mt-2" required />
           </div>
+
           <div class="flex flex-column mt-4">
             <label class="font-bold text-white">calories number</label>
-            <input type="text" name="calories" id="calories" placeholder="Ex: 300" class="py-3 px-4 rounded mt-2" required onkeypress="return event.charCode >= 48 && event.charCode <= 57 || (event.charCode === 46 && this.value.indexOf('.') === -1)" oninput="this.value = this.value.replace(/^(-\d*\.?\d*)$/g, '')" /> <input type="file" id="image_url" name="img_url" placeholder="url temp" class="py-3 px-4 rounded mt-2" required />
+            <input type="text" name="calories" id="calories" placeholder="Ex: 300" class="py-3 px-4 rounded mt-2" required onkeypress="return event.charCode >= 48 && event.charCode <= 57 || (event.charCode === 46 && this.value.indexOf('.') === -1)" oninput="this.value = this.value.replace(/^(-\d*\.?\d*)$/g, '')" /> 
+          </div>
+
+          <div class="flex flex-column mt-4">
+            <label class="font-bold text-white">Visibility</label>
+            <select name="visibility" class="form-control" id="visibility" required="">
+              <option value="1">Visible</option>
+              <option value="0">Hidden</option>
+            </select>
+          </div>
+          <div class="flex flex-column mt-4">
+          <select name="type" class="form-control" id="type" required="">
+              <option value="">Select type</option>
+              <option value="breakfast">breakfast</option>
+              <option value="lunch">lunch</option>
+              <option value="dinner">dinner</option>
+              <option value="snack">snack</option>
+            </select>
+          </div>
+          <div class="flex flex-column mt-4"> <input type="file" id="image_url" name="img_url" placeholder="url temp" class="flex flex-column mt-4" required />
           </div>
           <div class="flex flex-column mt-4">
             <input type="submit" class="py-3 px-4 bg-[#d6ff92] rounded w-full" name="addRecipe" id="addRecipe" value="Add recipe">

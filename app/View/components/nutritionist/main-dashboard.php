@@ -104,3 +104,4 @@
     getDiscussion()
   });
 </script>
+<script src="<?= BASE_APP_DIR ?>/public/js/notification.js"></script>

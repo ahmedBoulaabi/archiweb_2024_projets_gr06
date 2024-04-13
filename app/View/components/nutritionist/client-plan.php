@@ -8,29 +8,34 @@ if (!isset($_SESSION['id'])) {
 $clientId = $_GET["clientId"] ?? 41;
 $period = $_GET["period"] ?? 7;
 $duration = $_GET["duration"] ?? 30;
+$etat = $_SESSION['etatPlan'];
+$etatJson = json_encode($etat);
 $periodJson = json_encode($period);
 $durationJson = json_encode($duration);
 $ClientIdJson=json_encode($clientId);
-
-
 ?>
-
     <!-- BODY -->
     <script type="text/javascript">
+        var etat = <?php echo $etatJson; ?>;
         var clientID = <?php echo $ClientIdJson; ?>;
-        $(document).ready(function() {
-            performAjaxRequest(
-                "POST",
+
+        console.log(etat);
+        if (etat == "show") {
+            console.log("rani njib");
+            $(document).ready(function () {
+                performAjaxRequest(
+                    "POST",
                 "ClientHavePlan",
                 clientID,
                 "",
                 ""
-            );
-        });
+                );
+            });
+        }
     </script>
     <div class="projects-section" id="GlobDiv">
 
-            <!-- MODAL -->
+        <!-- MODAL -->
         <div id="open-modal2" class="modal-window">
             <div>
                 <a href="#" title="Close" class="modal-close">Close</a>
@@ -38,11 +43,9 @@ $ClientIdJson=json_encode($clientId);
                 <div>Add a recipe to your planning for this day. Search from global recipes, and your custom recipes.
                     you can add <a href="<?= BASE_APP_DIR ?>/recipes-list">custom recipes here</a></div>
                 <br>
-
-
                 <!-- Search bar -->
-                <input type="text" class="form-control" name="plan-recipe-search" id="plan-recipe-search" placeholder="Search for recipe">
-
+                <input type="text" class="form-control" name="plan-recipe-search" id="plan-recipe-search"
+                    placeholder="Search for recipe">
                 <!-- Results -->
                 <div id="plan-recipe-results" class="pt-4" style="max-height:350px; overflow:scroll;">
                 </div>
@@ -83,12 +86,11 @@ $ClientIdJson=json_encode($clientId);
                                 Days</a>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="bar-add-plan">
                         <div class="selector-label">
                             <h3 class="text-white">Name of the Plan</h3>
-                            <p>Add a name to your Plan</p>
+                            <p id="txtNamePlan">Add a name to your Plan</p>
                         </div>
-
 
                         <div class="selector width-per-item">
                             <form id="form-data" class="selector width-per-item">
@@ -139,7 +141,18 @@ $ClientIdJson=json_encode($clientId);
             </div>
         </div>
 
-
+        <script>
+            if (etat != "show") {
+                console.log("etat"+etat);
+                document.addEventListener("DOMContentLoaded", function () {
+                    document.getElementById("add-plan-btn").value = "Update Plan";
+                    document.getElementById("txtNamePlan").textContent = "Update the name of your Plan";
+                })
+                $("#GlobDiv").css("height", "fit-content");
+                $("#userHavePlan").hide();
+                $("#userNotHavePlan").show();
+            }
+        </script>
 
         <h4 class="mt-5 mb-3" style="padding-left: 20px;">Client Dietary Plan:</h4>
         <div class="bg-gray mx-3 rounded" id="dayPlan">
@@ -153,7 +166,7 @@ $ClientIdJson=json_encode($clientId);
 
                         </div>
                         <div id="<?= $day ?>" >
-                        <a   href="?period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 340px;width: fit-content; width: 250px">
+                        <a   href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&selectedDay=<?= $day ?>#open-modal2" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 340px;width: fit-content; width: 250px">
                             <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);" src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
                             <p class="fw-bold text-main text-center" style="font-size: 20px; padding-top: 0px;">Add new Item
                             </p>
@@ -170,7 +183,6 @@ $ClientIdJson=json_encode($clientId);
     </div>
 
     <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
-
     <script type="text/javascript">
         // HANDLE SEARCH
         $(document).ready(function() {
@@ -178,7 +190,6 @@ $ClientIdJson=json_encode($clientId);
             var debouncedSearch = debounce(function() {
                 var inputValue = $('#plan-recipe-search').val();
                 console.log(inputValue);
-
                 performAjaxRequest(
                     "GET",
                     "planSearchForRecipe",
@@ -200,13 +211,13 @@ $ClientIdJson=json_encode($clientId);
         document.addEventListener('DOMContentLoaded', (event) => {
             setTimeout(() => {
 
-                var recipes = JSON.parse(localStorage.getItem('recipes')) || [];
+                var recipes = JSON.parse(localStorage.getItem('recipesClient')) || [];
 
                 renderRecipes();
 
                 // Function to save recipes to localStorage
                 function saveRecipes() {
-                    localStorage.setItem('recipes', JSON.stringify(recipes));
+                    localStorage.setItem('recipesClient', JSON.stringify(recipes));
                 }
 
                 // Function to get the selected Day from the queryParams
@@ -221,16 +232,15 @@ $ClientIdJson=json_encode($clientId);
                     document.querySelectorAll('[id^="day-"]').forEach(dayDiv => {
                         dayDiv.innerHTML = ''; // Clear the div
                     });
-
+                    var etatJson = <?php echo $etatJson; ?>;
                     // Go through each recipe and append it to the correct day div
                     recipes.forEach(recipe => {
                         var dayDiv = document.getElementById(`day-${recipe.date}`);
                         if (dayDiv) {
-
                             // Create a new element to hold the recipe information as a meal card
                             var recipeElement = document.createElement('div');
                             recipeElement.className =
-                                'flex flex-column justify-content-start bg-bg p-4 rounded';
+                                'flex flex-column justify-content-start bg-bg p-4 rounded position-relative';
                             recipeElement.style =
                                 'width: fit-content; max-width: 250px; min-width: 250px; align-items:center';
                             var imgPath;
@@ -240,41 +250,64 @@ $ClientIdJson=json_encode($clientId);
                                 imgPath = "<?= BASE_APP_DIR ?>/public/images/recipesImages/" + recipe.image_url;
 
                             }
-                            recipeElement.innerHTML = `
+                    recipeElement.innerHTML = `
                     <img style="width: 200px; height: 200px; object-fit: cover; border-radius: 100%;"
                     src="${imgPath}" />
                 <div class="mt-4">
                     <p style="margin: 0;">
-                        ${recipe.calories ?? "400"} Cal
+                    ${recipe.calories ?? "400"} Cal
                     </p>
                     <p class="fw-bold" style="font-size: 20px; padding-top: 0px">
-                        ${recipe.name ?? "Default Recipe Name"}
+                    ${recipe.name ?? "Default Recipe Name"}
                     </p>
+                    ${etatJson == 'update' ? `<p class='remove-recipe' data-recipe-id='${recipe.id}' style='position:absolute;top:0;right:10px;color:red;font-weight:bold;font-size:20px;cursor:pointer;'>X</p> ` : ''}
                 </div>
             `;
 
                             // Append the new element to the day div
                             dayDiv.appendChild(recipeElement);
                         }
-                    });
-                }
 
+                    });
+
+                var removeRecipeBtns = document.getElementsByClassName("remove-recipe");
+                    removeRecipeBtns = Array.from(removeRecipeBtns);
+                    removeRecipeBtns.map((removeBtn) => {
+                        removeBtn.addEventListener('click', function (event) {
+                            // console.log("clicked the delete btn")
+                            var recipeData = removeBtn.dataset.recipeId
+                            var index = recipes.findIndex(recipe => recipe.id == recipeData);
+                            // console.log(index)
+                            if (index !== -1) {
+                                recipes.splice(index, 1);
+                                saveRecipes();
+                                var parentDiv = removeBtn.closest('[id^="day-"]');
+                                // console.log(parentDiv)
+                                if (parentDiv) {
+                                    parentDiv.removeChild(event.target.parentElement.parentElement);
+                                }
+                            }
+                        });
+
+                    })
+                }
                 function handleRecipeClick() {
                     var recipeId = this.dataset.recipeId;
                     var recipeName = this.dataset.recipeName;
+                    var recipeImage = this.dataset.recipeImage;
+                    var calories = this.dataset.recipeCalories;
                     var selectedDay = getSelectedDay();
 
                     var recipeData = {
-                        id: recipeId,
+                        recipe_id:recipeId,
                         name: recipeName,
-                        date: selectedDay
+                        date: selectedDay,
+                        image_url:recipeImage,
+                        calories:calories
                     };
-
                     // Add the clicked recipe's data to the recipes array
                     recipes.push(recipeData);
-
                     saveRecipes();
-
                     // After updating recipes array, re-render the recipes
                     renderRecipes();
                 }
@@ -298,7 +331,7 @@ $ClientIdJson=json_encode($clientId);
             if ($("#form-data")[0].checkValidity()) {
                 e.preventDefault()
                 //recupiration des valeur nécaissaire a transfirer
-                var recipesData = JSON.parse(localStorage.getItem('recipes'));
+                var recipesData = JSON.parse(localStorage.getItem('recipesClient'));
                 if (!recipesData) {
                     recipesData = [];
                 }
@@ -316,13 +349,20 @@ $ClientIdJson=json_encode($clientId);
                         period +
                         "&duration=" + duration + "&planName=" + planName+ "&clientId=" +clientID;
                     // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
+                    var etat = <?php echo $etatJson; ?>;
+                    var successTitle="";
+                  if(etat=="show")
+                  {successTitle="Plan added successfully!"}
+                   else if(etat=="update")
+                   {successTitle="Plan updated successfully!"}
                     performAjaxRequest(
                         "POST",
                         "addClientPlan",
                         additionalData,
-                        "Plan added successfully!",
+                        successTitle,
                         "",
                     );
+                    
                 } else {
                     // Si le tableau est vide, imprimer un message indiquant qu'il n'y a aucun élément
                     Swal.fire({
@@ -337,4 +377,22 @@ $ClientIdJson=json_encode($clientId);
             }
         });
     </script>
+    
+    <script type="text/javascript">
+        $("#modify-plan-btn").click(function (e) {
+            //recupiration des valeur nécaissaire a transfirer
+            e.preventDefault()
+            var period = <?php echo $periodJson; ?>;
+            // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
+            performAjaxRequest(
+                "POST",
+                "modifyPlan",
+                period,
+                "",
+                "",
+            );
+
+        });
+    </script>
+
 
