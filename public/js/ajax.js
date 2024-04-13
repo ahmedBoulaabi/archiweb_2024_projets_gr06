@@ -745,10 +745,16 @@ function performAjaxRequestWithImg(
   var fileInput = document.getElementById("image_url");
   var name = document.getElementById("name");
   var calories = document.getElementById("calories");
+  var type = document.getElementById("type");
+  var visibility = document.getElementById("visibility");
+
 
   if (fileInput.files.length > 0) {
     formData.append("name", name.value);
     formData.append("calories", calories.value);
+    formData.append("visibility", visibility.value);
+    formData.append("type", type.value);
+
     formData.append("action", action);
     formData.append("file", fileInput.files[0]);
     formData.append("additionalData", additionalData);

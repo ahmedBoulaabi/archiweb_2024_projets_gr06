@@ -407,6 +407,8 @@ class UserController
     {
         $name = $_POST['name'];
         $calories = $_POST['calories'];
+        $visibility = $_POST['visibility'];
+        $type = $_POST['type'];
         $File = $_FILES['file'];
         // Check if file was uploaded without errors
         if ($File['error'] == UPLOAD_ERR_OK) {
@@ -419,11 +421,14 @@ class UserController
             }
             $destination = $destinationDirectory . $_FILES['file']['name']; // Chemin de destination complet
             move_uploaded_file($tempFilePath, $destination);
-            // Initialize data.............
+            
             $data = [
                 'name' => $name,
                 'calories' => $calories,
-                'image_url' => $_FILES['file']['name'] //nom de l'image
+                'image_url' => $_FILES['file']['name'], //nom de l'image
+                'visibility'=>$visibility,
+                'type'=>$type,
+
             ];
             if ($this->userModel->addRecipe($data)) {
                 echo json_encode(['success' => true]);
