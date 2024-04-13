@@ -223,13 +223,9 @@ class NutritionistModel
         LEFT JOIN plans p ON up.plan_id = p.id
         WHERE nc.nutritionist_id = :nutritionist_id";
 
-
-
-
         $this->db->query($sql);
         $this->db->bind(':nutritionist_id', $nutritionistId);
         $rows = $this->db->resultSet();
-        //  var_dump($rows); 
         if ($this->db->rowCount() > 0) {
             return $rows;
         } else {
@@ -315,11 +311,11 @@ class NutritionistModel
     /**
      * getPlanRecipesDetail
      * 
-     * Retrieves the details of recipes associated with the user's plan from the database.
-     * This function first retrieves the user's plan using the getUserPlan method,
+     * Retrieves the details of recipes associated with the client plan from the database.
+     * This function first retrieves the client plan using the getUserPlan method,
      * then fetches the details of recipes associated with the retrieved plan using the getPlanRecipesDetails method.
      * 
-     * @return array|null Returns an array containing the details of recipes associated with the user's plan.
+     * @return array|null Returns an array containing the details of recipes associated with the client plan.
      *                   If no plan is found for the user or if no recipes are associated with the plan, returns null.
      */
 
@@ -338,24 +334,23 @@ class NutritionistModel
         return $result;
     }
 
-
-    /**
-     * addClientPlan
-     * 
-     * This function adds a new plan for the user based on the provided data. If a plan name
-     * is not provided, it defaults to "Default Plan for Client" followed by the client's ID. 
-     * The plan details are inserted into the plans table, and the user-plan relationship 
-     * is stored in the user_plan table. Additionally, each recipe in the plan is inserted 
-     * into the plan_recipes table.
-     * 
-     * @param array $recipesData An array containing information about the recipes in the plan
-     * @param int $period The number of days of the plan (repeats through the duration)
-     * @param int $clientId The number of days of the plan (repeats through the duration)
-
-     * @param int $duration The total number of days of the plan
-     * @param string|null $plan_name The name of the plan (optional)
-     * @return bool Returns true if the plan is successfully added, false otherwise
-     */
+        /**
+         * Adds a new plan for a client.
+         *
+         * This method is responsible for adding a new plan for a client in the system.
+         * It first checks if the client already has an existing plan. If a plan exists,
+         * it deletes all existing plan-related entries for the client from the database.
+         * Then, it inserts a new plan into the 'plans' table and associates it with the client
+         * in the 'user_plan' table. It also adds the recipes included in the plan to the 'plan_recipes' table.
+         *
+         * @param int $clientId The ID of the client for whom the plan is being added.
+         * @param array $recipesData An array containing the details of the recipes included in the plan.
+         *                           Each entry should contain 'recipe_id' and 'date' keys.
+         * @param string $period The period for which the plan is valid.
+         * @param int $duration The duration of the plan in days.
+         * @param string|null $plan_name The name of the plan. If not provided, a default name will be used.
+         * @return bool Returns true if the plan is successfully added, false otherwise.
+         */
     function addClientPlan($clientId, $recipesData, $period, $duration, $plan_name)
     {$userId = $clientId; // ID de client
         $sql = "SELECT EXISTS (SELECT 1 FROM user_plan WHERE user_id = :userId) AS planExists";
@@ -383,10 +378,10 @@ class NutritionistModel
             $this->db->execute();
         }
 
-        // Insert into the `plans` table
+        // Insert into the plans table
         $planName = $plan_name ??  "Default Plan for User " . $clientId;
         $creatorId = $_SESSION['id']; //  user ID from the session
-        $type = "Your Plan Type"; // You can define a type for the plan
+        $type = "Plan Type"; 
         $sql = "INSERT INTO plans (name, period, total_length, creator, type) VALUES (:name, :period, :total_length, :creator, :type)";
         $this->db->query($sql);
         $params_dict = [
@@ -426,7 +421,15 @@ class NutritionistModel
         return true;
     }
 
-
+        /**
+         * Checks if a client has an active plan.
+         *
+         * This method queries the database to check if the specified client has an active plan.
+         * It returns true if the client has a plan, otherwise returns false.
+         *
+         * @param int $clientId The ID of the client to check for an active plan.
+         * @return bool Returns true if the client has an active plan, false otherwise.
+         */
 
     function ifClientHavePlan($clientId)
     {

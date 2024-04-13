@@ -331,7 +331,7 @@ $ClientIdJson=json_encode($clientId);
             if ($("#form-data")[0].checkValidity()) {
                 e.preventDefault()
                 //recupiration des valeur nécaissaire a transfirer
-                var recipesData = JSON.parse(localStorage.getItem('recipes'));
+                var recipesData = JSON.parse(localStorage.getItem('recipesClient'));
                 if (!recipesData) {
                     recipesData = [];
                 }
