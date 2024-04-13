@@ -121,9 +121,7 @@
 
 
 <script type="text/javascript">
-  console.log("Document ready");
   $(document).ready(function() {
-    console.log("Making AJAX call");
     performAjaxRequest("GET", "getAllUsers", "", "", "");
   });
 

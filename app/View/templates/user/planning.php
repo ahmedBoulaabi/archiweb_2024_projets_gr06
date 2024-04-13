@@ -39,7 +39,6 @@ $durationJson = json_encode($duration);
     <!-- BODY -->
     <script type="text/javascript">
         var etat = <?php echo $etatJson; ?>;
-        // console.log("1er script etat = " + etat);
         if (etat == "show") {
             $(document).ready(function() {
                 performAjaxRequest(
@@ -62,7 +61,7 @@ $durationJson = json_encode($duration);
                     you can add <a href="<?= BASE_APP_DIR ?>/recipes-list">custom recipes here</a></div>
                 <br>
                 <!-- Search bar -->
-                <input type="text" class="form-control" name="plan-recipe-search" id="plan-recipe-search"placeholder="Search for recipe">
+                <input type="text" class="form-control" name="plan-recipe-search" id="plan-recipe-search" placeholder="Search for recipe">
 
                 <!-- Results -->
                 <div id="plan-recipe-results" class="pt-4" style="max-height:350px; overflow:scroll;">
@@ -80,7 +79,7 @@ $durationJson = json_encode($duration);
                         </div>
                         <div class="selector width-per-item">
 
-                            <a href="?period=7&duration=<?= $duration ?>"class=" text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
+                            <a href="?period=7&duration=<?= $duration ?>" class=" text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
                             <a href="?period=14&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 14 ? 'selected' : '' ?>">14
                                 Days</a>
                             <a href="?period=30&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 30 ? 'selected' : '' ?>">30
@@ -198,7 +197,6 @@ $durationJson = json_encode($duration);
             // Debounced because its a search bar
             var debouncedSearch = debounce(function() {
                 var inputValue = $('#plan-recipe-search').val();
-                // console.log(inputValue);
                 performAjaxRequest(
                     "GET",
                     "planSearchForRecipe",
@@ -282,15 +280,12 @@ $durationJson = json_encode($duration);
                     removeRecipeBtns = Array.from(removeRecipeBtns);
                     removeRecipeBtns.map((removeBtn) => {
                         removeBtn.addEventListener('click', function(event) {
-                            // console.log("clicked the delete btn")
                             var recipeData = removeBtn.dataset.recipeId
                             var index = recipes.findIndex(recipe => recipe.id == recipeData);
-                            // console.log(index)
                             if (index !== -1) {
                                 recipes.splice(index, 1);
                                 saveRecipes();
                                 var parentDiv = removeBtn.closest('[id^="day-"]');
-                                // console.log(parentDiv)
                                 if (parentDiv) {
                                     parentDiv.removeChild(event.target.parentElement.parentElement);
                                 }
@@ -310,8 +305,8 @@ $durationJson = json_encode($duration);
                         recipe_id: recipeId,
                         name: recipeName,
                         date: selectedDay,
-                        image_url:recipeImage,
-                        calories:calories
+                        image_url: recipeImage,
+                        calories: calories
                     };
 
                     // Add the clicked recipe's data to the recipes array
@@ -325,7 +320,6 @@ $durationJson = json_encode($duration);
                     var recipeItem = event.target.closest('.recipe-item');
                     if (recipeItem) {
                         handleRecipeClick.call(recipeItem);
-                        console.log(recipeItem);
                     }
                 });
             }, 300); // 300 millisecondes 
@@ -334,7 +328,6 @@ $durationJson = json_encode($duration);
 
     <script type="text/javascript">
         $("#add-plan-btn").click(function(e) {
-            // console.log("add plan btn clicked");
             if ($("#form-data")[0].checkValidity()) {
                 e.preventDefault()
                 //recupiration des valeur nécaissaire a transfirer
@@ -346,13 +339,12 @@ $durationJson = json_encode($duration);
                 var duration = <?php echo $durationJson; ?>;
                 var etat = <?php echo $etatJson; ?>;
                 var planName = $('#plan-name').val();
-                // console.log(period);
                 if (recipesData.length > 0) {
                     // Convertir recipesData en JSON
                     var recipesDataJSON = JSON.stringify(recipesData);
                     var additionalData = "&recipesData=" + encodeURIComponent(recipesDataJSON) + "&period=" +
                         period +
-                        "&duration=" + duration + "&planName=" + planName+ "&etat=" + etat;
+                        "&duration=" + duration + "&planName=" + planName + "&etat=" + etat;
                     // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
                     performAjaxRequest(
                         "POST",
@@ -390,4 +382,5 @@ $durationJson = json_encode($duration);
         });
     </script>
 </body>
+
 </html>

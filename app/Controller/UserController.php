@@ -421,13 +421,13 @@ class UserController
             }
             $destination = $destinationDirectory . $_FILES['file']['name']; // Chemin de destination complet
             move_uploaded_file($tempFilePath, $destination);
-            
+
             $data = [
                 'name' => $name,
                 'calories' => $calories,
                 'image_url' => $_FILES['file']['name'], //nom de l'image
-                'visibility'=>$visibility,
-                'type'=>$type,
+                'type' => $type,
+                'visibility' => $visibility,
 
             ];
             if ($this->userModel->addRecipe($data)) {
@@ -547,6 +547,10 @@ class UserController
      * and a message stating that the recipe consumed status has been updated. If the operation fails, either
      * due to an error with the database update or because the specified recipe_id does not exist, it returns
      * a JSON response indicating failure along with an appropriate message.
+     * 
+     * This method expects that the $recipe_id provided is valid and exists within the database. It also
+     * assumes that the userModel has a method `toggleRecipeConsumed` capable of executing the toggle operation
+     * on the database level.
      *
      * @param int $recipe_id The unique identifier of the recipe whose consumed status is to be toggled.
      *
@@ -554,10 +558,6 @@ class UserController
      *         with a descriptive message. The response format is:
      *         - On success: {'success': true, 'message': "Recipe consumed status updated!"}
      *         - On failure: {'success': false, 'message': 'Failed to toggle consumed'}
-     *
-     * Note: This method expects that the $recipe_id provided is valid and exists within the database. It also
-     * assumes that the userModel has a method `toggleRecipeConsumed` capable of executing the toggle operation
-     * on the database level.
      */
 
     public function toggleRecipeConsumed($recipe_id)

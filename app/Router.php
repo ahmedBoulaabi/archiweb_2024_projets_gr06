@@ -63,11 +63,8 @@ class Router
         // Separate the action from any following query string that starts unusually with '&'
         list($requested,) = explode('&', $requestedRaw, 2);
 
-        $controller = "user"; // Default controller
-
         // Check if the requested segment matches 'admin' or 'nutritionist'
         if ($requested === 'admin' || $requested === 'nutritionist') {
-            $controller = $requested;
             $requested = isset($uriSegments[3]) ? $uriSegments[3] : "";
             // Again, separate the actual request from any unconventional query string
             list($requested,) = explode('&', $requested, 2);
@@ -139,7 +136,7 @@ class Router
                     break;
                 case 'insertPlan':
                     if (isset($_POST['recipesData']) && isset($_POST['period']) && isset($_POST['duration'])) {
-                        $_SESSION['etatPlan']= "show";
+                        $_SESSION['etatPlan'] = "show";
                         $recipesData = json_decode($_POST['recipesData'], true);
                         $period = $_POST['period'];
                         $duration = $_POST['duration'];
@@ -171,7 +168,7 @@ class Router
                     break;
                 case 'addClientPlan':
                     if (isset($_POST['recipesData']) && isset($_POST['period']) && isset($_POST['duration']) && isset($_POST['clientId'])) {
-                        $_SESSION['etatPlan']= "show";
+                        $_SESSION['etatPlan'] = "show";
                         $recipesData = json_decode($_POST['recipesData'], true);
                         $period = $_POST['period'];
                         $duration = $_POST['duration'];
@@ -192,12 +189,12 @@ class Router
                     $this->adminController->deleteRequest();
                     break;
 
-                        case 'modifyPlan':
-                           
-                            $_SESSION['etatPlan']= "update";
-                            echo json_encode(true);
-                            break;
-        
+                case 'modifyPlan':
+
+                    $_SESSION['etatPlan'] = "update";
+                    echo json_encode(true);
+                    break;
+
                 default:
                     include __DIR__ . '/View/templates/user/login.php';
                     exit;
@@ -274,7 +271,7 @@ class Router
                     case 'getMessagesFromAConvo':
                         $this->commController->getMessagesFromAConvo();
                         break;
-                    
+
                     default:
                         // If no specific action, fallback to generic page handling
                         $this->userController->GETPage($requested);

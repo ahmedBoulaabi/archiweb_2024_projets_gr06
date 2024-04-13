@@ -31,7 +31,6 @@
   </tbody>
 </table>
 
-<!-- Add your modals and scripts here, similar to the users-table.php file -->
 <!-- Recipe Details Modal -->
 <div class="modal fade" id="recipeDetailsModal" tabindex="-1" role="dialog" aria-labelledby="recipeDetailsModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -112,14 +111,14 @@
     }
   });
   $("body").on("click", ".editBtn", function(e) {
-  e.preventDefault();
-  var edit_id = $(this).attr('id');
-  var additionalData = "&info_id=" + edit_id;
+    e.preventDefault();
+    var edit_id = $(this).attr('id');
+    var additionalData = "&info_id=" + edit_id;
 
-  performAjaxRequest("GET", "loadRecipeDetails", additionalData, "", "");
+    performAjaxRequest("GET", "loadRecipeDetails", additionalData, "", "");
 
-  $("#editRecipeModal").modal("show");
-});
+    $("#editRecipeModal").modal("show");
+  });
   $(document).ready(function() {
 
 

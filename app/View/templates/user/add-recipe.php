@@ -28,7 +28,7 @@
 
           <div class="flex flex-column mt-4">
             <label class="font-bold text-white">calories number</label>
-            <input type="text" name="calories" id="calories" placeholder="Ex: 300" class="py-3 px-4 rounded mt-2" required onkeypress="return event.charCode >= 48 && event.charCode <= 57 || (event.charCode === 46 && this.value.indexOf('.') === -1)" oninput="this.value = this.value.replace(/^(-\d*\.?\d*)$/g, '')" /> 
+            <input type="text" name="calories" id="calories" placeholder="Ex: 300" class="py-3 px-4 rounded mt-2" required onkeypress="return event.charCode >= 48 && event.charCode <= 57 || (event.charCode === 46 && this.value.indexOf('.') === -1)" oninput="this.value = this.value.replace(/^(-\d*\.?\d*)$/g, '')" />
           </div>
 
           <div class="flex flex-column mt-4">
@@ -39,7 +39,7 @@
             </select>
           </div>
           <div class="flex flex-column mt-4">
-          <select name="type" class="form-control" id="type" required="">
+            <select name="type" class="form-control" id="type" required="">
               <option value="">Select type</option>
               <option value="breakfast">breakfast</option>
               <option value="lunch">lunch</option>
@@ -60,7 +60,6 @@
 
     <script>
       $("#addRecipe").click(function(e) {
-        console.log("dans ADD RECIPE");
         if ($("#form-data")[0].checkValidity()) {
           e.preventDefault();
           performAjaxRequestWithImg(

@@ -88,7 +88,6 @@
   $(document).ready(function() {
     var sessionId = '<?php echo $_SESSION['id'] ?>';
     var additionalData = "&nutri_id=" + sessionId;
-    console.log(additionalData)
     performAjaxRequest("GET", "getUserProgress", additionalData, "", "");
 
     function getDiscussion() {
@@ -104,4 +103,3 @@
     getDiscussion()
   });
 </script>
-<script src="<?= BASE_APP_DIR ?>/public/js/notification.js"></script>

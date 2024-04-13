@@ -59,7 +59,6 @@ function displayNoNutritionist(idNutri = null) {
 }
 
 function formatMessage(message, ownID) {
-  //console.log(message);
   var ownMsg = ownID == message.expediteur_id
 
   return `
@@ -125,7 +124,6 @@ function displayConversations(response) {
     });
   });
 
-  console.log(discussions);
   var listeConvHTML = "";
 
   Object.values(discussions).forEach(discussion => {
@@ -154,7 +152,6 @@ function handleAjaxResponse(
 ) {
   switch (action) {
     case "login":
-      console.log("on va vers first-login");
       redirectHref = "first-login";
       break;
     case "first-login":
@@ -208,7 +205,6 @@ function handleAjaxResponse(
       } else if (redirectHref == "recipes-list") {
         window.parent.rafraichirPage();
       } else {
-        console.log("refresh");
         window.location.reload(true);
       }
     });
@@ -216,7 +212,6 @@ function handleAjaxResponse(
       $("#form-data")[0].reset();
     }
   } else {
-    console.log(response);
     Swal.fire({
       title: "Operation failed!",
       text: response.message,
@@ -256,7 +251,6 @@ function performAjaxRequest(
             break;
           }
 
-          console.log("res " + response.data);
           $("#total-clients").text(response.data.total_users);
           $("#in-progress").text(response.data.not_completed);
           $("#plans-finished").text(response.data.completed);
@@ -354,13 +348,10 @@ function performAjaxRequest(
           $("#client-list-results").html(data);
           break;
         case "sendNotification":
-          console.log(response.data);
-          console.log("notification envoyée");
 
           var divID = additionalData.replace("&searchValue=", "");
           var divID = additionalData.replace("&receiverId=", "");
 
-          console.log(divID);
           var userDiv = $("#user-" + divID);
           userDiv.addClass("temp-bg-color");
 
@@ -378,16 +369,12 @@ function performAjaxRequest(
           const element = document.createElement("div");
           element.innerHTML = response.data;
           $("#notif-displayer").append(element);
-          console.log("nombre de notifications: " + response.data);
           break;
         case "getUsersFromNotifications":
           $("#sender-notif-list").html(response.data);
           break;
         case "updateNotification":
-          console.log("requestType log: " + response.requestType);
           var sender = response.data;
-          console.log("nom de l'user sender: " + sender.fullname);
-          console.log("success: " + response.success);
 
           if (response.requestType == "insert") {
             var statusText = "Accepted";
@@ -506,7 +493,6 @@ function performAjaxRequest(
           $("#editRecipeModal").modal("show");
           break;
         case "insertPlan":
-          console.log(response.message);
           handleAjaxResponse(
             action,
             response,
@@ -515,9 +501,9 @@ function performAjaxRequest(
             false
           );
           break;
-        case "addClientPlan":      
+        case "addClientPlan":
           handleAjaxResponse(
-           action,response,successTitle,"",false);
+            action, response, successTitle, "", false);
           $("#GlobDiv").css("height", "fit-content");
           break;
         case "UserHavePlan":
@@ -525,7 +511,6 @@ function performAjaxRequest(
           if (response.message === "PlanExist") {
             localStorage.setItem("recipes", JSON.stringify(response.data));
             localStorage.setItem("planInfo", JSON.stringify(response.planInfo));
-            //console.log(response.data);
             lienActuel = window.location.href;
             if (
               lienActuel ==
@@ -559,7 +544,6 @@ function performAjaxRequest(
               "width",
               progressPercentage.toFixed(2) + "%"
             );
-            console.log(response.planInfo);
           } else if (response.message === "noPlanExist") {
             $("#userHavePlan").hide();
             $("#userNotHavePlan").show();
@@ -568,9 +552,7 @@ function performAjaxRequest(
         case "ClientHavePlan":
           if (response.message === "PlanExist") {
             localStorage.setItem("recipesClient", JSON.stringify(response.data));
-            console.log("izan"+response.data);
             lienActuel = window.location.href;
-            console.log(additionalData);
             if (lienActuel == "https://localhost/archiweb_2024_projets_gr06/nutritionist-dashboard?tab=clientPlan&clientId=" + additionalData) {
               window.location.href = "nutritionist-dashboard?tab=clientPlan&clientId=" + additionalData + "&period=" + response.planInfo["period"];
             }
@@ -587,7 +569,7 @@ function performAjaxRequest(
               $i++;
             }
           } else if (response.message === "noPlanExist") {
-            
+
             $("#userHavePlan").hide();
             $("#userNotHavePlan").show();
             $("#GlobDiv").css("height", "fit-content");
@@ -619,7 +601,6 @@ function performAjaxRequest(
           }
           break;
         case "getDiscussion":
-          console.log(response)
           var role = response.role
           if (role == "Admin") {
             displayNoNutritionist(0) // cas où il n'y a pas encore de message 
@@ -639,9 +620,6 @@ function performAjaxRequest(
                 displayConversations(response)
               }
             }
-          } else {
-            console.log("La requête n'a pas réussie.");
-            console.log(response.data)
           }
           break;
 
@@ -660,7 +638,6 @@ function performAjaxRequest(
           // mettre le nom de l'interlocuteur pour savoir à qui on parle
           const modalTitle = document.querySelector('.modal-title');
           if (modalTitle && response.data[0].interlocutor_fullname) {
-            console.log("nom interlocutor: " + response.data[0].interlocutor_fullname);
             modalTitle.innerHTML = "Send a message to " + response.data[0].interlocutor_fullname;
           }
           break;
@@ -675,12 +652,11 @@ function performAjaxRequest(
           newMessage = formatMessage(message, ownID)
           $('#conversationMessages').prepend(newMessage)
           break;
+
         case 'requestPromotion':
-          console.log("demande bien envoyée")
           break;
 
         default:
-          console.log("Unhandled action: " + action);
           handleAjaxResponse(action, response, successTitle, successMessage);
           break;
       }
@@ -725,7 +701,6 @@ function performAjaxRequestWithImg(
     contentType: false,
     dataType: "JSON",
     success: function (response) {
-      console.log("action:  " + action);
       handleAjaxResponse(
         action,
         response,
@@ -758,7 +733,6 @@ function debounce(func, wait) {
 
 function performAjaxWithImage(formId, action, successTitle, successMessage) {
   var formData = new FormData(document.getElementById(formId));
-  console.log(formId);
   formData.append("action", action); // Ensure your backend handles this action appropriately
 
   $.ajax({
