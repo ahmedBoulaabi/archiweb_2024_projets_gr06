@@ -420,6 +420,70 @@ class AdminController
             echo json_encode(['success' => false, 'message' => 'Something went wrong']);
         }
     }
+    /**
+     * Request Promotion
+     *
+     * This method handles the creation of a promotion request for the currently logged-in user.
+     * It retrieves the user's ID from the session, submits a promotion request, and returns a JSON response.
+     * If the request is successfully added, it responds with success; otherwise, it indicates failure.
+     *
+     * @return void Outputs a JSON response with the result.
+     */
+    public function requestPromotion()
+    {
+        $clientid = $_SESSION['id']; // Get the user ID from session.
+
+        // Attempt to submit a promotion request for the user.
+        if ($this->adminModel->requestPromotion($clientid)) {
+            echo json_encode(['success' => true, 'message' => "Request Sent"]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Something went wrong with the Request']);
+        }
+    }
+
+    /**
+     * Accept Request
+     *
+     * This method processes a request to accept a promotion request using the request ID provided via POST.
+     * It calls the admin model to update the user's role and, if successful, returns a JSON response indicating success.
+     * If the operation fails, it returns an error message in JSON format.
+     *
+     * @return void Outputs a JSON response with the result.
+     */
+    public function acceptRequest()
+    {
+        $clientid = $_POST['acc_id']; // Get the request ID from POST data.
+
+        // Process the acceptance of the request.
+        if ($this->adminModel->acceptRequest($clientid)) {
+            echo json_encode(['success' => true, 'message' => "Request Accepted"]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Something went wrong with the Request']);
+        }
+    }
+
+
+    /**
+     * Delete Request
+     *
+     * This method handles the deletion of a promotion request using the ID provided via POST.
+     * It calls the admin model to delete the request from the database.
+     * The method returns a JSON-encoded result indicating whether the operation was successful.
+     *
+     * @return void Outputs a JSON response with the result.
+     */
+    public function deleteRequest()
+    {
+        $clientid = $_POST['del_id']; // Get the request ID from POST data.
+
+        // Attempt to delete the request.
+        if ($this->adminModel->deleteRequest($clientid)) {
+            echo json_encode(['success' => true, 'message' => "Request Deleted"]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Something went wrong with the Request']);
+        }
+    }
+
 
     /**
      * Add a new Recipe with image.
@@ -573,4 +637,6 @@ class AdminController
             exit;
         }
     }
+
+
 }

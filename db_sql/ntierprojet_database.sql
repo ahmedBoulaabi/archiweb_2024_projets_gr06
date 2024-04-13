@@ -82,7 +82,7 @@ CREATE TABLE `nutri_requests` (
   `id` int(8) NOT NULL,
   `nutri_id` int(8) NOT NULL,
   `etat` varchar(250) NOT NULL DEFAULT 'pending',
-  `proof` varchar(250) NOT NULL,
+  `proof` varchar(250) NOT NULL DEFAULT 'nothing',
   `created_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
