@@ -4,7 +4,7 @@
       <h1>Dashboard</h1>
 
     </div>
-    
+
   </div>
 
   <!-- Insights -->
@@ -30,7 +30,7 @@
         <p>Number recipes</p>
       </span>
     </li>
-   
+
   </ul>
   <!-- End of Insights -->
 
@@ -43,33 +43,18 @@
         <!-- <i class='bx bx-filter'></i>
         <i class='bx bx-search'></i> -->
       </div>
-      <div id="showNutriRequests" >
+      <div id="showNutriRequests">
 
       </div>
-      
+
     </div>
     <!-- End of Orders -->
 
     <!-- Reminders -->
-    <!-- <div class="reminders">
-      <div class="header">
-        <i class='bx bx-note'></i>
-        <h3>Remiders</h3>
-        <i class='bx bx-filter'></i>
-        <i class='bx bx-plus'></i>
-      </div>
-      <ul class="task-list">
-        <li class="completed">
-          <div class="task-title">
-            <i class='bx bx-check-circle'></i>
-            <p>Start Our Meeting</p>
-          </div>
-          <i class='bx bx-dots-vertical-rounded'></i>
-        </li>
-        More tasks -->
-      </ul>
-    </div>
-    <!-- End of Reminders -->
+
+    </ul>
+  </div>
+  <!-- End of Reminders -->
   </div>
 </main>
 

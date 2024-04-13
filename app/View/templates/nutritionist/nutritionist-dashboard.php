@@ -186,5 +186,6 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="<?= BASE_APP_DIR ?>/public/js/nutritionist-dashboard.js"></script>
   <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
+  <script src="<?= BASE_APP_DIR ?>/public/js/notification.js"></script>
 
 </body>

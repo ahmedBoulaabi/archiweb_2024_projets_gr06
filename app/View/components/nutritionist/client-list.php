@@ -50,17 +50,13 @@
 
     performAjaxRequest("GET", "getNutriClients", additionalData, "", "");
     setTimeout(function() {
-  $('.project-btn-more').click(function() {
-    console.log("test")
-    localStorage.removeItem("recipesClient");
-      var optionsContainer = $(this).closest('.project-box').find('.options-container');
-    optionsContainer.toggleClass('hidden');
-  });
-}, 500);
+      $('.project-btn-more').click(function() {
+        localStorage.removeItem("recipesClient");
+        var optionsContainer = $(this).closest('.project-box').find('.options-container');
+        optionsContainer.toggleClass('hidden');
+      });
+    }, 500);
 
   });
-
-
- 
 </script>
 <script src="<?= BASE_APP_DIR ?>/public/js/notification.js"></script>

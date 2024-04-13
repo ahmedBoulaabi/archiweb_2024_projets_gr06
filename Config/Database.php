@@ -201,7 +201,6 @@ class Database
      */
     public function lastInsertId()
     {
-        // retun the last inserted ID
         return $this->dbh->lastInsertId();
     }
 }

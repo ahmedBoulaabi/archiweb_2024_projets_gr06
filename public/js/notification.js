@@ -4,7 +4,6 @@ $(document).ready(function () {
     // on doit attacher l'évènement au parent, car les enfants ne sont pas encore créés
     $('#client-list-results').on('click', '.client-user', function () {
         const userId = $(this).data('user-id');
-        console.log(userId + " clicked");
         performAjaxRequest(
             "POST",
             "sendNotification",
@@ -19,8 +18,6 @@ $(document).ready(function () {
     $('.messages').on('click', '.message-box', function (event) {
         const conversationId = $(this).data('id');
         id_clicked = conversationId
-        console.log(conversationId + " clicked");
-        console.log("dans modal ouverture");
         var modal = document.querySelector('#open-modal-message');
         if (modal) {
             $(modal).modal('show');
@@ -41,7 +38,6 @@ $(document).ready(function () {
     $("#message-form").on("submit", function (event) {
         event.preventDefault();
         var message = $("#message").val();
-        console.log(message);
         var additionalData = "&content=" + message + "&targetID=" + id_clicked
         performAjaxRequest("POST", "sendMessage", additionalData, "", "");
     });
@@ -82,7 +78,6 @@ $(document).ready(function () {
             "clientSearch",
             "&searchValue=" + inputValue,
             function (data) {
-                console.log(data);
                 $("#client-list-results").html(data);
             },
             ""

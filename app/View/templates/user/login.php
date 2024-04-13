@@ -64,7 +64,6 @@ if (isset($_SESSION['id'])) {
 
   <script type="text/javascript">
     $("#login").click(function(e) {
-      console.log("dans login");
       if ($("#form-data")[0].checkValidity()) {
         e.preventDefault();
         performAjaxRequest(

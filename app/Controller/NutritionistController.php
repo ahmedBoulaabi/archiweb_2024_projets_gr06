@@ -266,6 +266,14 @@ class NutritionistController
             exit;
         }
     }
+    /**
+     * Checks if a client has an existing nutrition plan.
+     *
+     * This function verifies if a client has an active nutrition plan by querying the database.
+     *
+     * @param int $clientId The unique identifier of the client.
+     * @return void This function does not return a value directly but echoes a JSON response.
+     */
     public function clientHavePlan($clientId)
     {
 
@@ -279,6 +287,18 @@ class NutritionistController
         }
     }
 
+    /**
+     * Adds a new nutrition plan for a client.
+     *
+     * This function inserts a new nutrition plan into the database for the specified client.
+     *
+     * @param int $clientId The unique identifier of the client.
+     * @param array $recipesData An array containing recipe data for the plan.
+     * @param string $period The period for which the plan is applicable (e.g., 'weekly', 'monthly').
+     * @param int $duration The duration of the plan (e.g., number of weeks, number of months).
+     * @param string $planName The name of the plan.
+     * @return void This function does not return a value directly but echoes a JSON response.
+     */
     public function addPlan($clientId, $recipesData, $period, $duration, $planName)
     {
         if ($this->nutriModel->addClientPlan($clientId, $recipesData, $period, $duration, $planName)) {

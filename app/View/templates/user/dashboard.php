@@ -242,7 +242,6 @@ if ($_SESSION['role'] == "Regular") {
   recipes.forEach(recipe => {
     if (recipe.date && recipe.calories) {
       if (recipe.date - 1 < caloriesPerDay.length) {
-        // console.log(recipe)
         if (recipe.consumed == 1) {
           caloriesPerDay[recipe.date - 1] += parseInt(recipe.calories, 10);
         }
@@ -253,7 +252,6 @@ if ($_SESSION['role'] == "Regular") {
 
   var labels = caloriesPerDay.map((_, index) => `Day ${index + 1}`);
 
-  // console.log(labels)
 
   document.addEventListener('DOMContentLoaded', function() {
     var ctx = document.getElementById('timeline-graph').getContext('2d');
@@ -367,7 +365,6 @@ if ($_SESSION['role'] == "Regular") {
       dayDiv.appendChild(dayTitle);
       dayDiv.appendChild(recipesContainer);
 
-      console.log(recipes)
 
       let dayRecipes = recipes.filter(recipe => recipe.date === day);
       dayRecipes.forEach(recipe => {
@@ -393,7 +390,6 @@ if ($_SESSION['role'] == "Regular") {
 
         // Attach click event listener to each recipe card
         recipeElement.addEventListener('click', function() {
-          console.log(`Recipe ${recipe.id} clicked`);
           var additionalData = "&recipe_id=" + recipe.id;
           recipeElement.classList.toggle("recipe-consumed");
           performAjaxRequest(
