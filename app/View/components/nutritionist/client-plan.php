@@ -336,8 +336,7 @@ $ClientIdJson = json_encode($clientId);
                 // Convertir recipesData en JSON
                 var recipesDataJSON = JSON.stringify(recipesData);
                 var additionalData = "&recipesData=" + encodeURIComponent(recipesDataJSON) + "&period=" +
-                    period +
-                    "&duration=" + duration + "&planName=" + planName + "&clientId=" + clientID;
+                    period +"&duration=" + duration + "&planName=" + planName + "&clientId=" + clientID;
                 // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
                 var etat = <?php echo $etatJson; ?>;
                 var successTitle = "";

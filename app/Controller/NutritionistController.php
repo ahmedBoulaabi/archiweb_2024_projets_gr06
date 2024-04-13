@@ -11,15 +11,12 @@ use Manger\Model\NutritionistModel;
  */
 class NutritionistController
 {
-
     /**
      * nutriModel
      *
      * @var NutritionistModel
      */
     private $nutriModel;
-
-
     /**
      * Constructor
      *
@@ -58,8 +55,6 @@ class NutritionistController
         }
         exit;
     }
-
-
 
 
     /**
@@ -266,14 +261,18 @@ class NutritionistController
             exit;
         }
     }
-    /**
-     * Checks if a client has an existing nutrition plan.
-     *
-     * This function verifies if a client has an active nutrition plan by querying the database.
-     *
-     * @param int $clientId The unique identifier of the client.
-     * @return void This function does not return a value directly but echoes a JSON response.
-     */
+
+            /**
+         * Checks if a client has an active plan and retrieves plan details if available.
+         *
+         * This method is responsible for determining whether a client has an active plan. If the client has a plan,
+         * it retrieves the plan recipes details and plan information from the model and returns them in a JSON response.
+         * If the client doesn't have a plan, it returns a JSON response indicating the absence of a plan.
+         *
+         * @param int $clientId The ID of the client to check for an active plan.
+         * @return void Outputs a JSON response containing the result of the operation,
+         *               including the plan details if a plan exists for the client.
+         */
     public function clientHavePlan($clientId)
     {
 
@@ -287,18 +286,22 @@ class NutritionistController
         }
     }
 
-    /**
-     * Adds a new nutrition plan for a client.
-     *
-     * This function inserts a new nutrition plan into the database for the specified client.
-     *
-     * @param int $clientId The unique identifier of the client.
-     * @param array $recipesData An array containing recipe data for the plan.
-     * @param string $period The period for which the plan is applicable (e.g., 'weekly', 'monthly').
-     * @param int $duration The duration of the plan (e.g., number of weeks, number of months).
-     * @param string $planName The name of the plan.
-     * @return void This function does not return a value directly but echoes a JSON response.
-     */
+        /**
+         * Adds a new plan for a client.
+         *
+         * This method is responsible for adding a new plan for a client in the system.
+         * It takes the client ID, recipes data, period, duration, and plan name as parameters,
+         * calls the model to insert the plan into the database, and returns a JSON response
+         * indicating the success or failure of the operation.
+         *
+         * @param int $clientId The ID of the client for whom the plan is being added.
+         * @param array $recipesData An array containing the details of the recipes included in the plan.
+         * @param string $period The period for which the plan is valid.
+         * @param int $duration The duration of the plan in days.
+         * @param string $planName The name of the plan.
+         * @return void Outputs a JSON response indicating the result of the operation.
+         */
+
     public function addPlan($clientId, $recipesData, $period, $duration, $planName)
     {
         if ($this->nutriModel->addClientPlan($clientId, $recipesData, $period, $duration, $planName)) {
