@@ -1,5 +1,5 @@
 <?php
-if (isset($_SESSION['id']) ) {
+if (isset($_SESSION['id'])) {
   // Redirect to home.php
   header('Location: dashboard');
   exit();
@@ -66,7 +66,6 @@ if (isset($_SESSION['id']) ) {
 
   <script type="text/javascript">
     $("#register").click(function(e) {
-      console.log("dans register");
       if ($("#form-data")[0].checkValidity()) {
         e.preventDefault();
 

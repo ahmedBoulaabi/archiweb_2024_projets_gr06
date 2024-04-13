@@ -294,7 +294,6 @@ class UserModel
      */
     public function getRecipesByName($searchValue)
     {
-        // session_start();
 
         $userId = $_SESSION['id'];
         $sql = "SELECT * FROM recipes WHERE name LIKE :searchValue AND (creator = :userId OR creator = 42)";
@@ -350,7 +349,7 @@ class UserModel
      * Use the list of notifications in the database to get access to all users who sent notifications
      * to the current connected user, then put their data in an array and return it
      *
-     * @return bool|object[]
+     * @return string|object[]
      */
     public function getUsersByNotifs()
     {
@@ -371,7 +370,7 @@ class UserModel
             }
             return $senderList;
         }
-        return false;
+        return "No notifications";
     }
 
     /**
@@ -549,7 +548,7 @@ class UserModel
         $sql = "INSERT INTO  recipes(name,calories,image_url,type,visibility,creator) VALUES (:name, :calories, :image_url, :type, :visibility,:creator)";
         $this->db->query($sql);
         $this->db->bind(':creator', $_SESSION['id']);
-        $this->db->bindMultipleParams([':name', ':calories', ':image_url',':type','visibility'], $donnees);
+        $this->db->bindMultipleParams([':name', ':calories', ':image_url', ':type', 'visibility'], $donnees);
 
         try {
             if ($this->db->execute()) {

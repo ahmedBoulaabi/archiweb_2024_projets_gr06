@@ -352,7 +352,8 @@ class NutritionistModel
          * @return bool Returns true if the plan is successfully added, false otherwise.
          */
     function addClientPlan($clientId, $recipesData, $period, $duration, $plan_name)
-    {$userId = $clientId; // ID de client
+    {
+        $userId = $clientId; // ID de client
         $sql = "SELECT EXISTS (SELECT 1 FROM user_plan WHERE user_id = :userId) AS planExists";
         $this->db->query($sql);
         $this->db->bind(':userId', $userId);
@@ -431,12 +432,20 @@ class NutritionistModel
          * @return bool Returns true if the client has an active plan, false otherwise.
          */
 
+    /**
+     * ifClientHavePlan
+     * 
+     * Check if the user whose id is the parameter has already a plan
+     *
+     * @param  mixed $clientId
+     * @return boolean
+     */
     function ifClientHavePlan($clientId)
     {
         $sql = "SELECT EXISTS (SELECT 1 FROM user_plan WHERE user_id = :userId) AS planExists";
         $this->db->query($sql);
         $this->db->bind(':userId', $clientId);
-        $result = $this->db->single(); // Récupère le résultat de la clause EXISTS
+        $result = $this->db->single();
 
         if ($result->planExists == 1) {
             return true;

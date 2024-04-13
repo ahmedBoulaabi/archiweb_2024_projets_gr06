@@ -39,9 +39,8 @@ $durationJson = json_encode($duration);
     <!-- BODY -->
     <script type="text/javascript">
         var etat = <?php echo $etatJson; ?>;
-        // console.log("1er script etat = " + etat);
         if (etat == "show") {
-            $(document).ready(function () {
+            $(document).ready(function() {
                 performAjaxRequest(
                     "POST",
                     "UserHavePlan",
@@ -62,8 +61,8 @@ $durationJson = json_encode($duration);
                     you can add <a href="<?= BASE_APP_DIR ?>/recipes-list">custom recipes here</a></div>
                 <br>
                 <!-- Search bar -->
-                <input type="text" class="form-control" name="plan-recipe-search" id="plan-recipe-search"
-                    placeholder="Search for recipe">
+                <input type="text" class="form-control" name="plan-recipe-search" id="plan-recipe-search" placeholder="Search for recipe">
+
                 <!-- Results -->
                 <div id="plan-recipe-results" class="pt-4" style="max-height:350px; overflow:scroll;">
                 </div>
@@ -71,8 +70,7 @@ $durationJson = json_encode($duration);
         </div>
         <!-- Planning Params -->
         <div style="min-height: 250px">
-            <div id="userNotHavePlan" class="radio-container"
-                style="background-color: var(--main-color); display: none;">
+            <div id="userNotHavePlan" class="radio-container" style="background-color: var(--main-color); display: none;">
                 <div class="radio-container" style="background-color: var(--main-color);">
                     <div class="form-group">
                         <div class="selector-label">
@@ -80,13 +78,11 @@ $durationJson = json_encode($duration);
                             <p>The number of days of the plan (repeats through the duration)</p>
                         </div>
                         <div class="selector width-per-item">
-                            <a href="?period=7&duration=<?= $duration ?>"
-                                class=" text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
-                            <a href="?period=14&duration=<?= $duration ?>"
-                                class="text-decoration-none selection <?= $period == 14 ? 'selected' : '' ?>">14
+
+                            <a href="?period=7&duration=<?= $duration ?>" class=" text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
+                            <a href="?period=14&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 14 ? 'selected' : '' ?>">14
                                 Days</a>
-                            <a href="?period=30&duration=<?= $duration ?>"
-                                class="text-decoration-none selection <?= $period == 30 ? 'selected' : '' ?>">30
+                            <a href="?period=30&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 30 ? 'selected' : '' ?>">30
                                 Days</a>
                         </div>
                     </div>
@@ -96,17 +92,13 @@ $durationJson = json_encode($duration);
                             <p>The number of total days of the plan</p>
                         </div>
                         <div class="selector width-per-item">
-                            <a href="?period=<?= $period ?>&duration=7"
-                                class="text-decoration-none selection <?= $duration == 7 ? 'selected' : '' ?>">7
+                            <a href="?period=<?= $period ?>&duration=7" class="text-decoration-none selection <?= $duration == 7 ? 'selected' : '' ?>">7
                                 Days</a>
-                            <a href="?period=<?= $period ?>&duration=14"
-                                class="text-decoration-none selection <?= $duration == 14 ? 'selected' : '' ?>">14
+                            <a href="?period=<?= $period ?>&duration=14" class="text-decoration-none selection <?= $duration == 14 ? 'selected' : '' ?>">14
                                 Days</a>
-                            <a href="?period=<?= $period ?>&duration=30"
-                                class="text-decoration-none selection <?= $duration == 30 ? 'selected' : '' ?>">30
+                            <a href="?period=<?= $period ?>&duration=30" class="text-decoration-none selection <?= $duration == 30 ? 'selected' : '' ?>">30
                                 Days</a>
-                            <a href="?period=<?= $period ?>&duration=60"
-                                class="text-decoration-none selection <?= $duration == 60 ? 'selected' : '' ?>">60
+                            <a href="?period=<?= $period ?>&duration=60" class="text-decoration-none selection <?= $duration == 60 ? 'selected' : '' ?>">60
                                 Days</a>
                         </div>
                     </div>
@@ -117,11 +109,8 @@ $durationJson = json_encode($duration);
                         </div>
                         <div class="selector width-per-item">
                             <form id="form-data" class="selector width-per-item">
-                                <input type="text" name="plan-name" id="plan-name" class="bg-bg rounded p-1 px-2"
-                                    style="width:300px; border:1px solid #ccc;" placeholder="Plan Name" required
-                                    title="Please enter a plan name">
-                                <input type="submit" name="add-plan-btn" id="add-plan-btn"
-                                    class="rounded p-1 px-3  selection " style="margin-left: 10px;" value="Add Plan">
+                                <input type="text" name="plan-name" id="plan-name" class="bg-bg rounded p-1 px-2" style="width:300px; border:1px solid #ccc;" placeholder="Plan Name" required title="Please enter a plan name">
+                                <input type="submit" name="add-plan-btn" id="add-plan-btn" class="rounded p-1 px-3  selection " style="margin-left: 10px;" value="Add Plan">
                             </form>
                         </div>
                     </div>
@@ -138,8 +127,7 @@ $durationJson = json_encode($duration);
                         </div>
                         <div class="selector width-per-item d-flex justify-content-center">
                             <form id="form-data" class="selector width-per-item">
-                                <input type="submit" name="modify-plan-btn" id="modify-plan-btn"
-                                    class="rounded p-1 px-3  selection " style="margin-left: 10px;" value="Modify Plan">
+                                <input type="submit" name="modify-plan-btn" id="modify-plan-btn" class="rounded p-1 px-3  selection " style="margin-left: 10px;" value="Modify Plan">
                             </form>
                         </div>
                     </div>
@@ -149,8 +137,7 @@ $durationJson = json_encode($duration);
                             <p>The number of days of the plan (repeats through the duration)</p>
                         </div>
                         <div class="selector width-per-item">
-                            <a class="text-decoration-none selection" style="pointer-events: none;"
-                                id="periodValue"></a>
+                            <a class="text-decoration-none selection" style="pointer-events: none;" id="periodValue"></a>
                         </div>
                     </div>
                     <div class="form-group">
@@ -159,8 +146,7 @@ $durationJson = json_encode($duration);
                             <p>The number of total days of the plan</p>
                         </div>
                         <div class="selector width-per-item">
-                            <a class="text-decoration-none selection" style="pointer-events: none;"
-                                id="durationValue"></a>
+                            <a class="text-decoration-none selection" style="pointer-events: none;" id="durationValue"></a>
                         </div>
                     </div>
                 </div>
@@ -170,7 +156,7 @@ $durationJson = json_encode($duration);
 
         <script>
             if (etat != "show") {
-                document.addEventListener("DOMContentLoaded", function () {
+                document.addEventListener("DOMContentLoaded", function() {
 
                     document.getElementById("add-plan-btn").value = "Update Plan";
                     document.getElementById("txtNamePlan").textContent = "Update the name of your Plan";
@@ -181,23 +167,18 @@ $durationJson = json_encode($duration);
         </script>
         <h4 class="mt-5 mb-3" style="padding-left: 20px;">Your Dietary Plan:</h4>
         <div class="bg-gray mx-3 rounded" id="dayPlan">
-            <?php for ($day = 1; $day <= $period; $day++): ?>
+            <?php for ($day = 1; $day <= $period; $day++) : ?>
                 <div>
                     <p class="p-3 text-white fw-bold">Day
                         <?= $day ?>:
                     </p>
-                    <div class="bg-dark-gray rounded p-2 d-flex flex-wrap flex-row gap-4 container-fluid"
-                        style="width: 95%; min-height:340px">
-                        <div class="rounded d-flex flex-wrap flex-row gap-4" style="width: fit-content"
-                            id="day-<?php echo $day ?>">
+                    <div class="bg-dark-gray rounded p-2 d-flex flex-wrap flex-row gap-4 container-fluid" style="width: 95%; min-height:340px">
+                        <div class="rounded d-flex flex-wrap flex-row gap-4" style="width: fit-content" id="day-<?php echo $day ?>">
 
                         </div>
                         <div id="<?= $day ?>">
-                            <a href="?period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal"
-                                class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none"
-                                style="min-height: 340px;width: fit-content; width: 250px">
-                                <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);"
-                                    src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
+                            <a href="?period=<?= $period ?>&duration=<?= $duration ?>&selectedDay=<?= $day ?>#open-modal" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 340px;width: fit-content; width: 250px">
+                                <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);" src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
                                 <p class="fw-bold text-main text-center" style="font-size: 20px; padding-top: 0px;">Add new
                                     Item
                                 </p>
@@ -212,11 +193,10 @@ $durationJson = json_encode($duration);
     <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
     <script type="text/javascript">
         // HANDLE SEARCH
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Debounced because its a search bar
-            var debouncedSearch = debounce(function () {
+            var debouncedSearch = debounce(function() {
                 var inputValue = $('#plan-recipe-search').val();
-                // console.log(inputValue);
                 performAjaxRequest(
                     "GET",
                     "planSearchForRecipe",
@@ -228,7 +208,7 @@ $durationJson = json_encode($duration);
             }, 700); // 500 ms delay
 
             // Listening for changes in the input field
-            $('#plan-recipe-search').on('input', function () {
+            $('#plan-recipe-search').on('input', function() {
                 debouncedSearch();
 
             });
@@ -299,16 +279,13 @@ $durationJson = json_encode($duration);
                     var removeRecipeBtns = document.getElementsByClassName("remove-recipe");
                     removeRecipeBtns = Array.from(removeRecipeBtns);
                     removeRecipeBtns.map((removeBtn) => {
-                        removeBtn.addEventListener('click', function (event) {
-                            // console.log("clicked the delete btn")
+                        removeBtn.addEventListener('click', function(event) {
                             var recipeData = removeBtn.dataset.recipeId
                             var index = recipes.findIndex(recipe => recipe.id == recipeData);
-                            // console.log(index)
                             if (index !== -1) {
                                 recipes.splice(index, 1);
                                 saveRecipes();
                                 var parentDiv = removeBtn.closest('[id^="day-"]');
-                                // console.log(parentDiv)
                                 if (parentDiv) {
                                     parentDiv.removeChild(event.target.parentElement.parentElement);
                                 }
@@ -328,8 +305,8 @@ $durationJson = json_encode($duration);
                         recipe_id: recipeId,
                         name: recipeName,
                         date: selectedDay,
-                        image_url:recipeImage,
-                        calories:calories
+                        image_url: recipeImage,
+                        calories: calories
                     };
 
                     // Add the clicked recipe's data to the recipes array
@@ -339,11 +316,10 @@ $durationJson = json_encode($duration);
                     renderRecipes();
                 }
                 // Attach event listener to the parent container or document
-                document.addEventListener('click', function (event) {
+                document.addEventListener('click', function(event) {
                     var recipeItem = event.target.closest('.recipe-item');
                     if (recipeItem) {
                         handleRecipeClick.call(recipeItem);
-                        console.log(recipeItem);
                     }
                 });
             }, 300); // 300 millisecondes 
@@ -351,8 +327,7 @@ $durationJson = json_encode($duration);
     </script>
 
     <script type="text/javascript">
-        $("#add-plan-btn").click(function (e) {
-            // console.log("add plan btn clicked");
+        $("#add-plan-btn").click(function(e) {
             if ($("#form-data")[0].checkValidity()) {
                 e.preventDefault()
                 //recupiration des valeur nécaissaire a transfirer
@@ -364,13 +339,12 @@ $durationJson = json_encode($duration);
                 var duration = <?php echo $durationJson; ?>;
                 var etat = <?php echo $etatJson; ?>;
                 var planName = $('#plan-name').val();
-                // console.log(period);
                 if (recipesData.length > 0) {
                     // Convertir recipesData en JSON
                     var recipesDataJSON = JSON.stringify(recipesData);
                     var additionalData = "&recipesData=" + encodeURIComponent(recipesDataJSON) + "&period=" +
                         period +
-                        "&duration=" + duration + "&planName=" + planName+ "&etat=" + etat;
+                        "&duration=" + duration + "&planName=" + planName + "&etat=" + etat;
                     // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
                     performAjaxRequest(
                         "POST",
@@ -394,7 +368,7 @@ $durationJson = json_encode($duration);
         });
     </script>
     <script type="text/javascript">
-        $("#modify-plan-btn").click(function (e) {
+        $("#modify-plan-btn").click(function(e) {
             //recupiration des valeur nécaissaire a transfirer
             e.preventDefault()
             var period = <?php echo $periodJson; ?>;
@@ -408,4 +382,5 @@ $durationJson = json_encode($duration);
         });
     </script>
 </body>
+
 </html>

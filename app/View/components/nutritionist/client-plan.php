@@ -12,245 +12,240 @@ $etat = $_SESSION['etatPlan'];
 $etatJson = json_encode($etat);
 $periodJson = json_encode($period);
 $durationJson = json_encode($duration);
-$ClientIdJson=json_encode($clientId);
+$ClientIdJson = json_encode($clientId);
 ?>
-    <!-- BODY -->
-    <script type="text/javascript">
-        var etat = <?php echo $etatJson; ?>;
-        var clientID = <?php echo $ClientIdJson; ?>;
+<!-- BODY -->
+<script type="text/javascript">
+    var etat = <?php echo $etatJson; ?>;
+    var clientID = <?php echo $ClientIdJson; ?>;
 
-        console.log(etat);
-        if (etat == "show") {
-            console.log("rani njib");
-            $(document).ready(function () {
-                performAjaxRequest(
-                    "POST",
+    if (etat == "show") {
+        $(document).ready(function() {
+            performAjaxRequest(
+                "POST",
                 "ClientHavePlan",
                 clientID,
                 "",
                 ""
-                );
-            });
+            );
+        });
+    }
+</script>
+<div class="projects-section" id="GlobDiv">
+
+    <!-- MODAL -->
+    <div id="open-modal2" class="modal-window">
+        <div>
+            <a href="#" title="Close" class="modal-close">Close</a>
+            <h1>Add Recipe</h1>
+            <div>Add a recipe to your planning for this day. Search from global recipes, and your custom recipes.
+                you can add <a href="<?= BASE_APP_DIR ?>/recipes-list">custom recipes here</a></div>
+            <br>
+            <!-- Search bar -->
+            <input type="text" class="form-control" name="plan-recipe-search" id="plan-recipe-search" placeholder="Search for recipe">
+            <!-- Results -->
+            <div id="plan-recipe-results" class="pt-4" style="max-height:350px; overflow:scroll;">
+            </div>
+        </div>
+    </div>
+    <!-- Planning Params -->
+
+    <div style="min-height: 250px">
+        <div id="userNotHavePlan" class="radio-container" style="background-color: #678e48; display: none;">
+            <div class="radio-container" style="background-color: #678e48;;">
+                <div class="form-group">
+                    <div class="selector-label">
+                        <h3 class="text-white">Period</h3>
+                        <p>The number of days of the plan (repeats through the duration)</p>
+                    </div>
+                    <div class="selector width-per-item">
+                        <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=7&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
+                        <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=14&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 14 ? 'selected' : '' ?>">14
+                            Days</a>
+                        <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=30&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 30 ? 'selected' : '' ?>">30
+                            Days</a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="selector-label">
+                        <h3 class="text-white">Duration</h3>
+                        <p>The number of total days of the plan</p>
+                    </div>
+                    <div class="selector width-per-item">
+                        <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=7" class="text-decoration-none selection <?= $duration == 7 ? 'selected' : '' ?>">7
+                            Days</a>
+                        <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=14" class="text-decoration-none selection <?= $duration == 14 ? 'selected' : '' ?>">14
+                            Days</a>
+                        <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=30" class="text-decoration-none selection <?= $duration == 30 ? 'selected' : '' ?>">30
+                            Days</a>
+                        <a href="?tab=clientPlan&&clientId=<?= $clientId ?>period=<?= $period ?>&duration=60" class="text-decoration-none selection <?= $duration == 60 ? 'selected' : '' ?>">60
+                            Days</a>
+                    </div>
+                </div>
+                <div class="form-group" id="bar-add-plan">
+                    <div class="selector-label">
+                        <h3 class="text-white">Name of the Plan</h3>
+                        <p id="txtNamePlan">Add a name to your Plan</p>
+                    </div>
+
+                    <div class="selector width-per-item">
+                        <form id="form-data" class="selector width-per-item">
+                            <input type="text" name="plan-name" id="plan-name" class="bg-bg rounded p-1 px-2" style="width:300px; border:1px solid #ccc;" placeholder="Plan Name" required title="Please enter a plan name">
+                            <input type="submit" name="add-plan-btn" id="add-plan-btn" class="rounded p-1 px-3  selection " style="margin-left: 10px;" value="Add Plan">
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="userHavePlan" class="radio-container" style="background-color: #678e48;;display: none;">
+            <div class="radio-container" style="background-color:#678e48;;">
+                <div class="form-group text-center">
+                    <div class="selector-label">
+                        <h3 class="text-white">Name of the Plan:</h3>
+                    </div>
+                    <div class="selector width-per-item d-flex justify-content-center">
+                        <h3 class="text-white"><strong id="planNameId"></strong></h3>
+                    </div>
+                    <div class="selector width-per-item d-flex justify-content-center">
+                        <button type="submit" name="modify-plan-btn" id="modify-plan-btn" class="btn text-decoration-none selection rounded p-1 text-white">
+                            <h3 class="text-white"><strong>Modify plan</strong></h3>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="selector-label">
+                        <h3 class="text-white">Period</h3>
+                        <p>The number of days of the plan (repeats through the duration)</p>
+                    </div>
+                    <div class="selector width-per-item">
+                        <a class="text-decoration-none selection" style="pointer-events: none;" id="periodValue"></a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="selector-label">
+                        <h3 class="text-white">Duration</h3>
+                        <p>The number of total days of the plan</p>
+                    </div>
+                    <div class="selector width-per-item">
+                        <a class="text-decoration-none selection" style="pointer-events: none;" id="durationValue"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if (etat != "show") {
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("add-plan-btn").value = "Update Plan";
+                document.getElementById("txtNamePlan").textContent = "Update the name of your Plan";
+            })
+            $("#GlobDiv").css("height", "fit-content");
+            $("#userHavePlan").hide();
+            $("#userNotHavePlan").show();
         }
     </script>
-    <div class="projects-section" id="GlobDiv">
 
-        <!-- MODAL -->
-        <div id="open-modal2" class="modal-window">
-            <div>
-                <a href="#" title="Close" class="modal-close">Close</a>
-                <h1>Add Recipe</h1>
-                <div>Add a recipe to your planning for this day. Search from global recipes, and your custom recipes.
-                    you can add <a href="<?= BASE_APP_DIR ?>/recipes-list">custom recipes here</a></div>
-                <br>
-                <!-- Search bar -->
-                <input type="text" class="form-control" name="plan-recipe-search" id="plan-recipe-search"
-                    placeholder="Search for recipe">
-                <!-- Results -->
-                <div id="plan-recipe-results" class="pt-4" style="max-height:350px; overflow:scroll;">
-                </div>
-            </div>
-        </div>
-        <!-- Planning Params -->
-
-        <div style="min-height: 250px">
-            <div id="userNotHavePlan" class="radio-container" style="background-color: #678e48; display: none;">
-                <div class="radio-container" style="background-color: #678e48;;">
-                    <div class="form-group">
-                        <div class="selector-label">
-                            <h3 class="text-white">Period</h3>
-                            <p>The number of days of the plan (repeats through the duration)</p>
-                        </div>
-                        <div class="selector width-per-item">
-                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=7&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 7 ? 'selected' : '' ?>">7 Days</a>
-                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=14&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 14 ? 'selected' : '' ?>">14
-                                Days</a>
-                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=30&duration=<?= $duration ?>" class="text-decoration-none selection <?= $period == 30 ? 'selected' : '' ?>">30
-                                Days</a>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="selector-label">
-                            <h3 class="text-white">Duration</h3>
-                            <p>The number of total days of the plan</p>
-                        </div>
-                        <div class="selector width-per-item">
-                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=7" class="text-decoration-none selection <?= $duration == 7 ? 'selected' : '' ?>">7
-                                Days</a>
-                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=14" class="text-decoration-none selection <?= $duration == 14 ? 'selected' : '' ?>">14
-                                Days</a>
-                            <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&duration=30" class="text-decoration-none selection <?= $duration == 30 ? 'selected' : '' ?>">30
-                                Days</a>
-                            <a href="?tab=clientPlan&&clientId=<?= $clientId ?>period=<?= $period ?>&duration=60" class="text-decoration-none selection <?= $duration == 60 ? 'selected' : '' ?>">60
-                                Days</a>
-                        </div>
-                    </div>
-                    <div class="form-group" id="bar-add-plan">
-                        <div class="selector-label">
-                            <h3 class="text-white">Name of the Plan</h3>
-                            <p id="txtNamePlan">Add a name to your Plan</p>
-                        </div>
-
-                        <div class="selector width-per-item">
-                            <form id="form-data" class="selector width-per-item">
-                                <input type="text" name="plan-name" id="plan-name" class="bg-bg rounded p-1 px-2" style="width:300px; border:1px solid #ccc;" placeholder="Plan Name" required title="Please enter a plan name">
-                                <input type="submit" name="add-plan-btn" id="add-plan-btn" class="rounded p-1 px-3  selection " style="margin-left: 10px;" value="Add Plan">
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="userHavePlan" class="radio-container" style="background-color: #678e48;;display: none;">
-                <div class="radio-container" style="background-color:#678e48;;">
-                    <div class="form-group text-center">
-                        <div class="selector-label">
-                            <h3 class="text-white">Name of the Plan:</h3>
-                        </div>
-                        <div class="selector width-per-item d-flex justify-content-center">
-                            <h3 class="text-white"><strong id="planNameId"></strong></h3>
-                        </div>
-                        <div class="selector width-per-item d-flex justify-content-center">
-                            <button type="submit" name="modify-plan-btn" id="modify-plan-btn" class="btn text-decoration-none selection rounded p-1 text-white">
-                                <h3 class="text-white"><strong>Modify plan</strong></h3>
-                            </button>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="selector-label">
-                            <h3 class="text-white">Period</h3>
-                            <p>The number of days of the plan (repeats through the duration)</p>
-                        </div>
-                        <div class="selector width-per-item">
-                            <a class="text-decoration-none selection" style="pointer-events: none;" id="periodValue"></a>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="selector-label">
-                            <h3 class="text-white">Duration</h3>
-                            <p>The number of total days of the plan</p>
-                        </div>
-                        <div class="selector width-per-item">
-                            <a class="text-decoration-none selection" style="pointer-events: none;" id="durationValue"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            if (etat != "show") {
-                console.log("etat"+etat);
-                document.addEventListener("DOMContentLoaded", function () {
-                    document.getElementById("add-plan-btn").value = "Update Plan";
-                    document.getElementById("txtNamePlan").textContent = "Update the name of your Plan";
-                })
-                $("#GlobDiv").css("height", "fit-content");
-                $("#userHavePlan").hide();
-                $("#userNotHavePlan").show();
-            }
-        </script>
-
-        <h4 class="mt-5 mb-3" style="padding-left: 20px;">Client Dietary Plan:</h4>
-        <div class="bg-gray mx-3 rounded" id="dayPlan">
+    <h4 class="mt-5 mb-3" style="padding-left: 20px;">Client Dietary Plan:</h4>
+    <div class="bg-gray mx-3 rounded" id="dayPlan">
         <?php for ($day = 1; $day <= $period; $day++) : ?>
-                <div>
-                    <p class="p-3 text-white fw-bold" >Day
-                        <?= $day ?>:
-                    </p>
-                    <div class="bg-dark-gray rounded p-2 d-flex flex-wrap flex-row gap-4 container-fluid" style="width: 95%; min-height:340px">
-                        <div class="rounded d-flex flex-wrap flex-row gap-4" style="width: fit-content" id="day-<?php echo $day ?>">
+            <div>
+                <p class="p-3 text-white fw-bold">Day
+                    <?= $day ?>:
+                </p>
+                <div class="bg-dark-gray rounded p-2 d-flex flex-wrap flex-row gap-4 container-fluid" style="width: 95%; min-height:340px">
+                    <div class="rounded d-flex flex-wrap flex-row gap-4" style="width: fit-content" id="day-<?php echo $day ?>">
 
-                        </div>
-                        <div id="<?= $day ?>" >
-                        <a   href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&selectedDay=<?= $day ?>#open-modal2" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 340px;width: fit-content; width: 250px">
+                    </div>
+                    <div id="<?= $day ?>">
+                        <a href="?tab=clientPlan&clientId=<?= $clientId ?>&period=<?= $period ?>&selectedDay=<?= $day ?>#open-modal2" class="d-flex flex-column justify-content-center bg-bg p-4 rounded text-decoration-none" style="min-height: 340px;width: fit-content; width: 250px">
                             <img style="width: 60px; height: 60px; object-fit: cover; border-radius: 100%; margin-left: 50%; transform: translateX(-50%);" src="<?= BASE_APP_DIR ?>/public/images/icons/plus.png" alt="Icon of a plus" />
                             <p class="fw-bold text-main text-center" style="font-size: 20px; padding-top: 0px;">Add new Item
                             </p>
                         </a>
-                        </div>
-                        
                     </div>
+
                 </div>
-            <?php endfor; ?>
-
-        </div>
-    </div>
+            </div>
+        <?php endfor; ?>
 
     </div>
+</div>
 
-    <script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
-    <script type="text/javascript">
-        // HANDLE SEARCH
-        $(document).ready(function() {
-            // Debounced because its a search bar
-            var debouncedSearch = debounce(function() {
-                var inputValue = $('#plan-recipe-search').val();
-                console.log(inputValue);
-                performAjaxRequest(
-                    "GET",
-                    "planSearchForRecipe",
-                    "&searchValue=" + inputValue,
-                    "",
-                    ""
-                );
+</div>
 
-            }, 700); // 500 ms delay
+<script src="<?= BASE_APP_DIR ?>/public/js/ajax.js"></script>
+<script type="text/javascript">
+    // HANDLE SEARCH
+    $(document).ready(function() {
+        // Debounced because its a search bar
+        var debouncedSearch = debounce(function() {
+            var inputValue = $('#plan-recipe-search').val();
+            performAjaxRequest(
+                "GET",
+                "planSearchForRecipe",
+                "&searchValue=" + inputValue,
+                "",
+                ""
+            );
 
-            // Listening for changes in the input field
-            $('#plan-recipe-search').on('input', function() {
-                debouncedSearch();
+        }, 700); // 500 ms delay
 
-            });
+        // Listening for changes in the input field
+        $('#plan-recipe-search').on('input', function() {
+            debouncedSearch();
+
         });
+    });
 
-        // HANDLE SELECT RECIPE:
-        document.addEventListener('DOMContentLoaded', (event) => {
-            setTimeout(() => {
+    // HANDLE SELECT RECIPE:
+    document.addEventListener('DOMContentLoaded', (event) => {
+        setTimeout(() => {
 
-                var recipes = JSON.parse(localStorage.getItem('recipesClient')) || [];
+            var recipes = JSON.parse(localStorage.getItem('recipesClient')) || [];
 
-                renderRecipes();
+            renderRecipes();
 
-                // Function to save recipes to localStorage
-                function saveRecipes() {
-                    localStorage.setItem('recipesClient', JSON.stringify(recipes));
-                }
+            // Function to save recipes to localStorage
+            function saveRecipes() {
+                localStorage.setItem('recipesClient', JSON.stringify(recipes));
+            }
 
-                // Function to get the selected Day from the queryParams
-                function getSelectedDay() {
-                    var queryParams = new URLSearchParams(window.location.search);
-                    return queryParams.get('selectedDay'); // Ensure 'selectedDay' is the correct query parameter name
-                }
+            // Function to get the selected Day from the queryParams
+            function getSelectedDay() {
+                var queryParams = new URLSearchParams(window.location.search);
+                return queryParams.get('selectedDay'); // Ensure 'selectedDay' is the correct query parameter name
+            }
 
-                // Function to handle rendering recipes to the correct div
-                function renderRecipes() {
-                    // Find all day divs and clear them
-                    document.querySelectorAll('[id^="day-"]').forEach(dayDiv => {
-                        dayDiv.innerHTML = ''; // Clear the div
-                    });
-                    var etatJson = <?php echo $etatJson; ?>;
-                    // Go through each recipe and append it to the correct day div
-                    recipes.forEach(recipe => {
-                        var dayDiv = document.getElementById(`day-${recipe.date}`);
-                        if (dayDiv) {
-                            // Create a new element to hold the recipe information as a meal card
-                            var recipeElement = document.createElement('div');
-                            recipeElement.className =
-                                'flex flex-column justify-content-start bg-bg p-4 rounded position-relative';
-                            recipeElement.style =
-                                'width: fit-content; max-width: 250px; min-width: 250px; align-items:center';
-                            var imgPath;
-                            if (recipe.image_url == null) {
-                                imgPath = "<?= BASE_APP_DIR ?>/public/images/recipesImages/default-recipe-image.jpg";
-                            } else {
-                                imgPath = "<?= BASE_APP_DIR ?>/public/images/recipesImages/" + recipe.image_url;
+            // Function to handle rendering recipes to the correct div
+            function renderRecipes() {
+                // Find all day divs and clear them
+                document.querySelectorAll('[id^="day-"]').forEach(dayDiv => {
+                    dayDiv.innerHTML = ''; // Clear the div
+                });
+                var etatJson = <?php echo $etatJson; ?>;
+                // Go through each recipe and append it to the correct day div
+                recipes.forEach(recipe => {
+                    var dayDiv = document.getElementById(`day-${recipe.date}`);
+                    if (dayDiv) {
+                        // Create a new element to hold the recipe information as a meal card
+                        var recipeElement = document.createElement('div');
+                        recipeElement.className =
+                            'flex flex-column justify-content-start bg-bg p-4 rounded position-relative';
+                        recipeElement.style =
+                            'width: fit-content; max-width: 250px; min-width: 250px; align-items:center';
+                        var imgPath;
+                        if (recipe.image_url == null) {
+                            imgPath = "<?= BASE_APP_DIR ?>/public/images/recipesImages/default-recipe-image.jpg";
+                        } else {
+                            imgPath = "<?= BASE_APP_DIR ?>/public/images/recipesImages/" + recipe.image_url;
 
-                            }
-                    recipeElement.innerHTML = `
+                        }
+                        recipeElement.innerHTML = `
                     <img style="width: 200px; height: 200px; object-fit: cover; border-radius: 100%;"
                     src="${imgPath}" />
                 <div class="mt-4">
@@ -264,135 +259,128 @@ $ClientIdJson=json_encode($clientId);
                 </div>
             `;
 
-                            // Append the new element to the day div
-                            dayDiv.appendChild(recipeElement);
-                        }
+                        // Append the new element to the day div
+                        dayDiv.appendChild(recipeElement);
+                    }
 
-                    });
+                });
 
                 var removeRecipeBtns = document.getElementsByClassName("remove-recipe");
-                    removeRecipeBtns = Array.from(removeRecipeBtns);
-                    removeRecipeBtns.map((removeBtn) => {
-                        removeBtn.addEventListener('click', function (event) {
-                            // console.log("clicked the delete btn")
-                            var recipeData = removeBtn.dataset.recipeId
-                            var index = recipes.findIndex(recipe => recipe.id == recipeData);
-                            // console.log(index)
-                            if (index !== -1) {
-                                recipes.splice(index, 1);
-                                saveRecipes();
-                                var parentDiv = removeBtn.closest('[id^="day-"]');
-                                // console.log(parentDiv)
-                                if (parentDiv) {
-                                    parentDiv.removeChild(event.target.parentElement.parentElement);
-                                }
+                removeRecipeBtns = Array.from(removeRecipeBtns);
+                removeRecipeBtns.map((removeBtn) => {
+                    removeBtn.addEventListener('click', function(event) {
+                        var recipeData = removeBtn.dataset.recipeId
+                        var index = recipes.findIndex(recipe => recipe.id == recipeData);
+                        if (index !== -1) {
+                            recipes.splice(index, 1);
+                            saveRecipes();
+                            var parentDiv = removeBtn.closest('[id^="day-"]');
+                            if (parentDiv) {
+                                parentDiv.removeChild(event.target.parentElement.parentElement);
                             }
-                        });
+                        }
+                    });
 
-                    })
+                })
+            }
+
+            function handleRecipeClick() {
+                var recipeId = this.dataset.recipeId;
+                var recipeName = this.dataset.recipeName;
+                var recipeImage = this.dataset.recipeImage;
+                var calories = this.dataset.recipeCalories;
+                var selectedDay = getSelectedDay();
+
+                var recipeData = {
+                    recipe_id: recipeId,
+                    name: recipeName,
+                    date: selectedDay,
+                    image_url: recipeImage,
+                    calories: calories
+                };
+                // Add the clicked recipe's data to the recipes array
+                recipes.push(recipeData);
+                saveRecipes();
+                // After updating recipes array, re-render the recipes
+                renderRecipes();
+            }
+
+            // Attach event listener to the parent container or document
+            document.addEventListener('click', function(event) {
+                var recipeItem = event.target.closest('.recipe-item');
+                if (recipeItem) {
+                    handleRecipeClick.call(recipeItem);
                 }
-                function handleRecipeClick() {
-                    var recipeId = this.dataset.recipeId;
-                    var recipeName = this.dataset.recipeName;
-                    var recipeImage = this.dataset.recipeImage;
-                    var calories = this.dataset.recipeCalories;
-                    var selectedDay = getSelectedDay();
-
-                    var recipeData = {
-                        recipe_id:recipeId,
-                        name: recipeName,
-                        date: selectedDay,
-                        image_url:recipeImage,
-                        calories:calories
-                    };
-                    // Add the clicked recipe's data to the recipes array
-                    recipes.push(recipeData);
-                    saveRecipes();
-                    // After updating recipes array, re-render the recipes
-                    renderRecipes();
-                }
-
-                // Attach event listener to the parent container or document
-                document.addEventListener('click', function(event) {
-                    var recipeItem = event.target.closest('.recipe-item');
-                    if (recipeItem) {
-                        handleRecipeClick.call(recipeItem);
-                    }
-                });
-            }, 300); // 300 millisecondes 
-        });
-    </script>
+            });
+        }, 300); // 300 millisecondes 
+    });
+</script>
 
 <!-- script to add plan  -->
 <script type="text/javascript">
-        $("#add-plan-btn").click(function(e) {
+    $("#add-plan-btn").click(function(e) {
 
-            console.log("add plan btn clicked");
-            if ($("#form-data")[0].checkValidity()) {
-                e.preventDefault()
-                //recupiration des valeur nécaissaire a transfirer
-                var recipesData = JSON.parse(localStorage.getItem('recipesClient'));
-                if (!recipesData) {
-                    recipesData = [];
+        if ($("#form-data")[0].checkValidity()) {
+            e.preventDefault()
+            //recupiration des valeur nécaissaire a transfirer
+            var recipesData = JSON.parse(localStorage.getItem('recipesClient'));
+            if (!recipesData) {
+                recipesData = [];
+            }
+            var period = <?php echo $periodJson; ?>;
+            var duration = <?php echo $durationJson; ?>;
+            var clientID = <?php echo $ClientIdJson; ?>;
+            var planName = $('#plan-name').val();
+
+            if (recipesData.length > 0) {
+                // Convertir recipesData en JSON
+                var recipesDataJSON = JSON.stringify(recipesData);
+                var additionalData = "&recipesData=" + encodeURIComponent(recipesDataJSON) + "&period=" +
+                    period +"&duration=" + duration + "&planName=" + planName + "&clientId=" + clientID;
+                // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
+                var etat = <?php echo $etatJson; ?>;
+                var successTitle = "";
+                if (etat == "show") {
+                    successTitle = "Plan added successfully!"
+                } else if (etat == "update") {
+                    successTitle = "Plan updated successfully!"
                 }
-                var period = <?php echo $periodJson; ?>;
-                var duration = <?php echo $durationJson; ?>;
-                var clientID = <?php echo $ClientIdJson; ?>;
-                var planName = $('#plan-name').val();
-                console.log(period);
-                console.log(duration);
-                console.log(planName);
-                if (recipesData.length > 0) {
-                    // Convertir recipesData en JSON
-                    var recipesDataJSON = JSON.stringify(recipesData);
-                    var additionalData = "&recipesData=" + encodeURIComponent(recipesDataJSON) + "&period=" +
-                        period +
-                        "&duration=" + duration + "&planName=" + planName+ "&clientId=" +clientID;
-                    // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
-                    var etat = <?php echo $etatJson; ?>;
-                    var successTitle="";
-                  if(etat=="show")
-                  {successTitle="Plan added successfully!"}
-                   else if(etat=="update")
-                   {successTitle="Plan updated successfully!"}
-                    performAjaxRequest(
-                        "POST",
-                        "addClientPlan",
-                        additionalData,
-                        successTitle,
-                        "",
-                    );
-                    
-                } else {
-                    // Si le tableau est vide, imprimer un message indiquant qu'il n'y a aucun élément
-                    Swal.fire({
-                        title: `Recipe Plan Incomplete`,
-                        icon: 'info',
-                        html: `
+                performAjaxRequest(
+                    "POST",
+                    "addClientPlan",
+                    additionalData,
+                    successTitle,
+                    "",
+                );
+
+            } else {
+                // Si le tableau est vide, imprimer un message indiquant qu'il n'y a aucun élément
+                Swal.fire({
+                    title: `Recipe Plan Incomplete`,
+                    icon: 'info',
+                    html: `
               <div style="text-align: left;">
                 <p>Please ensure that recipes are added to your plan</p>
               </div>`,
-                    });
-                }
+                });
             }
-        });
-    </script>
-    
-    <script type="text/javascript">
-        $("#modify-plan-btn").click(function (e) {
-            //recupiration des valeur nécaissaire a transfirer
-            e.preventDefault()
-            var period = <?php echo $periodJson; ?>;
-            // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
-            performAjaxRequest(
-                "POST",
-                "modifyPlan",
-                period,
-                "",
-                "",
-            );
+        }
+    });
+</script>
 
-        });
-    </script>
+<script type="text/javascript">
+    $("#modify-plan-btn").click(function(e) {
+        //recupiration des valeur nécaissaire a transfirer
+        e.preventDefault()
+        var period = <?php echo $periodJson; ?>;
+        // Utilisation de la fonction performAjaxRequest pour envoyer les données au serveur
+        performAjaxRequest(
+            "POST",
+            "modifyPlan",
+            period,
+            "",
+            "",
+        );
 
-
+    });
+</script>

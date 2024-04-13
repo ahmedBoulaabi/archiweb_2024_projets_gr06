@@ -261,6 +261,7 @@ class NutritionistController
             exit;
         }
     }
+
             /**
          * Checks if a client has an active plan and retrieves plan details if available.
          *
@@ -284,6 +285,7 @@ class NutritionistController
             echo json_encode(['success' => true, 'message' => 'noPlanExist']);
         }
     }
+
         /**
          * Adds a new plan for a client.
          *
@@ -299,6 +301,7 @@ class NutritionistController
          * @param string $planName The name of the plan.
          * @return void Outputs a JSON response indicating the result of the operation.
          */
+
     public function addPlan($clientId, $recipesData, $period, $duration, $planName)
     {
         if ($this->nutriModel->addClientPlan($clientId, $recipesData, $period, $duration, $planName)) {
