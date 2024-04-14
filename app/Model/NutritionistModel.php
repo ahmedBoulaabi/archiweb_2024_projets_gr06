@@ -334,23 +334,23 @@ class NutritionistModel
         return $result;
     }
 
-        /**
-         * Adds a new plan for a client.
-         *
-         * This method is responsible for adding a new plan for a client in the system.
-         * It first checks if the client already has an existing plan. If a plan exists,
-         * it deletes all existing plan-related entries for the client from the database.
-         * Then, it inserts a new plan into the 'plans' table and associates it with the client
-         * in the 'user_plan' table. It also adds the recipes included in the plan to the 'plan_recipes' table.
-         *
-         * @param int $clientId The ID of the client for whom the plan is being added.
-         * @param array $recipesData An array containing the details of the recipes included in the plan.
-         *                           Each entry should contain 'recipe_id' and 'date' keys.
-         * @param string $period The period for which the plan is valid.
-         * @param int $duration The duration of the plan in days.
-         * @param string|null $plan_name The name of the plan. If not provided, a default name will be used.
-         * @return bool Returns true if the plan is successfully added, false otherwise.
-         */
+    /**
+     * Adds a new plan for a client.
+     *
+     * This method is responsible for adding a new plan for a client in the system.
+     * It first checks if the client already has an existing plan. If a plan exists,
+     * it deletes all existing plan-related entries for the client from the database.
+     * Then, it inserts a new plan into the 'plans' table and associates it with the client
+     * in the 'user_plan' table. It also adds the recipes included in the plan to the 'plan_recipes' table.
+     *
+     * @param int $clientId The ID of the client for whom the plan is being added.
+     * @param array $recipesData An array containing the details of the recipes included in the plan.
+     *                           Each entry should contain 'recipe_id' and 'date' keys.
+     * @param string $period The period for which the plan is valid.
+     * @param int $duration The duration of the plan in days.
+     * @param string|null $plan_name The name of the plan. If not provided, a default name will be used.
+     * @return bool Returns true if the plan is successfully added, false otherwise.
+     */
     function addClientPlan($clientId, $recipesData, $period, $duration, $plan_name)
     {
         $userId = $clientId; // ID de client
@@ -380,9 +380,9 @@ class NutritionistModel
         }
 
         // Insert into the plans table
-        $planName = $plan_name ??  "Default Plan for User " . $clientId;
+        $planName = $plan_name ?? "Default Plan for User " . $clientId;
         $creatorId = $_SESSION['id']; //  user ID from the session
-        $type = "Plan Type"; 
+        $type = "Plan Type";
         $sql = "INSERT INTO plans (name, period, total_length, creator, type) VALUES (:name, :period, :total_length, :creator, :type)";
         $this->db->query($sql);
         $params_dict = [
@@ -422,15 +422,15 @@ class NutritionistModel
         return true;
     }
 
-        /**
-         * Checks if a client has an active plan.
-         *
-         * This method queries the database to check if the specified client has an active plan.
-         * It returns true if the client has a plan, otherwise returns false.
-         *
-         * @param int $clientId The ID of the client to check for an active plan.
-         * @return bool Returns true if the client has an active plan, false otherwise.
-         */
+    /**
+     * Checks if a client has an active plan.
+     *
+     * This method queries the database to check if the specified client has an active plan.
+     * It returns true if the client has a plan, otherwise returns false.
+     *
+     * @param int $clientId The ID of the client to check for an active plan.
+     * @return bool Returns true if the client has an active plan, false otherwise.
+     */
 
     /**
      * ifClientHavePlan

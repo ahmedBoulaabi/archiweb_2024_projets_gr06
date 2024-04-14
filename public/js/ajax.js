@@ -298,10 +298,10 @@ function performAjaxRequest(
               client.plan_creation_date === null ||
               client.plan_creation_date === undefined
             ) {
-              return; // Skip this client and move on to the next one
+              return;
             }
 
-            const goal = client.goal; // Assuming row.goal contains the goal information
+            const goal = client.goal;
             const backgroundColor = backgroundColors[goal] || "#ffffff";
             const spanColor = spanColors[goal] || "#ffffff";
 
@@ -309,9 +309,7 @@ function performAjaxRequest(
               <div class="project-box-wrapper">
                 <div class="project-box" style="background-color: ${backgroundColor};">
                   <div class="project-box-header">
-                    <span>${
-                      client.plan_creation_date
-                    }</span> <!-- Assuming 'date' is part of your client object -->
+                    <span>${client.plan_creation_date}</span> 
                     <div class="more-wrapper">
                       <!-- Button and SVG omitted for brevity -->
                     </div>
