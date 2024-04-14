@@ -221,7 +221,7 @@ CREATE TABLE `users` (
   `daily_caloriegoal` int(11) DEFAULT NULL,
   `gender` varchar(250) DEFAULT NULL,
   `goal` varchar(250) DEFAULT NULL,
-  `img` varchar(250) DEFAULT '/public/images/default-user.png',
+  `img` varchar(250) NOT NULL DEFAULT '/public/images/default-user.png',
   `total_clients` int(8) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
