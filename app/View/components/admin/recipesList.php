@@ -42,7 +42,7 @@
 
   <div class="bottom-data">
     <div class="orders">
-      <div id="showRecipes">
+      <div id="showRecipes" style="background-color:#b0b29f; border-radius:20px; min-width: 70vw; padding: 10px 20px;">
         <!-- Recipes will be loaded here dynamically -->
       </div>
     </div>
@@ -84,14 +84,16 @@
             <input type="date" name="creation_date" class="form-control" placeholder="Creation Date" required />
           </div>
           <div class="form-group">
-            <input type="hidden" name="creator" class="form-control" placeholder="Creator ID" required value="<?= $_SESSION['id'] ?>" />
+            <input type="hidden" name="creator" class="form-control" placeholder="Creator ID" required
+              value="<?= $_SESSION['id'] ?>" />
           </div>
           <div class="form-group">
             <label for="imageUpload">Choose recipe image</label>
             <input type="file" id="imageUpload" name="imageUpload" accept=".png, .jpg, .jpeg" class="form-control" />
           </div>
           <div class="form-group">
-            <input type="submit" name="addNewRecipe" id="addNewRecipe" value="Add Recipe" class="btn btn-secondary btn-block">
+            <input type="submit" name="addNewRecipe" id="addNewRecipe" value="Add Recipe"
+              class="btn btn-secondary btn-block">
           </div>
         </form>
       </div>
@@ -103,10 +105,10 @@
 
 
 <script type="text/javascript">
-  $(document).ready(function() {
+  $(document).ready(function () {
     performAjaxRequest("GET", "getAllRecipes", "", "", "");
   });
-  $("#addNewRecipe").click(function(e) {
+  $("#addNewRecipe").click(function (e) {
     e.preventDefault(); // Prevent default form submission
     if ($("#recipe-form-data")[0].checkValidity()) {
 

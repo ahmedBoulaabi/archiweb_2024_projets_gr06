@@ -39,6 +39,7 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/globals.css" />
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/nutritionist-dashboard.css">
   <link rel="stylesheet" href="<?= BASE_APP_DIR ?>/public/css/msg_css.css">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 
 
@@ -55,7 +56,8 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
 
 
         <!-- Search bar -->
-        <input type="text" class="form-control" name="client-list-search" id="client-list-search" placeholder="Search for client">
+        <input type="text" class="form-control" name="client-list-search" id="client-list-search"
+          placeholder="Search for client">
 
         <!-- Results -->
         <div id="client-list-results" class="pt-4" style="max-height:350px; overflow:scroll;">
@@ -88,7 +90,9 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
         <p class="app-name">Dashboard</p>
         <div class="search-wrapper">
           <input class="search-input" type="text" placeholder="Search">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-search" viewBox="0 0 24 24">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-search"
+            viewBox="0 0 24 24">
             <defs></defs>
             <circle cx="11" cy="11" r="8"></circle>
             <path d="M21 21l-4.35-4.35"></path>
@@ -97,7 +101,8 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
       </div>
       <div class="app-header-right">
         <button class="mode-switch" title="Switch Theme">
-          <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+          <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
             <defs></defs>
             <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
           </svg>
@@ -105,7 +110,9 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
 
         <button class="add-btn" title="Add New Client">
           <a href="#open-modal" style="text-decoration: none; color: white;">
-            <svg class=" btn-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+            <svg class=" btn-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+              class="feather feather-plus">
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
@@ -114,7 +121,9 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
 
         <button class="notification-btn" alt="Notifications" title="Check notifications">
           <a href="#open-modal-notifs" id="click-to-show-notif" style="text-decoration: none; color: white;">
-            <svg xmlns=" http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="notif-displayer" class="feather feather-bell">
+            <svg xmlns=" http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="notif-displayer"
+              class="feather feather-bell">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
             </svg>
@@ -127,8 +136,11 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
         </button>
       </div>
       <button class="messages-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle">
-          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-message-circle">
+          <path
+            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
         </svg>
       </button>
     </div>
@@ -149,14 +161,16 @@ function generateTabLink($currentTab, $tabName, $label, $svgContent)
             <line x1="16" y1="2" x2="16" y2="6" />
             <line x1="8" y1="2" x2="8" y2="6" />
             <line x1="3" y1="10" x2="21" y2="10" /></svg>'; // SVG for Recipes List
-
+        
         // Generate links with SVG icons
         generateTabLink($tab, 'nutritionist-dashboard', 'Dashboard', $mainSVG);
         generateTabLink($tab, 'client-list', 'Client List', $usersListSVG);
         generateTabLink($tab, 'recipesList', 'Recipes List', $recipesListSVG);
 
         ?>
-        <a href="dashboard" class="app-sidebar-link"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
+        <a href="dashboard" class="app-sidebar-link"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="feather feather-arrow-left">
             <line x1="19" y1="12" x2="5" y2="12" />
             <polyline points="12 19 5 12 12 5" />
           </svg>
