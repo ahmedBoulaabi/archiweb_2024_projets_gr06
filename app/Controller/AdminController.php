@@ -286,57 +286,41 @@ class AdminController
      */
     public function addNewUser()
     {
-        // Check if a file was uploaded and handle the file upload first
-        $imageUploadPath = ''; // Default value if no file is uploaded
+        $imageUploadPath = ''; 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["imageUpload"])) {
             $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/archiweb_2024_projets_gr06/public/images/profile-images/';
             $fileName = basename($_FILES["imageUpload"]["name"]);
             $targetFilePath = $targetDir . $fileName;
-            // var_dump($targetFilePath);
             $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
-            // Optional: Validate file size and type here before proceeding with the upload
-
-            // Create the target directory if it doesn't exist
             if (!file_exists($targetDir)) {
                 mkdir($targetDir, 0777, true);
             }
 
-            // Attempt to move the uploaded file to the target directory
             if (move_uploaded_file($_FILES["imageUpload"]["tmp_name"], $targetFilePath)) {
                 $imageUploadPath = '/public/images/profile-images/' . $fileName;
-            } else {
-                // Handle file upload failure
-                header(APPJSON);
-                echo json_encode(['success' => false, 'message' => 'File upload failed']);
-                exit; // Stop execution if file upload fails
-            }
+            } 
         }
 
-        // Sanitize input data
         $email = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
         $fullname = trim($_POST['fullname'] ?? '');
         $password = trim($_POST['password'] ?? '');
 
-        // Prepare data array for user registration
         $data = [
             'fullname' => $fullname,
             'password' => $password,
             'email' => $email,
-            'image' => $imageUploadPath // Use the uploaded image path or default
+            'image' => $imageUploadPath
         ];
 
-        // Check if user with this email already exists
         if ($this->userModel->findUserByEmail($data['email'])) {
             header(APPJSON);
             echo json_encode(['success' => false, 'message' => 'Email already exists']);
             return;
         }
 
-        // Hash password before storing
         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-        // Attempt to register the user
         if ($this->adminModel->addNewUser($data)) {
             header(APPJSON);
             echo json_encode(['success' => true, 'redirect' => 'login.php']);
