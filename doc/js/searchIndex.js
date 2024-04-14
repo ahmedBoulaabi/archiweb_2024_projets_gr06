@@ -16,6 +16,11 @@ Search.appendIndex(
             "summary": "Show\u0020All\u0020Users",
             "url": "classes/Manger-Controller-AdminController.html#method_getAllUsers"
         },                {
+            "fqsen": "\\Manger\\Controller\\AdminController\u003A\u003AgetNutritionistRequests\u0028\u0029",
+            "name": "getNutritionistRequests",
+            "summary": "Show\u0020All\u0020Requests\u0020from\u0020nutritionists",
+            "url": "classes/Manger-Controller-AdminController.html#method_getNutritionistRequests"
+        },                {
             "fqsen": "\\Manger\\Controller\\AdminController\u003A\u003AgetUserDetails\u0028\u0029",
             "name": "getUserDetails",
             "summary": "Fetch\u0020and\u0020display\u0020user\u0020information\u0020by\u0020ID.",
@@ -56,10 +61,35 @@ Search.appendIndex(
             "summary": "Add\u0020a\u0020new\u0020user\u0020with\u0020profile\u0020image.",
             "url": "classes/Manger-Controller-AdminController.html#method_addNewUser"
         },                {
+            "fqsen": "\\Manger\\Controller\\AdminController\u003A\u003AupdateUser\u0028\u0029",
+            "name": "updateUser",
+            "summary": "Update\u0020a\u0020user\u0027s\u0020profile\u0020information.",
+            "url": "classes/Manger-Controller-AdminController.html#method_updateUser"
+        },                {
+            "fqsen": "\\Manger\\Controller\\AdminController\u003A\u003ArequestPromotion\u0028\u0029",
+            "name": "requestPromotion",
+            "summary": "Request\u0020Promotion",
+            "url": "classes/Manger-Controller-AdminController.html#method_requestPromotion"
+        },                {
+            "fqsen": "\\Manger\\Controller\\AdminController\u003A\u003AacceptRequest\u0028\u0029",
+            "name": "acceptRequest",
+            "summary": "Accept\u0020Request",
+            "url": "classes/Manger-Controller-AdminController.html#method_acceptRequest"
+        },                {
+            "fqsen": "\\Manger\\Controller\\AdminController\u003A\u003AdeleteRequest\u0028\u0029",
+            "name": "deleteRequest",
+            "summary": "Delete\u0020Request",
+            "url": "classes/Manger-Controller-AdminController.html#method_deleteRequest"
+        },                {
             "fqsen": "\\Manger\\Controller\\AdminController\u003A\u003AaddNewRecipe\u0028\u0029",
             "name": "addNewRecipe",
             "summary": "Add\u0020a\u0020new\u0020Recipe\u0020with\u0020image.",
             "url": "classes/Manger-Controller-AdminController.html#method_addNewRecipe"
+        },                {
+            "fqsen": "\\Manger\\Controller\\AdminController\u003A\u003AupdateRecipe\u0028\u0029",
+            "name": "updateRecipe",
+            "summary": "Update\u0020an\u0020existing\u0020recipe\u0020with\u0020or\u0020without\u0020a\u0020new\u0020image.",
+            "url": "classes/Manger-Controller-AdminController.html#method_updateRecipe"
         },                {
             "fqsen": "\\Manger\\Controller\\AdminController\u003A\u003AdeleteRecipe\u0028\u0029",
             "name": "deleteRecipe",
@@ -75,11 +105,6 @@ Search.appendIndex(
             "name": "userModel",
             "summary": "userModel",
             "url": "classes/Manger-Controller-AdminController.html#property_userModel"
-        },                {
-            "fqsen": "\\Manger\\Controller\\AdminController\u003A\u003A\u0024recipeModel",
-            "name": "recipeModel",
-            "summary": "recipeModel",
-            "url": "classes/Manger-Controller-AdminController.html#property_recipeModel"
         },                {
             "fqsen": "\\Manger\\Controller\\NutritionistController",
             "name": "NutritionistController",
@@ -105,6 +130,36 @@ Search.appendIndex(
             "name": "getUsersForNutritionist",
             "summary": "Show\u0020All\u0020Cients\u0020for\u0020a\u0020Nutritionist",
             "url": "classes/Manger-Controller-NutritionistController.html#method_getUsersForNutritionist"
+        },                {
+            "fqsen": "\\Manger\\Controller\\NutritionistController\u003A\u003AcountNutritionistClients\u0028\u0029",
+            "name": "countNutritionistClients",
+            "summary": "Count\u0020Nutritionist\u0027s\u0020Clients",
+            "url": "classes/Manger-Controller-NutritionistController.html#method_countNutritionistClients"
+        },                {
+            "fqsen": "\\Manger\\Controller\\NutritionistController\u003A\u003AcountRecipesForCreator\u0028\u0029",
+            "name": "countRecipesForCreator",
+            "summary": "Count\u0020Recipes\u0020for\u0020a\u0020Creator",
+            "url": "classes/Manger-Controller-NutritionistController.html#method_countRecipesForCreator"
+        },                {
+            "fqsen": "\\Manger\\Controller\\NutritionistController\u003A\u003AgetUserProgressForNutritionist\u0028\u0029",
+            "name": "getUserProgressForNutritionist",
+            "summary": "Retrieves\u0020and\u0020processes\u0020progress\u0020data\u0020for\u0020users\u0020associated\u0020with\u0020a\u0020specific\u0020nutritionist.",
+            "url": "classes/Manger-Controller-NutritionistController.html#method_getUserProgressForNutritionist"
+        },                {
+            "fqsen": "\\Manger\\Controller\\NutritionistController\u003A\u003AdeleteClient\u0028\u0029",
+            "name": "deleteClient",
+            "summary": "Handles\u0020the\u0020deletion\u0020of\u0020a\u0020client.",
+            "url": "classes/Manger-Controller-NutritionistController.html#method_deleteClient"
+        },                {
+            "fqsen": "\\Manger\\Controller\\NutritionistController\u003A\u003AclientHavePlan\u0028\u0029",
+            "name": "clientHavePlan",
+            "summary": "Checks\u0020if\u0020a\u0020client\u0020has\u0020an\u0020active\u0020plan\u0020and\u0020retrieves\u0020plan\u0020details\u0020if\u0020available.",
+            "url": "classes/Manger-Controller-NutritionistController.html#method_clientHavePlan"
+        },                {
+            "fqsen": "\\Manger\\Controller\\NutritionistController\u003A\u003AaddPlan\u0028\u0029",
+            "name": "addPlan",
+            "summary": "Adds\u0020a\u0020new\u0020plan\u0020for\u0020a\u0020client.",
+            "url": "classes/Manger-Controller-NutritionistController.html#method_addPlan"
         },                {
             "fqsen": "\\Manger\\Controller\\NutritionistController\u003A\u003A\u0024nutriModel",
             "name": "nutriModel",
@@ -181,6 +236,11 @@ Search.appendIndex(
             "summary": "Get\u0020All\u0020Users",
             "url": "classes/Manger-Model-AdminModel.html#method_getAllUsers"
         },                {
+            "fqsen": "\\Manger\\Model\\AdminModel\u003A\u003AgetAllRequests\u0028\u0029",
+            "name": "getAllRequests",
+            "summary": "Get\u0020All\u0020Requests",
+            "url": "classes/Manger-Model-AdminModel.html#method_getAllRequests"
+        },                {
             "fqsen": "\\Manger\\Model\\AdminModel\u003A\u003AdeleteUserById\u0028\u0029",
             "name": "deleteUserById",
             "summary": "Deletes\u0020a\u0020user\u0020by\u0020their\u0020ID.",
@@ -221,10 +281,35 @@ Search.appendIndex(
             "summary": "Add\u0020New\u0020User",
             "url": "classes/Manger-Model-AdminModel.html#method_addNewUser"
         },                {
+            "fqsen": "\\Manger\\Model\\AdminModel\u003A\u003ArequestPromotion\u0028\u0029",
+            "name": "requestPromotion",
+            "summary": "Request\u0020Promotion",
+            "url": "classes/Manger-Model-AdminModel.html#method_requestPromotion"
+        },                {
+            "fqsen": "\\Manger\\Model\\AdminModel\u003A\u003AacceptRequest\u0028\u0029",
+            "name": "acceptRequest",
+            "summary": "Accept\u0020Request",
+            "url": "classes/Manger-Model-AdminModel.html#method_acceptRequest"
+        },                {
+            "fqsen": "\\Manger\\Model\\AdminModel\u003A\u003AdeleteRequest\u0028\u0029",
+            "name": "deleteRequest",
+            "summary": "Delete\u0020Request",
+            "url": "classes/Manger-Model-AdminModel.html#method_deleteRequest"
+        },                {
+            "fqsen": "\\Manger\\Model\\AdminModel\u003A\u003AupdateUser\u0028\u0029",
+            "name": "updateUser",
+            "summary": "Update\u0020User\u0020Data\u0020in\u0020Database",
+            "url": "classes/Manger-Model-AdminModel.html#method_updateUser"
+        },                {
             "fqsen": "\\Manger\\Model\\AdminModel\u003A\u003AaddNewRecipe\u0028\u0029",
             "name": "addNewRecipe",
             "summary": "Add\u0020New\u0020Recipe",
             "url": "classes/Manger-Model-AdminModel.html#method_addNewRecipe"
+        },                {
+            "fqsen": "\\Manger\\Model\\AdminModel\u003A\u003AupdateRecipe\u0028\u0029",
+            "name": "updateRecipe",
+            "summary": "Update\u0020Recipe",
+            "url": "classes/Manger-Model-AdminModel.html#method_updateRecipe"
         },                {
             "fqsen": "\\Manger\\Model\\AdminModel\u003A\u003AdeleteRecipeById\u0028\u0029",
             "name": "deleteRecipeById",
@@ -301,55 +386,10 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Manger-Router.html#property_nutriController"
         },                {
-            "fqsen": "\\Manger\\Views\\AdminView",
-            "name": "AdminView",
-            "summary": "Access\u0020the\u0020PHP\u0020files\u0020to\u0020display",
-            "url": "classes/Manger-Views-AdminView.html"
-        },                {
-            "fqsen": "\\Manger\\Views\\AdminView\u003A\u003AviewPage\u0028\u0029",
-            "name": "viewPage",
-            "summary": "Send\u0020the\u0020requested\u0020Admin\u0020page\u0020to\u0020the\u0020Controller.",
-            "url": "classes/Manger-Views-AdminView.html#method_viewPage"
-        },                {
-            "fqsen": "\\Manger\\Views\\AdminView\u003A\u003ArenderUserTable\u0028\u0029",
-            "name": "renderUserTable",
+            "fqsen": "\\Manger\\Router\u003A\u003A\u0024commController",
+            "name": "commController",
             "summary": "",
-            "url": "classes/Manger-Views-AdminView.html#method_renderUserTable"
-        },                {
-            "fqsen": "\\Manger\\Views\\NutritionistView",
-            "name": "NutritionistView",
-            "summary": "Access\u0020the\u0020PHP\u0020files\u0020to\u0020display",
-            "url": "classes/Manger-Views-NutritionistView.html"
-        },                {
-            "fqsen": "\\Manger\\Views\\NutritionistView\u003A\u003AviewPage\u0028\u0029",
-            "name": "viewPage",
-            "summary": "Send\u0020the\u0020requested\u0020Nutritionniste\u0020page\u0020to\u0020the\u0020Controller.",
-            "url": "classes/Manger-Views-NutritionistView.html#method_viewPage"
-        },                {
-            "fqsen": "\\generateTabLink\u0028\u0029",
-            "name": "generateTabLink",
-            "summary": "",
-            "url": "namespaces/default.html#function_generateTabLink"
-        },                {
-            "fqsen": "\\Manger\\Views\\UserView",
-            "name": "UserView",
-            "summary": "Access\u0020the\u0020PHP\u0020files\u0020to\u0020display",
-            "url": "classes/Manger-Views-UserView.html"
-        },                {
-            "fqsen": "\\Manger\\Views\\UserView\u003A\u003AviewPage\u0028\u0029",
-            "name": "viewPage",
-            "summary": "Send\u0020the\u0020requested\u0020User\u0020page\u0020to\u0020the\u0020Controller.",
-            "url": "classes/Manger-Views-UserView.html#method_viewPage"
-        },                {
-            "fqsen": "\\startStream\u0028\u0029",
-            "name": "startStream",
-            "summary": "Initiates\u0020output\u0020buffering\u0020using\u0020the\u0020ob_start\u0028\u0029\u0020function.",
-            "url": "namespaces/default.html#function_startStream"
-        },                {
-            "fqsen": "\\endStream\u0028\u0029",
-            "name": "endStream",
-            "summary": "Ends\u0020output\u0020buffering.",
-            "url": "namespaces/default.html#function_endStream"
+            "url": "classes/Manger-Router.html#property_commController"
         },                {
             "fqsen": "\\Manger\\Controller\\UserController",
             "name": "UserController",
@@ -441,6 +481,11 @@ Search.appendIndex(
             "summary": "userHavePlan",
             "url": "classes/Manger-Controller-UserController.html#method_userHavePlan"
         },                {
+            "fqsen": "\\Manger\\Controller\\UserController\u003A\u003AtoggleRecipeConsumed\u0028\u0029",
+            "name": "toggleRecipeConsumed",
+            "summary": "toggleRecipeConsumed",
+            "url": "classes/Manger-Controller-UserController.html#method_toggleRecipeConsumed"
+        },                {
             "fqsen": "\\Manger\\Controller\\UserController\u003A\u003A\u0024userModel",
             "name": "userModel",
             "summary": "userModel",
@@ -475,6 +520,56 @@ Search.appendIndex(
             "name": "getUsersForNutritionist",
             "summary": "Get\u0020All\u0020Client\u0020for\u0020a\u0020Nutritionist",
             "url": "classes/Manger-Model-NutritionistModel.html#method_getUsersForNutritionist"
+        },                {
+            "fqsen": "\\Manger\\Model\\NutritionistModel\u003A\u003AgetClientsCountForNutritionist\u0028\u0029",
+            "name": "getClientsCountForNutritionist",
+            "summary": "Get\u0020Count\u0020of\u0020Clients\u0020for\u0020a\u0020Nutritionist",
+            "url": "classes/Manger-Model-NutritionistModel.html#method_getClientsCountForNutritionist"
+        },                {
+            "fqsen": "\\Manger\\Model\\NutritionistModel\u003A\u003AgetRecipesCountForCreator\u0028\u0029",
+            "name": "getRecipesCountForCreator",
+            "summary": "Get\u0020Count\u0020of\u0020Recipes\u0020for\u0020a\u0020Creator",
+            "url": "classes/Manger-Model-NutritionistModel.html#method_getRecipesCountForCreator"
+        },                {
+            "fqsen": "\\Manger\\Model\\NutritionistModel\u003A\u003AgetUserProgressForNutritionist\u0028\u0029",
+            "name": "getUserProgressForNutritionist",
+            "summary": "getUserProgressForNutritionist",
+            "url": "classes/Manger-Model-NutritionistModel.html#method_getUserProgressForNutritionist"
+        },                {
+            "fqsen": "\\Manger\\Model\\NutritionistModel\u003A\u003AdeleteClientById\u0028\u0029",
+            "name": "deleteClientById",
+            "summary": "Deletes\u0020a\u0020user\u0020by\u0020their\u0020ID.",
+            "url": "classes/Manger-Model-NutritionistModel.html#method_deleteClientById"
+        },                {
+            "fqsen": "\\Manger\\Model\\NutritionistModel\u003A\u003AgetClientPlan\u0028\u0029",
+            "name": "getClientPlan",
+            "summary": "getClienPlan",
+            "url": "classes/Manger-Model-NutritionistModel.html#method_getClientPlan"
+        },                {
+            "fqsen": "\\Manger\\Model\\NutritionistModel\u003A\u003AgetPlanInfo\u0028\u0029",
+            "name": "getPlanInfo",
+            "summary": "getPlanInfo",
+            "url": "classes/Manger-Model-NutritionistModel.html#method_getPlanInfo"
+        },                {
+            "fqsen": "\\Manger\\Model\\NutritionistModel\u003A\u003AgetRecipesAndDay\u0028\u0029",
+            "name": "getRecipesAndDay",
+            "summary": "getRecipesAndDay",
+            "url": "classes/Manger-Model-NutritionistModel.html#method_getRecipesAndDay"
+        },                {
+            "fqsen": "\\Manger\\Model\\NutritionistModel\u003A\u003AgetPlanRecipesDetail\u0028\u0029",
+            "name": "getPlanRecipesDetail",
+            "summary": "getPlanRecipesDetail",
+            "url": "classes/Manger-Model-NutritionistModel.html#method_getPlanRecipesDetail"
+        },                {
+            "fqsen": "\\Manger\\Model\\NutritionistModel\u003A\u003AaddClientPlan\u0028\u0029",
+            "name": "addClientPlan",
+            "summary": "Adds\u0020a\u0020new\u0020plan\u0020for\u0020a\u0020client.",
+            "url": "classes/Manger-Model-NutritionistModel.html#method_addClientPlan"
+        },                {
+            "fqsen": "\\Manger\\Model\\NutritionistModel\u003A\u003AifClientHavePlan\u0028\u0029",
+            "name": "ifClientHavePlan",
+            "summary": "ifClientHavePlan",
+            "url": "classes/Manger-Model-NutritionistModel.html#method_ifClientHavePlan"
         },                {
             "fqsen": "\\Manger\\Model\\NutritionistModel\u003A\u003A\u0024db",
             "name": "db",
@@ -538,7 +633,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Manger\\Model\\UserModel\u003A\u003AgetRecipesByName\u0028\u0029",
             "name": "getRecipesByName",
-            "summary": "",
+            "summary": "getRecipesByName",
             "url": "classes/Manger-Model-UserModel.html#method_getRecipesByName"
         },                {
             "fqsen": "\\Manger\\Model\\UserModel\u003A\u003AgetNotifsById\u0028\u0029",
@@ -611,10 +706,125 @@ Search.appendIndex(
             "summary": "getPlanRecipesDetail",
             "url": "classes/Manger-Model-UserModel.html#method_getPlanRecipesDetail"
         },                {
+            "fqsen": "\\Manger\\Model\\UserModel\u003A\u003AtoggleRecipeConsumed\u0028\u0029",
+            "name": "toggleRecipeConsumed",
+            "summary": "toggleRecipeConsumed",
+            "url": "classes/Manger-Model-UserModel.html#method_toggleRecipeConsumed"
+        },                {
             "fqsen": "\\Manger\\Model\\UserModel\u003A\u003A\u0024db",
             "name": "db",
             "summary": "",
             "url": "classes/Manger-Model-UserModel.html#property_db"
+        },                {
+            "fqsen": "\\Manger\\Controller\\CommunicationController",
+            "name": "CommunicationController",
+            "summary": "CommunicationController",
+            "url": "classes/Manger-Controller-CommunicationController.html"
+        },                {
+            "fqsen": "\\Manger\\Controller\\CommunicationController\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Communication\u0020Controller\u0020constructor.",
+            "url": "classes/Manger-Controller-CommunicationController.html#method___construct"
+        },                {
+            "fqsen": "\\Manger\\Controller\\CommunicationController\u003A\u003AsendMessage\u0028\u0029",
+            "name": "sendMessage",
+            "summary": "sendMessage",
+            "url": "classes/Manger-Controller-CommunicationController.html#method_sendMessage"
+        },                {
+            "fqsen": "\\Manger\\Controller\\CommunicationController\u003A\u003AgetDiscussion\u0028\u0029",
+            "name": "getDiscussion",
+            "summary": "getDiscussion",
+            "url": "classes/Manger-Controller-CommunicationController.html#method_getDiscussion"
+        },                {
+            "fqsen": "\\Manger\\Controller\\CommunicationController\u003A\u003AgetMessagesFromAConvo\u0028\u0029",
+            "name": "getMessagesFromAConvo",
+            "summary": "getMessagesFromAConvo",
+            "url": "classes/Manger-Controller-CommunicationController.html#method_getMessagesFromAConvo"
+        },                {
+            "fqsen": "\\Manger\\Controller\\CommunicationController\u003A\u003A\u0024commModel",
+            "name": "commModel",
+            "summary": "",
+            "url": "classes/Manger-Controller-CommunicationController.html#property_commModel"
+        },                {
+            "fqsen": "\\Manger\\Model\\CommunicationModel",
+            "name": "CommunicationModel",
+            "summary": "CommunicationModel",
+            "url": "classes/Manger-Model-CommunicationModel.html"
+        },                {
+            "fqsen": "\\Manger\\Model\\CommunicationModel\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "CommunicationModel\u0020constructor.",
+            "url": "classes/Manger-Model-CommunicationModel.html#method___construct"
+        },                {
+            "fqsen": "\\Manger\\Model\\CommunicationModel\u003A\u003AputMessageInDatabase\u0028\u0029",
+            "name": "putMessageInDatabase",
+            "summary": "Save\u0020the\u0020message\u0020in\u0020\u0024textContent\u0020in\u0020the\u0020database,\u0020so\u0020it\u0020can\u0020be\u0020found\u0020when\ndisplaying\u0020the\u0020conversation",
+            "url": "classes/Manger-Model-CommunicationModel.html#method_putMessageInDatabase"
+        },                {
+            "fqsen": "\\Manger\\Model\\CommunicationModel\u003A\u003AgetDiscussionPartner\u0028\u0029",
+            "name": "getDiscussionPartner",
+            "summary": "getDiscussionPartner",
+            "url": "classes/Manger-Model-CommunicationModel.html#method_getDiscussionPartner"
+        },                {
+            "fqsen": "\\Manger\\Model\\CommunicationModel\u003A\u003AgetDiscussion\u0028\u0029",
+            "name": "getDiscussion",
+            "summary": "getDiscussion",
+            "url": "classes/Manger-Model-CommunicationModel.html#method_getDiscussion"
+        },                {
+            "fqsen": "\\Manger\\Model\\CommunicationModel\u003A\u003A\u0024db",
+            "name": "db",
+            "summary": "",
+            "url": "classes/Manger-Model-CommunicationModel.html#property_db"
+        },                {
+            "fqsen": "\\Manger\\View\\AdminView",
+            "name": "AdminView",
+            "summary": "Access\u0020the\u0020PHP\u0020files\u0020to\u0020display",
+            "url": "classes/Manger-View-AdminView.html"
+        },                {
+            "fqsen": "\\Manger\\View\\AdminView\u003A\u003AviewPage\u0028\u0029",
+            "name": "viewPage",
+            "summary": "Send\u0020the\u0020requested\u0020Admin\u0020page\u0020to\u0020the\u0020Controller.",
+            "url": "classes/Manger-View-AdminView.html#method_viewPage"
+        },                {
+            "fqsen": "\\Manger\\View\\AdminView\u003A\u003ArenderUserTable\u0028\u0029",
+            "name": "renderUserTable",
+            "summary": "Renders\u0020the\u0020user\u0020table\u0020component\u0020with\u0020the\u0020provided\u0020data.",
+            "url": "classes/Manger-View-AdminView.html#method_renderUserTable"
+        },                {
+            "fqsen": "\\Manger\\View\\NutritionistView",
+            "name": "NutritionistView",
+            "summary": "Access\u0020the\u0020PHP\u0020files\u0020to\u0020display",
+            "url": "classes/Manger-View-NutritionistView.html"
+        },                {
+            "fqsen": "\\Manger\\View\\NutritionistView\u003A\u003AviewPage\u0028\u0029",
+            "name": "viewPage",
+            "summary": "Send\u0020the\u0020requested\u0020Nutritionniste\u0020page\u0020to\u0020the\u0020Controller.",
+            "url": "classes/Manger-View-NutritionistView.html#method_viewPage"
+        },                {
+            "fqsen": "\\generateTabLink\u0028\u0029",
+            "name": "generateTabLink",
+            "summary": "",
+            "url": "namespaces/default.html#function_generateTabLink"
+        },                {
+            "fqsen": "\\Manger\\View\\UserView",
+            "name": "UserView",
+            "summary": "Access\u0020the\u0020PHP\u0020files\u0020to\u0020display",
+            "url": "classes/Manger-View-UserView.html"
+        },                {
+            "fqsen": "\\Manger\\View\\UserView\u003A\u003AviewPage\u0028\u0029",
+            "name": "viewPage",
+            "summary": "Send\u0020the\u0020requested\u0020User\u0020page\u0020to\u0020the\u0020Controller.",
+            "url": "classes/Manger-View-UserView.html#method_viewPage"
+        },                {
+            "fqsen": "\\startStream\u0028\u0029",
+            "name": "startStream",
+            "summary": "Initiates\u0020output\u0020buffering\u0020using\u0020the\u0020ob_start\u0028\u0029\u0020function.",
+            "url": "namespaces/default.html#function_startStream"
+        },                {
+            "fqsen": "\\endStream\u0028\u0029",
+            "name": "endStream",
+            "summary": "Ends\u0020output\u0020buffering.",
+            "url": "namespaces/default.html#function_endStream"
         },                {
             "fqsen": "\\",
             "name": "\\",
@@ -641,9 +851,9 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/manger.html"
         },                {
-            "fqsen": "\\Manger\\Views",
-            "name": "Views",
+            "fqsen": "\\Manger\\View",
+            "name": "View",
             "summary": "",
-            "url": "namespaces/manger-views.html"
+            "url": "namespaces/manger-view.html"
         }            ]
 );

@@ -69,7 +69,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/manger-views.html">Views</a>
+                <a href="namespaces/manger-view.html">View</a>
                 
             </li>
             </ul>
@@ -155,11 +155,53 @@
 <dd>Constructor</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-NutritionistController.html#method_addPlan">addPlan()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Adds a new plan for a client.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-NutritionistController.html#method_clientHavePlan">clientHavePlan()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Checks if a client has an active plan and retrieves plan details if available.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-NutritionistController.html#method_countNutritionistClients">countNutritionistClients()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Count Nutritionist&#039;s Clients</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-NutritionistController.html#method_countRecipesForCreator">countRecipesForCreator()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Count Recipes for a Creator</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-NutritionistController.html#method_deleteClient">deleteClient()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Handles the deletion of a client.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Manger-Controller-NutritionistController.html#method_getClientList">getClientList()</a>
     <span>
                         &nbsp;: void    </span>
 </dt>
 <dd>Fetch and display users</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-NutritionistController.html#method_getUserProgressForNutritionist">getUserProgressForNutritionist()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Retrieves and processes progress data for users associated with a specific nutritionist.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Manger-Controller-NutritionistController.html#method_getUsersForNutritionist">getUsersForNutritionist()</a>
@@ -203,7 +245,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/NutritionistController.php"><a href="files/app-controller-nutritionistcontroller.html"><abbr title="app/Controller/NutritionistController.php">NutritionistController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">19</span>
 
     </aside>
 
@@ -240,7 +282,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/NutritionistController.php"><a href="files/app-controller-nutritionistcontroller.html"><abbr title="app/Controller/NutritionistController.php">NutritionistController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">25</span>
 
     </aside>
 
@@ -268,6 +310,255 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_addPlan">
+        addPlan()
+        <a href="classes/Manger-Controller-NutritionistController.html#method_addPlan" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/NutritionistController.php"><a href="files/app-controller-nutritionistcontroller.html"><abbr title="app/Controller/NutritionistController.php">NutritionistController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">306</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Adds a new plan for a client.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">addPlan</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$clientId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$recipesData</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$period</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$duration</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$planName</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>This method is responsible for adding a new plan for a client in the system.
+It takes the client ID, recipes data, period, duration, and plan name as parameters,
+calls the model to insert the plan into the database, and returns a JSON response
+indicating the success or failure of the operation.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$clientId</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The ID of the client for whom the plan is being added.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$recipesData</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>An array containing the details of the recipes included in the plan.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$period</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The period for which the plan is valid.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$duration</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The duration of the plan in days.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$planName</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The name of the plan.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Outputs a JSON response indicating the result of the operation.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_clientHavePlan">
+        clientHavePlan()
+        <a href="classes/Manger-Controller-NutritionistController.html#method_clientHavePlan" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/NutritionistController.php"><a href="files/app-controller-nutritionistcontroller.html"><abbr title="app/Controller/NutritionistController.php">NutritionistController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">277</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Checks if a client has an active plan and retrieves plan details if available.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">clientHavePlan</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$clientId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>This method is responsible for determining whether a client has an active plan. If the client has a plan,
+it retrieves the plan recipes details and plan information from the model and returns them in a JSON response.
+If the client doesn't have a plan, it returns a JSON response indicating the absence of a plan.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$clientId</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The ID of the client to check for an active plan.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Outputs a JSON response containing the result of the operation,
+including the plan details if a plan exists for the client.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_countNutritionistClients">
+        countNutritionistClients()
+        <a href="classes/Manger-Controller-NutritionistController.html#method_countNutritionistClients" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/NutritionistController.php"><a href="files/app-controller-nutritionistcontroller.html"><abbr title="app/Controller/NutritionistController.php">NutritionistController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">146</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Count Nutritionist&#039;s Clients</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">countNutritionistClients</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>Retrieves and returns the count of clients for a given nutritionist.</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_countRecipesForCreator">
+        countRecipesForCreator()
+        <a href="classes/Manger-Controller-NutritionistController.html#method_countRecipesForCreator" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/NutritionistController.php"><a href="files/app-controller-nutritionistcontroller.html"><abbr title="app/Controller/NutritionistController.php">NutritionistController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">171</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Count Recipes for a Creator</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">countRecipesForCreator</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>Retrieves and returns the count of recipes for a given creator.</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_deleteClient">
+        deleteClient()
+        <a href="classes/Manger-Controller-NutritionistController.html#method_deleteClient" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/NutritionistController.php"><a href="files/app-controller-nutritionistcontroller.html"><abbr title="app/Controller/NutritionistController.php">NutritionistController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">251</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Handles the deletion of a client.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">deleteClient</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>This method is called when a request to delete a client is received.
+It retrieves the client ID from the POST data, calls the model to delete the client,
+and then returns a JSON response indicating the success or failure of the operation.</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Outputs a JSON response with the operation result.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getClientList">
         getClientList()
         <a href="classes/Manger-Controller-NutritionistController.html#method_getClientList" class="headerlink"><i class="fas fa-link"></i></a>
@@ -275,7 +566,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/NutritionistController.php"><a href="files/app-controller-nutritionistcontroller.html"><abbr title="app/Controller/NutritionistController.php">NutritionistController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
@@ -305,6 +596,43 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getUserProgressForNutritionist">
+        getUserProgressForNutritionist()
+        <a href="classes/Manger-Controller-NutritionistController.html#method_getUserProgressForNutritionist" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/NutritionistController.php"><a href="files/app-controller-nutritionistcontroller.html"><abbr title="app/Controller/NutritionistController.php">NutritionistController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">195</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Retrieves and processes progress data for users associated with a specific nutritionist.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getUserProgressForNutritionist</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>Expects the nutritionist ID as a GET parameter 'nutri_id'.
+Prepares a response array with total users, not completed, completed, and user progress data.
+Echoes the response as a JSON-encoded array with a success or error message.</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getUsersForNutritionist">
         getUsersForNutritionist()
         <a href="classes/Manger-Controller-NutritionistController.html#method_getUsersForNutritionist" class="headerlink"><i class="fas fa-link"></i></a>
@@ -312,7 +640,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/NutritionistController.php"><a href="files/app-controller-nutritionistcontroller.html"><abbr title="app/Controller/NutritionistController.php">NutritionistController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">97</span>
+    <span class="phpdocumentor-element-found-in__line">95</span>
 
     </aside>
 
@@ -347,7 +675,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/NutritionistController.php"><a href="files/app-controller-nutritionistcontroller.html"><abbr title="app/Controller/NutritionistController.php">NutritionistController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">69</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 
     </aside>
 

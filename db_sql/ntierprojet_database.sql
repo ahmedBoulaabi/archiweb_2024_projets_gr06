@@ -182,11 +182,7 @@ INSERT INTO `recipes` (`id`, `name`, `calories`, `type`, `image_url`, `visibilit
 (6, 'Chicken Caesar Salad', 400, 'lunch', 'grilled-chicken-caesar-salad-hero.jpg', 1, '2024-01-27 00:00:00', 42),
 (7, 'Beef Stir Fry', 550, 'dinner', 'beef-stir-fry-01.jpg', 1, '2024-01-27 00:00:00', 42),
 (9, 'Berry Yogurt Parfait', 220, 'snack', 'yogurt-parfait-4.jpg', 1, '2024-01-27 00:00:00', 42),
-(10, 'Peanut Butter Banana Smoothie', 350, 'snack', 'Simply-Recipes-Peanut-Butter-Banana-Smoothie.jpg', 1, '2024-01-27 00:00:00', 41),
-(12, 'jhzd', 77, 'breakfast', 'Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 45),
-(14, 'jj', 7897, 'breakfast', 'Annotation 2023-11-10 011721.png', 0, '2024-03-29 00:00:00', 45),
-(15, '79879', 7987, 'breakfast', 'Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 43),
-(16, '98789', 98798, 'breakfast', 'Annotation 2023-11-10 011721.png', 0, '2024-03-28 00:00:00', 43);
+(10, 'Peanut Butter Banana Smoothie', 350, 'snack', 'Simply-Recipes-Peanut-Butter-Banana-Smoothie.jpg', 1, '2024-01-27 00:00:00', 41);
 
 
 -- --------------------------------------------------------

@@ -69,7 +69,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/manger-views.html">Views</a>
+                <a href="namespaces/manger-view.html">View</a>
                 
             </li>
             </ul>
@@ -148,13 +148,6 @@
 <dd>adminModel</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/Manger-Controller-AdminController.html#property_recipeModel">$recipeModel</a>
-    <span>
-                &nbsp;: <abbr title="\Manger\Controller\RecipeModel">RecipeModel</abbr>            </span>
-</dt>
-<dd>recipeModel</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/Manger-Controller-AdminController.html#property_userModel">$userModel</a>
     <span>
                 &nbsp;: <a href="classes/Manger-Model-UserModel.html"><abbr title="\Manger\Model\UserModel">UserModel</abbr></a>            </span>
@@ -167,6 +160,13 @@
                         &nbsp;: mixed    </span>
 </dt>
 <dd>Constructor</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-AdminController.html#method_acceptRequest">acceptRequest()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Accept Request</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Manger-Controller-AdminController.html#method_addNewRecipe">addNewRecipe()</a>
@@ -211,6 +211,13 @@
 <dd>Handles the deletion of a recipe.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-AdminController.html#method_deleteRequest">deleteRequest()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Delete Request</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Manger-Controller-AdminController.html#method_deleteUser">deleteUser()</a>
     <span>
                         &nbsp;: void    </span>
@@ -232,6 +239,13 @@
 <dd>Show All Users</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-AdminController.html#method_getNutritionistRequests">getNutritionistRequests()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Show All Requests from nutritionists</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Manger-Controller-AdminController.html#method_getRecipeDetails">getRecipeDetails()</a>
     <span>
                         &nbsp;: void    </span>
@@ -244,6 +258,27 @@
                         &nbsp;: void    </span>
 </dt>
 <dd>Fetch and display user information by ID.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-AdminController.html#method_requestPromotion">requestPromotion()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Request Promotion</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-AdminController.html#method_updateRecipe">updateRecipe()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Update an existing recipe with or without a new image.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Manger-Controller-AdminController.html#method_updateUser">updateUser()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Update a user&#039;s profile information.</dd>
 
         </dl>
 
@@ -283,39 +318,6 @@
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type"><a href="classes/Manger-Model-AdminModel.html"><abbr title="\Manger\Model\AdminModel">AdminModel</abbr></a></span>
     <span class="phpdocumentor-signature__name">$adminModel</span>
-    </code>
-
-    
-    
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_recipeModel">
-        $recipeModel
-        <a href="classes/Manger-Controller-AdminController.html#property_recipeModel" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">35</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">recipeModel</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type"><abbr title="\Manger\Controller\RecipeModel">RecipeModel</abbr></span>
-    <span class="phpdocumentor-signature__name">$recipeModel</span>
     </code>
 
     
@@ -376,7 +378,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
@@ -404,6 +406,45 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_acceptRequest">
+        acceptRequest()
+        <a href="classes/Manger-Controller-AdminController.html#method_acceptRequest" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">453</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Accept Request</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">acceptRequest</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>This method processes a request to accept a promotion request using the request ID provided via POST.
+It calls the admin model to update the user's role and, if successful, returns a JSON response indicating success.
+If the operation fails, it returns an error message in JSON format.</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Outputs a JSON response with the result.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_addNewRecipe">
         addNewRecipe()
         <a href="classes/Manger-Controller-AdminController.html#method_addNewRecipe" class="headerlink"><i class="fas fa-link"></i></a>
@@ -411,7 +452,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">337</span>
+    <span class="phpdocumentor-element-found-in__line">498</span>
 
     </aside>
 
@@ -450,7 +491,7 @@ Responds with JSON indicating success or failure.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">265</span>
+    <span class="phpdocumentor-element-found-in__line">287</span>
 
     </aside>
 
@@ -490,7 +531,7 @@ Responds with JSON indicating success or failure.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">216</span>
+    <span class="phpdocumentor-element-found-in__line">238</span>
 
     </aside>
 
@@ -525,7 +566,7 @@ Responds with JSON indicating success or failure.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">239</span>
+    <span class="phpdocumentor-element-found-in__line">261</span>
 
     </aside>
 
@@ -560,7 +601,7 @@ Responds with JSON indicating success or failure.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">196</span>
+    <span class="phpdocumentor-element-found-in__line">218</span>
 
     </aside>
 
@@ -595,7 +636,7 @@ Responds with JSON indicating success or failure.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">402</span>
+    <span class="phpdocumentor-element-found-in__line">626</span>
 
     </aside>
 
@@ -627,6 +668,45 @@ and then returns a JSON response indicating the success or failure of the operat
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_deleteRequest">
+        deleteRequest()
+        <a href="classes/Manger-Controller-AdminController.html#method_deleteRequest" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">475</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Delete Request</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">deleteRequest</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>This method handles the deletion of a promotion request using the ID provided via POST.
+It calls the admin model to delete the request from the database.
+The method returns a JSON-encoded result indicating whether the operation was successful.</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Outputs a JSON response with the result.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_deleteUser">
         deleteUser()
         <a href="classes/Manger-Controller-AdminController.html#method_deleteUser" class="headerlink"><i class="fas fa-link"></i></a>
@@ -634,7 +714,7 @@ and then returns a JSON response indicating the success or failure of the operat
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">113</span>
+    <span class="phpdocumentor-element-found-in__line">135</span>
 
     </aside>
 
@@ -673,7 +753,7 @@ and then returns a JSON response indicating the success or failure of the operat
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">141</span>
+    <span class="phpdocumentor-element-found-in__line">163</span>
 
     </aside>
 
@@ -715,7 +795,7 @@ On failure, it includes a simple message indicating that no recipes are availabl
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">58</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
@@ -743,6 +823,41 @@ On failure, it includes a simple message indicating that no recipes are availabl
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getNutritionistRequests">
+        getNutritionistRequests()
+        <a href="classes/Manger-Controller-AdminController.html#method_getNutritionistRequests" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">79</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Show All Requests from nutritionists</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getNutritionistRequests</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>Retrieves all requests from the model and display them through <strong>nutri-requests-table.php</strong>.</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getRecipeDetails">
         getRecipeDetails()
         <a href="classes/Manger-Controller-AdminController.html#method_getRecipeDetails" class="headerlink"><i class="fas fa-link"></i></a>
@@ -750,7 +865,7 @@ On failure, it includes a simple message indicating that no recipes are availabl
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">170</span>
+    <span class="phpdocumentor-element-found-in__line">192</span>
 
     </aside>
 
@@ -789,7 +904,7 @@ it returns a JSON response indicating failure.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">85</span>
+    <span class="phpdocumentor-element-found-in__line">107</span>
 
     </aside>
 
@@ -810,6 +925,124 @@ The user's information is returned as a JSON object for use in the frontend.</p>
     <span class="phpdocumentor-signature__response_type">void</span>
             &mdash;
             <section class="phpdocumentor-description"><p>Outputs the user data in JSON format.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_requestPromotion">
+        requestPromotion()
+        <a href="classes/Manger-Controller-AdminController.html#method_requestPromotion" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">432</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Request Promotion</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">requestPromotion</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>This method handles the creation of a promotion request for the currently logged-in user.
+It retrieves the user's ID from the session, submits a promotion request, and returns a JSON response.
+If the request is successfully added, it responds with success; otherwise, it indicates failure.</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Outputs a JSON response with the result.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_updateRecipe">
+        updateRecipe()
+        <a href="classes/Manger-Controller-AdminController.html#method_updateRecipe" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">562</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Update an existing recipe with or without a new image.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">updateRecipe</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>Processes the form submission, sanitizes input, handles image upload (if a new image is provided),
+and updates the recipe in the database. If a new image is provided, it updates the image filename in the database.
+Responds with JSON indicating success or failure.</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Outputs JSON response.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_updateUser">
+        updateUser()
+        <a href="classes/Manger-Controller-AdminController.html#method_updateUser" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Controller/AdminController.php"><a href="files/app-controller-admincontroller.html"><abbr title="app/Controller/AdminController.php">AdminController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">358</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Update a user&#039;s profile information.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">updateUser</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>Processes the form submission, sanitizes input, handles profile image upload (if provided),
+and updates the user's information in the database. It checks for existing user data, sanitizes
+input fields, and includes optional profile image file upload handling. Responds with JSON
+indicating success or failure of the update operation.</p>
+</section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Outputs JSON response.</p>
 </section>
 
     
