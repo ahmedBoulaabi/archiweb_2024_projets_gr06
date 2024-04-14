@@ -513,7 +513,7 @@ class AdminController
 
             // Attempt to move the uploaded file to the target directory
             if (move_uploaded_file($_FILES["imageUpload"]["tmp_name"], $targetFilePath)) {
-                $imageUploadPath = '/public/images/recipesImages/' . $fileName;
+                $imageUploadPath = $fileName;
             } else {
                 // Handle file upload failure
                 header(APPJSON);
