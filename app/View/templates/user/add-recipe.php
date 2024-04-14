@@ -32,10 +32,7 @@
           </div>
 
           <div class="flex flex-column mt-4">
-            <label class="font-bold text-white">Visibility</label>
-            <select name="visibility" class="form-control" id="visibility" required="">
-              <option value="1">Visible</option>
-              <option value="0">Hidden</option>
+            <input type="hidden" name="visibility" id="visibility" value="1"/>
             </select>
           </div>
           <div class="flex flex-column mt-4">

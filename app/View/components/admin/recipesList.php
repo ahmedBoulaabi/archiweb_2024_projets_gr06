@@ -34,10 +34,23 @@
     <div class="left">
       <h1>Recipe list</h1>
     </div>
-    <a href="#" class="report" data-toggle="modal" data-target="#addRecipeModal">
-      <i class='bx bxs-book-add'></i>
-      <span>Add recipe</span>
-    </a>
+    <button class="btn btn-lg float-right" style="margin:12px;">
+      <span class="me-2" style="font-size: 1.2em;">
+        <a href="#" class="report" data-toggle="modal" data-target="#addRecipeModal">
+          <span>Add recipe</span>
+        </a>
+      </span>
+    </button>
+    <style>
+      .report,
+      .report:visited {
+        color: black;
+        /* Définissez la couleur du lien sur noir */
+        text-decoration: none;
+        /* Supprimez le soulignement du lien */
+      }
+    </style>
+
   </div>
 
   <div class="bottom-data">
@@ -58,7 +71,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body px-4">
-        <form action="" method="post" id="recipe-form-data" enctype="multipart/form-data">
+        <form action="" method="post" id="form-data" enctype="multipart/form-data">
           <div class="form-group">
             <input type="text" name="name" class="form-control" placeholder="Name" required />
           </div>
@@ -84,16 +97,14 @@
             <input type="date" name="creation_date" class="form-control" placeholder="Creation Date" required />
           </div>
           <div class="form-group">
-            <input type="hidden" name="creator" class="form-control" placeholder="Creator ID" required
-              value="<?= $_SESSION['id'] ?>" />
+            <input type="hidden" name="creator" class="form-control" placeholder="Creator ID" required value="<?= $_SESSION['id'] ?>" />
           </div>
           <div class="form-group">
             <label for="imageUpload">Choose recipe image</label>
             <input type="file" id="imageUpload" name="imageUpload" accept=".png, .jpg, .jpeg" class="form-control" />
           </div>
           <div class="form-group">
-            <input type="submit" name="addNewRecipe" id="addNewRecipe" value="Add Recipe"
-              class="btn btn-secondary btn-block">
+            <input type="submit" name="addNewRecipe" id="addNewRecipe" value="Add Recipe" class="btn btn-secondary btn-block">
           </div>
         </form>
       </div>
@@ -105,16 +116,16 @@
 
 
 <script type="text/javascript">
-  $(document).ready(function () {
+  $(document).ready(function() {
     performAjaxRequest("GET", "getAllRecipes", "", "", "");
   });
-  $("#addNewRecipe").click(function (e) {
+  $("#addNewRecipe").click(function(e) {
     e.preventDefault(); // Prevent default form submission
-    if ($("#recipe-form-data")[0].checkValidity()) {
+    if ($("#form-data")[0].checkValidity()) {
 
-      var formData = new FormData($("#recipe-form-data")[0]); // Create FormData object from the form
+      var formData = new FormData($("#form-data")[0]); // Create FormData object from the form
       //Verifs a ajouter
-      performAjaxWithImage('recipe-form-data', 'addNewRecipe', 'Recipe added successfully!', 'The recipe has been successfully added.');
+      performAjaxWithImage('form-data', 'addNewRecipe', 'Recipe added successfully!', 'The recipe has been successfully added.');
     }
   });
 </script>

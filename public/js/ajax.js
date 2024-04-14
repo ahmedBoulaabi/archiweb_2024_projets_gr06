@@ -188,7 +188,7 @@ function handleAjaxResponse(
       break;
     case "addNewRecipe":
       redirectHref = "dashboardAdmin?tab=recipesList";
-      $("#recipe-form-data")[0].reset();
+      $("#form-data")[0].reset();
       break;
     case "updateRecipe":
       redirectHref = "dashboardAdmin?tab=recipesList";
