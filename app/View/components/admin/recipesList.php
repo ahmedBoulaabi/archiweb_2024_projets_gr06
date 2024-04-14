@@ -34,14 +34,12 @@
     <div class="left">
       <h1>Recipe list</h1>
     </div>
-    <button class="btn btn-success btn-lg float-right" style="background-color: #999999; border: 0; margin: 12px;" data-toggle="modal" data-target="#addModel" onclick="toggleIframe()">
+    <button class="btn btn-lg float-right" style="margin:12px;">
       <span class="me-2" style="font-size: 1.2em;">
         <a href="#" class="report" data-toggle="modal" data-target="#addRecipeModal">
-          <i class='bx bxs-book-add'></i>
           <span>Add recipe</span>
         </a>
       </span>
-      <i class="fas fa-plus-circle fa-lg" style="font-size: 1.2em;"></i>
     </button>
     <style>
       .report,
